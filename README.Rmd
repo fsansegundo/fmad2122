@@ -1,7 +1,7 @@
 ---
 title: "Fundamentos Matemáticos del Análisis de Datos"
 author: "Curso 2021-2022"
-date: 'Última actualización: 2021-05-26'
+date: 'Última actualización: `r format(Sys.time(), "%Y-%m-%d")`'
 output:
   html_document:
     self_contained: no
@@ -9,7 +9,9 @@ output:
     keep_md: true
 ---
 
-
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
 ## Presentación. 
 
