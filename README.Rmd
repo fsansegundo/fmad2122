@@ -3,10 +3,7 @@ title: "Fundamentos Matemáticos del Análisis de Datos"
 author: "Curso 2021-2022"
 date: 'Última actualización: `r format(Sys.time(), "%Y-%m-%d")`'
 output:
-  html_document:
-    self_contained: no
-    toc: yes
-    keep_md: true
+  github_document
 ---
 
 ```{r setup, include=FALSE}
