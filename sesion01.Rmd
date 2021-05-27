@@ -25,18 +25,19 @@ csl: ams-review.csl
 ```{r set-options, echo=FALSE, purl=FALSE}
 options(width = 60)
 library(knitr)
+knitr::opts_chunk$set(comment = '', fig.width = 6, fig.height = 6,
+                      tidy = TRUE, tidy.opts=list(arrow=TRUE, indent=2))
 def.chunk.hook  <- knitr::knit_hooks$get("chunk")
 knitr::knit_hooks$set(chunk = function(x, options) {
   x <- def.chunk.hook(x, options)
   ifelse(options$size != "normalsize", paste0("\\", options$size,"\n\n", x, "\n\n \\normalsize"), x)
 })
-#require(here)
 if (grepl(pattern = "cloud", getwd())){
-  homeDir = "/cloud/project/"
+  homeDir  <-  "/cloud/project/"
   } else {
-  homeDir = "./"
+  homeDir <- "./"
   }
-figpath = function(figname){
+figpath <- function(figname){
   paste0(homeDir,"fig/", figname)
 } 
 ```
@@ -58,7 +59,9 @@ figpath = function(figname){
 
 + La Guía Docente de la asignatura, así como el resto del material está accesible desde \link{https://sifo.comillas.edu/course/view.php?id=28578}{Moodle}. PENDIENTE
 
-+ La asignatura se plantea con un enfoque práctico y conceptual. Se trata de presentar las ideas fundamentales de la Estadística y el Análisis de Datos y hacerlo mediante la práctica computacional, usando el ecosistema de R como plataforma computacional.
++ La asignatura se plantea con un enfoque práctico y conceptual. Se trata de presentar las ideas fundamentales de la Estadística y el Análisis de Datos y hacerlo mediante la práctica computacional, usando el ecosistema de R como herramienta.
+
+---
 
 - La estructura básica de un Análisis de Datos es, según [@Wickham2016], esta:
   ```{r echo=FALSE, comment=NULL, fig.align='center', out.width = "70%",  purl=FALSE}
@@ -112,7 +115,7 @@ include_graphics(figpath("01-fig01.png"))
 [\textcolor{blue}{{www.r-project.org}}](https://www.r-project.org/)  
 Para que te sirva de referencia, la versión de R que estamos usando al escribir estas notas es: `r R.version.string`
 
-- Para descargar el instalador de R para tu sistema usa directamente [\textcolor{blue}{{este enlace}}](https://cloud.r-project.org/). Si vas a instalar en Mac o Linux y tienes alguna duda habla con tu profesor. 
+- Para descargar el instalador de R para tu sistema usa directamente [\textcolor{blue}{{este enlace}}](https://cloud.r-project.org/). Si vas a instalar en Mac o Linux y tienes alguna duda habla con tu profesor. La instalación es bastante sencilla, pero si quieres hacerte una idea previa aquí tienes un vídeo reciente sobre el \link{https://youtu.be/qtiXU6rfWQE}{proceso de instalación en Windows}.
 
 - **¡Instala R antes de continuar!**
 
@@ -123,8 +126,7 @@ Para que te sirva de referencia, la versión de R que estamos usando al escribir
 include_graphics(figpath("01-fig02.png"))
 ```
 
-
-- Trabajar con R directamente no es muy cómodo, así que usaremos un entorno de trabajo llamado \link{https://www.rstudio.com/}{RStudio Desktop}. Descarga la versión gratuita (free) para tu sistema de RStudio Desktop usando \link{https://www.rstudio.com/products/rstudio/download/}{este enlace}.
+- Trabajar con R directamente no es muy cómodo, así que usaremos un entorno de trabajo llamado \link{https://www.rstudio.com/}{RStudio Desktop}. Descarga la versión gratuita (free) para tu sistema de RStudio Desktop usando \link{https://www.rstudio.com/products/rstudio/download/}{este enlace}. Denuevo, para ver el proceso por adelantado, aquí tienes un vídeo de una \link{https://youtu.be/tzShg0l7Iac}{instalación reciente de RStudio en Windows}.
 
 - **¡Instala RStudio antes de continuar!**
 
@@ -132,7 +134,7 @@ include_graphics(figpath("01-fig02.png"))
 
 ## Software adicional
 
-- Como lector de documentos pdf puedes usar \link{https://get.adobe.com/es/reader/}{Adobe Reader}, aunque en Windows te recomendamos \link{{Sumatra Pdf}https://www.sumatrapdfreader.org/free-pdf-reader.html} y en Mac recomendamos *Vista Previa* o \link{https://skim-app.sourceforge.io/}{Skim}.
+- Como lector de documentos pdf puedes usar \link{https://get.adobe.com/es/reader/}{Adobe Reader}, aunque en Windows te recomendamos \link{Sumatra Pdf}{https://www.sumatrapdfreader.org/free-pdf-reader.html} y en Mac recomendamos *Vista Previa* o \link{https://skim-app.sourceforge.io/}{Skim}.
 
 - En algún momento puede ser necesario usar un editor de texto. El que incluye RStudio sirve para tareas sencillas, pero en Windows recomendamos \link{https://notepad-plus-plus.org/}{Notepad++} y en Mac \link{https://www.barebones.com/products/bbedit/}{BBEdit}.
 
@@ -140,19 +142,21 @@ include_graphics(figpath("01-fig02.png"))
 
 ## Git y GitHub
 
-+ El material de las sesiones del curso está alojado en un \link{https://github.com/fernandosansegundo/MBDFME}{repositorio en GitHub}. Si conoces Git ya sabrás que puedes usarlo para hacer un fork o clonar ese repositorio. Desde luego también puedes descargar el contenido íntegro del repositorio como fichero zip. Y la página de la asignatura en Moodle contiene enlaces a los ficheros de ese repositorio. Pero si no estás familiarizado con Git, el curso 0 te proporcionará una introducción y quizá sea una buena idea usar esta asignatura para practicar con una herramienta tan importante. 
++ El material de las sesiones del curso está alojado en un \link{https://github.com/mbdfmad/fmad2122}{repositorio en GitHub}. 
 
-+ Como complemento, puedes empezar por los vídeos 14 y 15 de esta \link{https://www.youtube.com/watch?v=3hqGcRoEYUY&list=PLmTpraKlPXDSPbP2L8MYZoweGSzi9gNTr}{playlist} del curso Data Science Toolbox de la Universidad John Hopkins para Coursera. También puedes encontrar información en este \link{https://lab.github.com/githubtraining/introduction-to-github}{curso de Introducción a GitHub}. Pregunta a tu profesor si necesitas más ayuda para empezar.  
++ Si no estás familiarizado con Git, el curso 0 te proporcionará una introducción y vamos a aprovechar esta asignatura para practicar el uso de una herramienta tan importante. Nuestro recurso favorito para aprender a combinar el uso de R y Git es el libro/web \link{https://happygitwithr.com}{Happy Git and GitHub for the useR}. En la primera sesión daremos más detalles de la forma en la que vamos a usar Git en este curso, pero si quieres ir adelantando trabajo puedes leer las primeras siete secciones de *Happy Git*.
+
++ Como complemento, puedes ver los vídeos 14 y 15 de esta \link{https://www.youtube.com/watch?v=3hqGcRoEYUY&list=PLmTpraKlPXDSPbP2L8MYZoweGSzi9gNTr}{playlist} del curso Data Science Toolbox de la Universidad John Hopkins para Coursera. También puedes encontrar información en este \link{https://lab.github.com/githubtraining/introduction-to-github}{curso de Introducción a GitHub}. Pregunta a tu profesor si necesitas más ayuda para empezar.  
 
 ## Python
 
 + Vamos a usar R de forma casi exclusiva en esta asignatura, pero es obligado señalar que Python es también extremadamente popular en este momento y es el lenguaje predominante en campos como el Aprendizaje Profundo (*Deep Learning*). En particular veremos en clase ejemplos que ilustran la forma de combinar ambos lemguajes en nuestro trabajo para aprovechar lo mejor de ambos. 
 
-+ Si usas Mac o Linux ya tienes una instalación de Python en tu sistema. En Windows tienes que instalar una distribución de Python antes de usarla. **ATENCIÓN:** la instalación de Python es una fuente habitual de quebraderos de cabeza. Si dudas es *mucho mejor* que preguntes a tus profesores. En el Curso 0 tendrás una introducción a Python.  Pero en cualquier caso es importante que te informes bien antes de hacer cambios que pueden dañar tu sistema gravemente. 
++ Si usas Mac o Linux ya tienes una instalación de Python en tu sistema. En Windows tienes que instalar una distribución de Python antes de usarla. **ATENCIÓN:** la instalación de Python es una fuente habitual de quebraderos de cabeza. Si dudas es *mucho mejor* que preguntes a tus profesores. En el Curso 0 tendrás una introducción a Python.  Pero en cualquier caso es importante que te informes bien antes de hacer cambios que pueden *dañar tu instalación de Python gravemente*. 
 
 ### WSL 2.
 
-+ Si eres usauario de una versión reciente de Windows 10 te puede interesar conocer el \link{https://docs.microsoft.com/es-es/windows/wsl/}{Windows Subsystem for Linux} y usarlo para acceder a muchas de las herramientas de las que vamos a hablar. Y en particular puedes usarlo para disponer de un entorno de desarrollo en Python. Pregunta a tu profesor antes de empezar si te interesa este tema: la versión más reciente de WSL es de mayo de 2020 y ha introducido cambios sustanciales en esa herramienta.  
++ Si eres usuario de una versión reciente de Windows 10 te puede interesar conocer el \link{https://docs.microsoft.com/es-es/windows/wsl/}{Windows Subsystem for Linux} y usarlo para acceder a muchas de las herramientas de las que vamos a hablar. Y en particular puedes usarlo para disponer de un entorno de desarrollo en Python. Pregunta a tu profesor antes de empezar si te interesa este tema: la situación de WSL es muy fluida y a menudo se producen cambios sustanciales en esa herramienta.  
 
 
 # La interfaz de RStudio
@@ -166,9 +170,8 @@ include_graphics(figpath("01-fig18-RStudio-Paneles.png"))
 - Abre RStudio. Inicialmente verás que hay tres paneles principales, que vamos a ir conociendo:
 
   1. Consola.
-  2. Historial/Entorno.
-  3. Gráficos/Ficheros/Ayuda/Paquetes
-
+  2. Historial / Entorno / Git.
+  3. Gráficos / Ficheros / Ayuda / Paquetes
 
 ---
 
@@ -226,7 +229,8 @@ Escribe `3^2` y pulsa `Enter`
   ```
 
 - Escribe y ejecuta
-  ```{r eval = FALSE, comment = NULL}
+
+  ```{r error= TRUE}
   Sqrt(4)
   ```
   y verás que se produce un error. **Es muy importante recordar que R siempre distingue mayúsculas de minúsculas.**
@@ -274,23 +278,16 @@ include_graphics(figpath("01-RStudioCloud.jpeg"))
     ```
     Fíjate en la combinación de texto, código y resultados de la ejecución del código (en este caso figuras). Este ejemplo forma parte del \link{https://colab.research.google.com/github/jakevdp/PythonDataScienceHandbook/blob/master/notebooks/Index.ipynb}{Python Data Science Handbook} de Jake VanderPlas, que está disponible gratuitamente en ese enlace.
 
-## Docker
-
-+ El uso de Docker para la asignatura es *muy experimental* en este curso. Si tienes interés en probarlo habla con tu profesor. Pero desaconsejamos firmemente usarlo en este momento como herramienta principal para el trabajo en esta asignatura.
-
-+ Docker puede verse como una evolución de las máquinas virtuales. Hace unos años una asignatura como esta podría ofrecer a los alumnos una máquina virtual (por ejemplo con Linux como sistema huesped) preconfigurada con todo el software necesario. En la actualidad es posible usar imágenes de Docker o incluso Dockerfiles para conseguir algo similar, pero con todas las ventajas que aporta la tecnología de contenedores de Docker. 
- 
- 
 # Variables y asignaciones en R.
 
 ## Variables
 
 - Una *variable*, en R, es un símbolo que usamos para referirnos a un valor. Por ejemplo, sitúate en la Consola de Comandos y teclea
-  ```{r eval = FALSE, comment = NULL, echo = -1}
-  # Variables y asignaciones
-  a = 2
-  ```
-  Ahora ejecuta esa instrucción. Aunque aparentemente no ha sucedido nada (porque no hay respuesta), a partir de ese momento R ha asignado el valor 2 al símbolo `a`. Fíjate en el panel superior derecho llamado *Environment* (*entorno*), en el que aparece el valor actual de la variable.
+    ```{r eval = FALSE, comment = NULL, echo = -1}
+    # Variables y asignaciones
+    a <- 2
+    ```
+    Ahora ejecuta esa instrucción. Aunque aparentemente no ha sucedido nada (porque no hay respuesta), a partir de ese momento R ha asignado el valor 2 al símbolo `a`. Fíjate en el panel superior derecho llamado *Environment* (*entorno*), en el que aparece el valor actual de la variable.
   ```{r echo=FALSE, comment=NULL, fig.align='center', out.width = "30%",  purl=FALSE}
   include_graphics(figpath("01-fig09-RStudio-EntornoValoresVariables.png"))
   ```
@@ -303,18 +300,18 @@ include_graphics(figpath("01-RStudioCloud.jpeg"))
 ## Ejercicio 3. Operaciones, asignaciones y resultados.
 
 - Ejecuta estos comandos, uno detrás de otro. Trata de imaginar el valor de las variables tras cada operación.
-  ```{r results='hide', echo=-1}
-  # Ejercicio 3
-  a = 2
-  b = 3
-  c = a + b
-  a = b * c
-  b = (c - a)^2
-  c = a * b
-  ```
+    ```{r results='hide', echo=-1}
+    # Ejercicio 3
+    a = 2
+    b = 3
+    c = a + b
+    a = b * c
+    b = (c - a)^2
+    c = a * b
+    ```
   Consulta el panel de entorno para ver cuanto valen las variables tras cada operación.
 
-- Una orden como `c = a + b` en la que guardamos en una variable el resultado de una operación es una **asignación**. Por defecto R no muestra el resultado de las asignaciones al ejecutarlas. Si quieres ver el resultado encierra entre paréntesis *toda la asignación*
+- Una orden como `c <- a + b` en la que guardamos en una variable el resultado de una operación es una **asignación**. Por defecto R no muestra el resultado de las asignaciones al ejecutarlas. Si quieres ver el resultado encierra entre paréntesis *toda la asignación*
   ```{r comment=NULL}
   (c = a + b)
   ```
@@ -322,17 +319,18 @@ include_graphics(figpath("01-RStudioCloud.jpeg"))
 
 ---
 
-- Es recomendable usar nombres informativos para las variables y jugar con las mayúsculas para haceros más legibles, como `precioFinal` o `poblacion1995`. Los nombres de variables no pueden empezar por un número ni contener caracteres especiales. 
 
-- Aunque hemos usado el igual `=` para asignaciones, es importante que sepas que en R se usa a menudo el símbolo `->` para las asignaciones, de manera que 
-  ```{r eval = FALSE, comment = NULL,}
-  a = 2
-  ```
-  es equivalente a
-  ```{r eval = FALSE, comment = NULL,}
-  a <- 2
-  ```
-  De hecho verás que nuestra elección de `=` es minoritaria (\link{https://google.github.io/styleguide/Rguide.html}{¿subversiva?}) en la comunidad de usarios de R. Si quieres leer algo más sobre esta discusión bizantina, \link{https://stackoverflow.com/questions/1741820/what-are-the-differences-between-and-assignment-operators-in-r}{puedes hacerlo aquí}. En realidad este párrafo es una excusa para hablar de Stackoverflow, de como buscar información y ayuda sobre R y de cuestiones de estilo en el código de R. 
+- Es recomendable usar nombres informativos para las variables y jugar con la tipografía para haceros más legibles, como `precio_final` o `poblacion1995`. Los nombres de variables no pueden empezar por un número ni contener caracteres especiales. 
+
+- Aunque puedes usar el igual `=` para asignaciones, es importante que sepas que en R se usa a menudo el símbolo `->` para las asignaciones, de manera que 
+    ```{r eval = FALSE, comment = NULL, tidy = FALSE}
+    a = 2
+    ```
+    es equivalente a
+    ```{r eval = FALSE, comment = NULL,}
+    a <- 2
+    ```
+    De hecho el uso de `=` para asignaciones \link{https://style.tidyverse.org/syntax.html\#assignment-1}{se desaconseja} en la comunidad de usarios de R. En RStudio puedes usar el atajo de teclado `alt + _` (en Mac `option +  _`).  Si quieres leer algo más sobre esta discusión (bizantina), \link{https://stackoverflow.com/questions/1741820/what-are-the-differences-between-and-assignment-operators-in-r}{puedes hacerlo aquí}. En realidad este párrafo es una excusa para introducir un enlace a Stackoverflow, y para hablar de de cuestiones de estilo en el código de R y de cómo buscar información y ayuda sobre R. 
 
 ## Haciendo limpieza antes de seguir adelante.
 
@@ -346,9 +344,9 @@ include_graphics(figpath("01-fig10-RStudio-EntornoLimpieza.png"))
 ```
 
 - Al pulsarlo aparecerá un mensaje de confirmación. 
-  ```{r echo=FALSE, comment=NULL, fig.align='center', out.width = "25%",  purl=FALSE}
-  include_graphics(figpath("01-fig11-RStudio-EntornoLimpieza.png"))
-  ```
+    ```{r echo=FALSE, comment=NULL, fig.align='center', out.width = "25%",  purl=FALSE}
+    include_graphics(figpath("01-fig11-RStudio-EntornoLimpieza.png"))
+    ```
   Acepta haciendo clic en *Yes* y estaremos listos para seguir.
 
 # El editor de RStudio. Ficheros de comandos de R.
@@ -358,10 +356,9 @@ include_graphics(figpath("01-fig10-RStudio-EntornoLimpieza.png"))
 - El trabajo en la Consola de Comandos puede resultar conveniente para algunas operaciones básicas. Pero resulta incómodo para cualquier análisis de datos salvo los más triviales. Vamos a ver otra forma mejor de trabajar. 
 
 - Pulsa `Ctrl + Mayúsculas + N` (o, en un Mac, `Comando + Mayúsculas + N`). Alternativamente usa el menú *File* $\to$ *New File* $\to$ *R Script*, Verás aparecer un panel nuevo en la parte superior izquierda de la ventana, el *Editor* de RStudio.
-
-```{r echo=FALSE, comment=NULL, fig.align='center', out.width = "55%",  purl=FALSE}
-include_graphics(figpath("01-InterfazRstudio-Editor.png"))
-```
+    ```{r echo=FALSE, comment=NULL, fig.align='center', out.width = "55%",  purl=FALSE}
+    include_graphics(figpath("01-InterfazRstudio-Editor.png"))
+    ```
 
 - El editor va a ser el escenario principal de nuestro trabajo con RStudio. 
 
@@ -370,14 +367,14 @@ include_graphics(figpath("01-InterfazRstudio-Editor.png"))
 ## Ejecutando código en el editor
 
 - Empieza escribiendo esta asignación en el editor
-  ```{r results='hide', purl=FALSE}
-  a = 4
-  ```
-  para obtener algo como
-  ```{r echo=FALSE, comment=NULL, fig.align='center', out.width = "35%",  purl=FALSE}
-  include_graphics(figpath("01-fig12-RStudio-Editor.png"))
-  ```
-  Si ahora pulsas la tecla *Enter* $\text{\Return}$ verás que ese código no se ejecuta (mira la consola y el entorno), simplemente pasas a la siguiente línea del editor. Para ejecutar el código vuelve a hacer clic en la línea `a = 4` y ahora pulsa a la vez  `Ctrl + Enter`. Veras que el código aparece copiado en la consola como si lo hubieras ejecutado allí.  
+    ```{r results='hide', purl=FALSE}
+    a <- 4
+    ```
+    para obtener algo como
+    ```{r echo=FALSE, comment=NULL, fig.align='center', out.width = "35%",  purl=FALSE}
+    include_graphics(figpath("01-fig12-RStudio-Editor.png"))
+    ```
+  Si ahora pulsas la tecla *Enter* $\text{\Return}$ verás que ese código no se ejecuta (mira la consola y el entorno), simplemente pasas a la siguiente línea del editor. Para ejecutar el código vuelve a hacer clic en la línea `a <- 4` y ahora pulsa a la vez  `Ctrl + Enter`. Veras que el código aparece copiado en la consola como si lo hubieras ejecutado allí.  
 
 ## Ejecutando varios comandos a la vez. 
 
@@ -477,7 +474,7 @@ include_graphics(figpath("01-fig15-RStudio-ElegirWorkDir.png"))
 
 - Puesto que las columnas están formadas por elementos homogéneos podemos extraer una columna y obtenemos un vector de R. Hay dos formas de hacer esto:
 
-  1. usando la notación de corchetes con el número de columna y dejando el número de fila en blanco (solo se muestra el principio de la columna).
+    1. usando la notación de corchetes con el número de columna y dejando el número de fila en blanco (solo se muestra el principio de la columna).
     ```{r eval = FALSE, comment = NULL,}
     iris[ , 3]
     ```
@@ -485,13 +482,14 @@ include_graphics(figpath("01-fig15-RStudio-ElegirWorkDir.png"))
     head(iris[ , 3], 38)
     ```
 
-  2. Usando el nombre de la columna y el símbolo `$` así:
+    2. Usando el nombre de la columna y el símbolo `$` así:
     ```{r eval = FALSE, comment = NULL,}
     iris$Petal.Length
     ```
     ```{r echo=FALSE}
     head(iris$Petal.Length, 38)
     ```
+    Esta segunda opción es preferible cuando es cómoda. Veremos formas de hacer esto con `dplyr` más adelante.
 
 ---
 
@@ -523,10 +521,10 @@ include_graphics(figpath("01-fig15-RStudio-ElegirWorkDir.png"))
 - La instalación básica de R contiene muchas herramientas pero hay además miles de librerías adicionales disponibles, muchas de ellas muy especializadas para temas concretos (por ejemplo *BioConductor* agrupa miles de programas para Bioinformática). Nosotros vamos a utilizar mucho una librería de herramientas llamada `tidyverse` de H. Wickham. 
 
 - Para usar una librería de R debemos  instalarla (una única vez) y cargarla (en cada sesión en la que vayamos a usarla). Para instalar una librería sigue los pasos que aparecen en la figura;
-```{r echo=FALSE, comment=NULL, fig.align='center', out.width = "45%",  purl=FALSE}
-include_graphics(figpath("01-fig16-RStudio-InstalarLibreria.png"))
-```
-R descargará e instalará la librería. Si tienes problemas, pide ayuda al profesor. 
+    ```{r echo=FALSE, comment=NULL, fig.align='center', out.width = "35%",  purl=FALSE}
+    include_graphics(figpath("01-fig16-RStudio-InstalarLibreria.png"))
+    ```
+    R descargará e instalará la librería. Si tienes problemas, pide ayuda al profesor. Y por si sirve de ayuda aquí tienes un \link{https://youtu.be/HVyd-WAtIbQ}{vídeo ilustrando el proceso}.
 
 ---
 
@@ -557,7 +555,7 @@ ggplot(data = flights) +
 
 ## Un primer encuentro con dplyr
 
-- La librería `dplyr` es una de los componentes básicos del *tidyverse* y permite simplificar mucho nuestro trabajo con tablas como la que acabamos de examinar. En concreto `dplyr` proporciona un conjunto de funciones que incluye entre otras:
+- La librería `dplyr` es uno de los componentes básicos del *tidyverse* y permite simplificar mucho nuestro trabajo con tablas como la que acabamos de examinar. En concreto `dplyr` proporciona un conjunto de funciones que incluye entre otras:
   - `filter`: para seleccionar algunas filas según sus valores.
   - `arrange`: para reordenar las filas.
   - `select`: para seleccionar columnas (variables)
@@ -567,12 +565,12 @@ ggplot(data = flights) +
 - Además con `dplyr` vamos a empezar a usar el operador `pipe`, que en R es `%>%`. Este operador pasa el resultado de una operación como primer argumento de la siguiente. El uso de `%>%` normalmente resulta más claro que la sintaxis básica de R.
 
 - Por ejemplo usando `iris` vamos a buscar, en las columnas que se refieren a pétalos, cuáles son las flores con anchura de pétalo mayor que 2.3.
-  ```{r message=FALSE, size="scriptsize", echo = -1}
-  # Un primer encuentro con dplyr
-  iris %>%
-    select(c('Petal.Length', 'Petal.Width'))  %>%
-    filter(Petal.Width > 2.3) 
-  ```
+    ```{r message=FALSE, size="scriptsize", echo = -1}
+    # Un primer encuentro con dplyr
+    iris %>%
+      select(c('Petal.Length', 'Petal.Width'))  %>%
+      filter(Petal.Width > 2.3) 
+    ```
 
 ## Y un primer encuentro con ggplot
 
@@ -583,26 +581,27 @@ ggplot(data = flights) +
   ```
 
 - La librería `ggplot` es otro de los componentes del tidyverse y proporciona herramientas para construir gráficas muy útiles. Su uso puede resultar un poco complejo al principio, pero pronto te acostumbraras. La plantilla básica de un gráfico con ggplot es
-  ```{r eval = FALSE, comment = NULL, purl = FALSE}
-  ggplot(data = <DATA>) +
-    <GEOM_FUNCTION>(mapping = aes(<MAPPINGS>))
-  ```
-  Vamos a usar dplyr y ggplot para dibujar un gráfico de la relación entre esperanza de vida y renta per cápita para el año 2007. 
+    ```{r eval = FALSE, comment = NULL, purl = FALSE}
+    ggplot(data = <DATA>) +
+      <GEOM_FUNCTION>(mapping = aes(<MAPPINGS>))
+    ```
+    Vamos a usar dplyr y ggplot para dibujar un gráfico de la relación entre esperanza de vida y renta per cápita para el año 2007. 
 
 ---
 
 - Los colores corresponden a los distintos continentes y el tamaño de cada punto indica la población del país. La escala vertical (renta per cápita) es logarítmica de base 10. El código es: 
-  ```{r comment=NULL, fig.align='center', out.width = "65%", size="scriptsize", echo = -(1:2)}
-  # Y un primer encuentro con ggplot
-  library(gapminder)
-  gapminder %>% 
-    filter(year == 2007) %>% # Hasta aquí dplyr, ahora entra en acción ggplot
-  ggplot() +
-    geom_point(mapping = aes(x = lifeExp, log(gdpPercap, 10), 
-                             color = continent, size = pop)) +
-    scale_size(range = c(.1, 24), name="Population (M)")
-  ```
-¿Qué preguntas te haces a la vista de este gráfico? 
+    ```{r comment=NULL, fig.align='center', out.width = "45%", size="scriptsize", echo = -(1:2)}
+    # Y un primer encuentro con ggplot
+    library(gapminder)
+    gapminder %>% 
+      filter(year == 2007) %>% # Hasta aquí dplyr, ahora entra en acción ggplot
+    ggplot() +
+      geom_point(mapping = aes(x = lifeExp, log(gdpPercap, 10), 
+                               color = continent, size = pop)) +
+      scale_size(range = c(.1, 24), name="Population (M)")
+    ```
+    ¿Qué preguntas te haces a la vista de este gráfico?
+
 
 ---
 
@@ -624,7 +623,7 @@ Junto con el material alojado en Moodle tenéis a vuestra disposición estos rec
 
 - [\textcolor{blue}{{R for Data Science (Wickham).}}](https://r4ds.had.co.nz/)
 
-- [\textcolor{blue}{{Repositorio del curso}}](https://github.com/fernandosansegundo/MBDFME)  en  GitHub.
+- [\textcolor{blue}{{Repositorio del curso}}](https://github.com/mbdfmad/fmad2122)  en  GitHub.
 
 - Web del libro [\textcolor{blue}{{PostData}}](http://www.postdata-statistics.com). Para esta sesión se recomienda el Capítulo 1.
 
