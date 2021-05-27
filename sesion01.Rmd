@@ -112,10 +112,12 @@ include_graphics(figpath("01-fig01.png"))
 
 
 - La página oficial de R es  
-[\textcolor{blue}{{www.r-project.org}}](https://www.r-project.org/)  
+\begin{center}
+\link{https://www.r-project.org/}{www.r-project.org}  
+\end{center}
 Para que te sirva de referencia, la versión de R que estamos usando al escribir estas notas es: `r R.version.string`
 
-- Para descargar el instalador de R para tu sistema usa directamente [\textcolor{blue}{{este enlace}}](https://cloud.r-project.org/). Si vas a instalar en Mac o Linux y tienes alguna duda habla con tu profesor. La instalación es bastante sencilla, pero si quieres hacerte una idea previa aquí tienes un vídeo reciente sobre el \link{https://youtu.be/qtiXU6rfWQE}{proceso de instalación en Windows}.
+- Para descargar el instalador de R para tu sistema usa directamente [\textcolor{blue}{{este enlace}}](https://cloud.r-project.org/). Si vas a instalar en Mac o Linux y tienes alguna duda habla con tu profesor (especialmente si usas un Mac con procesador M1). La instalación es bastante sencilla, pero si quieres hacerte una idea previa aquí tienes un vídeo reciente sobre el \link{https://youtu.be/qtiXU6rfWQE}{proceso de instalación en Windows}. Y también puedes consultar \link{https://rafalab.github.io/dsbook/installing-r-rstudio.html}{este enlace}.
 
 - **¡Instala R antes de continuar!**
 
@@ -132,14 +134,6 @@ include_graphics(figpath("01-fig02.png"))
 
 - Versión disponible en la fecha de publicación de estas notas: `r rstudioapi::versionInfo()$version`
 
-## Software adicional
-
-- Como lector de documentos pdf puedes usar \link{https://get.adobe.com/es/reader/}{Adobe Reader}, aunque en Windows te recomendamos \link{Sumatra Pdf}{https://www.sumatrapdfreader.org/free-pdf-reader.html} y en Mac recomendamos *Vista Previa* o \link{https://skim-app.sourceforge.io/}{Skim}.
-
-- En algún momento puede ser necesario usar un editor de texto. El que incluye RStudio sirve para tareas sencillas, pero en Windows recomendamos \link{https://notepad-plus-plus.org/}{Notepad++} y en Mac \link{https://www.barebones.com/products/bbedit/}{BBEdit}.
-
-- Para abrir algunos ficheros de datos es conveniente disponer de una hoja de cálculo como Excel de Microsoft o, preferiblemente, Calc (de \link{https://www.openoffice.org/es/}{Open Office} o de \link{https://es.libreoffice.org/}{Libre Office}). **Ten cuidado** si abres ficheros de datos (csv o txt) del curso con Excel: es  fácil *romper* uno de esos ficheros inadvertidamente.
-
 ## Git y GitHub
 
 + El material de las sesiones del curso está alojado en un \link{https://github.com/mbdfmad/fmad2122}{repositorio en GitHub}. 
@@ -147,6 +141,16 @@ include_graphics(figpath("01-fig02.png"))
 + Si no estás familiarizado con Git, el curso 0 te proporcionará una introducción y vamos a aprovechar esta asignatura para practicar el uso de una herramienta tan importante. Nuestro recurso favorito para aprender a combinar el uso de R y Git es el libro/web \link{https://happygitwithr.com}{Happy Git and GitHub for the useR}. En la primera sesión daremos más detalles de la forma en la que vamos a usar Git en este curso, pero si quieres ir adelantando trabajo puedes leer las primeras siete secciones de *Happy Git*.
 
 + Como complemento, puedes ver los vídeos 14 y 15 de esta \link{https://www.youtube.com/watch?v=3hqGcRoEYUY&list=PLmTpraKlPXDSPbP2L8MYZoweGSzi9gNTr}{playlist} del curso Data Science Toolbox de la Universidad John Hopkins para Coursera. También puedes encontrar información en este \link{https://lab.github.com/githubtraining/introduction-to-github}{curso de Introducción a GitHub}. Pregunta a tu profesor si necesitas más ayuda para empezar.  
+
+## Software adicional
+
+- \LaTeX: es necesario para producir ficheros en formato pdf a partir de nuestros análisis de datos. Aunque es posible que nos baste con instalar *tinytex* \link{https://yihui.org/tinytex}{tal y como se describe aquí}, por si acaso incluimos aquí enlaces a las páginas de descarga de \link{https://miktex.org/download}{MikTeX} (para Windows) y \link{http://www.tug.org/mactex}{MacTeX} (para Mac).
+
+- Como lector de documentos pdf puedes usar \link{https://get.adobe.com/es/reader/}{Adobe Reader}, aunque en Windows te recomendamos \link{https://www.sumatrapdfreader.org/free-pdf-reader.html}{Sumatra Pdf} y en Mac recomendamos *Vista Previa* o \link{https://skim-app.sourceforge.io/}{Skim}.
+
+- En algún momento puede ser necesario usar un editor de texto. El que incluye RStudio sirve para tareas sencillas, pero en Windows recomendamos \link{https://notepad-plus-plus.org/}{Notepad++} y en Mac \link{https://www.barebones.com/products/bbedit/}{BBEdit}.
+
+- Para abrir algunos ficheros de datos es conveniente disponer de una hoja de cálculo como Excel de Microsoft o, preferiblemente, Calc (de \link{https://www.openoffice.org/es/}{Open Office} o de \link{https://es.libreoffice.org/}{Libre Office}). **Ten cuidado** si abres ficheros de datos (csv o txt) del curso con Excel: es  fácil *romper* uno de esos ficheros inadvertidamente.
 
 ## Python
 
@@ -176,7 +180,7 @@ include_graphics(figpath("01-fig18-RStudio-Paneles.png"))
 ---
 
 - Para empezar, haz clic en la consola (el panel de la izquierda) en la línea con el prompt (símbolo `>`). Verás el cursor parpadeando.
-Escribe `3^2` y pulsa `Enter`
+Escribe `3^2` y pulsa $\text{\keys{\return}}$
 
 ![](./fig/01-fig03.png)
 
@@ -203,7 +207,15 @@ Escribe `3^2` y pulsa `Enter`
 
 - Usa paréntesis para controlar mejor el orden de las operaciones.
 
-- Los espacios a menudo son irrelevantes pero a veces son esenciales. Por ejemplo `3 + 5` da igual que `3+5`. Usa espacios extra para ganar claridad. Pero **no escribas** `sqrt (25)` en lugar de `sqrt(25)`. Funciona pero ¡es feo!
+- Los espacios a menudo son irrelevantes pero a veces son esenciales. Por ejemplo es igual escribir 
+\begin{center}
+\verb!3 + 5!  
+\end{center}
+que `3+5`. Usa espacios extra para ganar claridad. Pero **no escribas**  
+\begin{center}
+\verb!sqrt (25)!  
+\end{center}
+en lugar de `sqrt(25)`. Funciona pero ¡es feo y difícil de leer!
 
 - `sin` es la función *seno* y `pi` se refiere a la constante matemática $\pi\approx 3.141593$. Enseguida hablaremos de otras funciones de R.
 
@@ -215,18 +227,18 @@ Escribe `3^2` y pulsa `Enter`
 ## Ejercicio 2: Errores. 
 
 - Prueba ahora a escribir esta expresión incompleta:  
-  ```{r eval = FALSE, comment = NULL, echo = -1}
-  # Ejercicio 2
-  3 + 
-  ```
-  y pulsa `Enter`. La respuesta `+` es la forma que tiene R de decirnos *"necesito algo más"* (no tiene nada que ver con la suma). Lo mejor es que uses la tecla `Esc` y completes la expresión.
+    ```{r eval = FALSE, comment = NULL, echo = -1, tidy = FALSE}
+    # Ejercicio 2
+    3 + 
+    ```
+    y pulsa $\text{\keys{\return}}$. La respuesta `+` es la forma que tiene R de decirnos *"necesito algo más"* (no tiene nada que ver con la suma). Lo mejor es que uses la tecla $\text{\keys{Esc}}$ y completes la expresión.
 
 - Escribe y ejecuta una a una estas expresiones para ver distintos tipos de errores:
-  ```{r eval = FALSE, comment = NULL}
-  4/*3
-  2/0
-  sqrt(-4)
-  ```
+    ```{r eval = FALSE, comment = NULL, tidy = FALSE}
+    4/*3
+    2/0
+    sqrt(-4)
+    ```
 
 - Escribe y ejecuta
 
@@ -243,9 +255,9 @@ include_graphics(figpath("01-fig18-RStudio-Paneles.png"))
 ```
 
 
-- *Historial de comandos:* Cuando estás trabajando en la consola puedes pulsar la flecha ↑ repetidamente, e irás viendo pasar todos los comandos previos. Con la flecha hacia abajo recorres la lista en sentido contrario. Además en el panel `History` (arriba a la derecha) puedes ver esa lista y copiar/pegar los comandos o guardarlos como fichero de texto.
+- *Historial de comandos:* Cuando estás trabajando en la consola puedes pulsar la flecha $\text{\keys{\arrowkeyup}}$ repetidamente, e irás viendo pasar todos los comandos previos. Con $\text{\keys{\arrowkeydown}}$ recorres la lista en sentido contrario. Además en el panel `History` (arriba a la derecha) puedes ver esa lista y copiar/pegar los comandos o guardarlos como fichero de texto.
 
-- *Limpieza de la consola:* Pulsa `Ctrl + L`.
+- *Limpieza de la consola:* Pulsa $\text{\keys{\ctrl + L}}$. Esto no afecta al historial de comandos.
 
 - *Ayuda;* El panel `Help` (abajo a la derecha) nos servirá, cuando aprendamos más, para acceder al sistema de ayuda de R.
 
@@ -267,7 +279,7 @@ include_graphics(figpath("01-RStudioCloud.jpeg"))
 
 + En el trabajo con Python es frecuente utilizar como herramienta de desarrollo los \link{https://jupyter.org}{Jupyter Notebooks}. Los Notebooks son un tipo de documento que permite combinar código ejecutable con documentación (texto, figuras, ecuaciones, enlaces). El Notebook puede ejecutarse desde un navegador y los resultados de la ejecución del código se incorporan al propio documento.  Aunque los Notebooks de Jupyter se usan habitualmente como una herramienta para código Python, también ofrecen soporte para R y otros lenguajes. 
 
-+ Se pueden instalar los Jupyter Notebooks en local como parte de una instalación estándar de Python (\link{https://xkcd.com/1987/}{si es que tal cosa existe}). Pero también existen opciones de acceso remoto a servidores Jupyter públicos y gratuitos (hay asimismo servidores de pago). En particular, si disponéis de una cuenta en Google os recomiendo \link{https://colab.research.google.com}{Google Colab }, que permite incluso acceder a GPUs para aplicaciones de Deep Learning. Además usando \link{colab.fan/r}{este enlace} podéis utilizar Google Colab para crear Notebooks del lenguaje R.  
++ Se pueden instalar los Jupyter Notebooks en local como parte de una instalación estándar de Python (\link{https://xkcd.com/1987/}{si es que tal cosa existe}). Pero también existen opciones de acceso remoto a servidores Jupyter públicos y gratuitos (hay asimismo servidores de pago). En particular, si disponéis de una cuenta en Google os recomiendo \link{https://colab.research.google.com}{Google Colab }, que permite incluso acceder a GPUs para aplicaciones de Deep Learning. Además usando \link{https://colab.research.google.com/notebook\#create=true&language=r}{este enlace} podéis utilizar Google Colab para crear Notebooks del lenguaje R.  
 
  
 ---
@@ -330,24 +342,23 @@ include_graphics(figpath("01-RStudioCloud.jpeg"))
     ```{r eval = FALSE, comment = NULL,}
     a <- 2
     ```
-    De hecho el uso de `=` para asignaciones \link{https://style.tidyverse.org/syntax.html\#assignment-1}{se desaconseja} en la comunidad de usarios de R. En RStudio puedes usar el atajo de teclado `alt + _` (en Mac `option +  _`).  Si quieres leer algo más sobre esta discusión (bizantina), \link{https://stackoverflow.com/questions/1741820/what-are-the-differences-between-and-assignment-operators-in-r}{puedes hacerlo aquí}. En realidad este párrafo es una excusa para introducir un enlace a Stackoverflow, y para hablar de de cuestiones de estilo en el código de R y de cómo buscar información y ayuda sobre R. 
+    De hecho el uso de `=` para asignaciones \link{https://style.tidyverse.org/syntax.html\#assignment-1}{se desaconseja} en la comunidad de usarios de R. En RStudio con Windows puedes usar el atajo de teclado $\text{\keys{Alt + \_}}$, mientras que en Mac  usaremos $\text{\keys{\Alt + \_}}$.  Si quieres leer algo más sobre esta discusión (bizantina), \link{https://stackoverflow.com/questions/1741820/what-are-the-differences-between-and-assignment-operators-in-r}{puedes hacerlo aquí}. En realidad este párrafo es una excusa para introducir enlaces a Stackoverflow, y a una guía de estilo del código de R.
 
 ## Haciendo limpieza antes de seguir adelante.
 
 - Vamos a aprender a eliminar cualquier resto de nuestro trabajo anterior de la memoria de R. Esto es necesario a menudo cuando empezamos un nuevo análisis de datos, para evitar posibles errores debidos a la permanencia de esos resultados previos.
 
-- Empieza usando el menú *Session* de RStudio y haz clic en 'Restart R'. Verás aparecer el mensaje `Restarting R session...` en la Consola. 
+- Empieza usando el menú $\text{\menu[,]{Session, Restart R}}$. Verás aparecer el mensaje `Restarting R session...` en la Consola. 
 
 - Con esto no hemos acabado. Si miras el panel de entorno verás que esa operación no ha eliminado los valores asignados a variables. Para hacer que R olvide esos valores podemos usar el icono de una escoba que aparece encima de ese panel de entorno.
-```{r echo=FALSE, comment=NULL, fig.align='center', out.width = "25%",  purl=FALSE}
-include_graphics(figpath("01-fig10-RStudio-EntornoLimpieza.png"))
-```
-
-- Al pulsarlo aparecerá un mensaje de confirmación. 
+    ```{r echo=FALSE, comment=NULL, fig.align='center', out.width = "25%",  purl=FALSE}
+    include_graphics(figpath("01-fig10-RStudio-EntornoLimpieza.png"))
+    ```
+    Al pulsarlo aparecerá un mensaje de confirmación. 
     ```{r echo=FALSE, comment=NULL, fig.align='center', out.width = "25%",  purl=FALSE}
     include_graphics(figpath("01-fig11-RStudio-EntornoLimpieza.png"))
     ```
-  Acepta haciendo clic en *Yes* y estaremos listos para seguir.
+    Acepta haciendo clic en *Yes* y estaremos listos para seguir. Veremos más adelante formas alternativas de hacer esto.
 
 # El editor de RStudio. Ficheros de comandos de R.
 
@@ -355,7 +366,7 @@ include_graphics(figpath("01-fig10-RStudio-EntornoLimpieza.png"))
 
 - El trabajo en la Consola de Comandos puede resultar conveniente para algunas operaciones básicas. Pero resulta incómodo para cualquier análisis de datos salvo los más triviales. Vamos a ver otra forma mejor de trabajar. 
 
-- Pulsa `Ctrl + Mayúsculas + N` (o, en un Mac, `Comando + Mayúsculas + N`). Alternativamente usa el menú *File* $\to$ *New File* $\to$ *R Script*, Verás aparecer un panel nuevo en la parte superior izquierda de la ventana, el *Editor* de RStudio.
+- Pulsa $\text{\keys{\ctrl + \shift + N}}$ (o, en un Mac, $\text{\keys{\cmd + \shift + N}}$). Alternativamente usa el menú $\text{\menu[,]{File, New File, R Script}}$. Verás aparecer un panel nuevo en la parte superior izquierda de la ventana, el *Editor* de RStudio.
     ```{r echo=FALSE, comment=NULL, fig.align='center', out.width = "55%",  purl=FALSE}
     include_graphics(figpath("01-InterfazRstudio-Editor.png"))
     ```
@@ -374,7 +385,7 @@ include_graphics(figpath("01-fig10-RStudio-EntornoLimpieza.png"))
     ```{r echo=FALSE, comment=NULL, fig.align='center', out.width = "35%",  purl=FALSE}
     include_graphics(figpath("01-fig12-RStudio-Editor.png"))
     ```
-  Si ahora pulsas la tecla *Enter* $\text{\Return}$ verás que ese código no se ejecuta (mira la consola y el entorno), simplemente pasas a la siguiente línea del editor. Para ejecutar el código vuelve a hacer clic en la línea `a <- 4` y ahora pulsa a la vez  `Ctrl + Enter`. Veras que el código aparece copiado en la consola como si lo hubieras ejecutado allí.  
+  Si ahora pulsas la tecla $\text{\keys{\return}}$ verás que ese código no se ejecuta (mira la consola y el entorno), simplemente pasas a la siguiente línea del editor. Para ejecutar el código vuelve a hacer clic en la línea `a <- 4` y ahora pulsa a la vez  $\text{\keys{\ctrl + \return}}$. Veras que el código aparece copiado en la consola como si lo hubieras ejecutado allí.  
 
 ## Ejecutando varios comandos a la vez. 
 
@@ -386,7 +397,7 @@ include_graphics(figpath("01-fig10-RStudio-EntornoLimpieza.png"))
   ```{r echo=FALSE, comment=NULL, fig.align='center', out.width = "35%",  purl=FALSE}
   include_graphics(figpath("01-fig14-RStudio-EditorVariosComandos.png"))
   ```
-- Si ahora usas a la vez  `Ctrl + Enter` podrás comprobar en la consola que las tres líneas de código se han ejecutado todas una tras otra.  
+- Si ahora usas a la vez  $\text{\keys{\ctrl + \return}}$ podrás comprobar en la consola que las tres líneas de código se han ejecutado todas una tras otra.  
 
 ## Ficheros de comandos de R. Directorio de trabajo.
 
@@ -396,20 +407,20 @@ include_graphics(figpath("01-fig10-RStudio-EntornoLimpieza.png"))
 
 - Dentro de tu carpeta de usuario crea una carpeta para usar como directorio de trabajo en este curso (llámala por ejemplo FME, aunque el nombre no es importante). Si tu nombre de usuario contiene acentos, espacios, la letra ñ, etc. y experimentas algún problema al usar R, habla con tu profesor. 
 
-- Crea también dos *subcarpetas* dentro del directorio de trabajo que se llamen *datos* y *scripts* **(¡así, en  minúsculas!)**. 
+- Crea también una *subcarpeta* dentro del directorio de trabajo que se llame *datos*. **¡Así, en  minúsculas, esto es muy importante!**. 
 
-- Ahora usa el menú *Session $\to$ Set Working Directory $\to$ Choose Directory*:
+- Ahora usa el menú $\text{\menu[,]{Session, Set Working Directory, Choose Directory}}$:
 ```{r echo=FALSE, comment=NULL, fig.align='center', out.width = "30%",  purl=FALSE}
 include_graphics(figpath("01-fig15-RStudio-ElegirWorkDir.png"))
 ```
 
 ---
 
-- A continuación usa el menú *File $\to$ Save As* y guarda el fichero de instrucciones de R con el nombre `sesion01-00` **en la subcarpeta scripts del directorio de trabajo** Al guardarlo RStudio le añadirá la extensión `.R`, que identifica a los ficheros de comandos de R. 
+- A continuación usa el menú $\text{\menu[,]{File, Save As}}$ y guarda el fichero de instrucciones de R con el nombre `sesion01-00` en el directorio de trabajo. Al guardarlo RStudio le añadirá la extensión `.R`, que identifica a los ficheros de comandos de R. 
 
 - Es recomendable que uses el *Explorador de Archivos* de Windows (o el *Finder* de Mac, etc.)  para navegar a la carpeta en la que has guardado ese fichero y lo abras con un *editor de texto* (como el Bloc de Notas). Habla con tu profesor si tienes dudas de como hacer esto. Comprueba que se trata de un fichero de texto que contiene simplemente los comandos que hemos escrito en el Editor de RStudio. 
 
-- También puedes abrir un fichero de comandos escrito por otra persona. De hecho en el curso vamos a usar a menudo ficheros de comandos prediseñados para dirigir nuestro trabajo. Empieza descargando este fichero de comandos [\textcolor{blue}{{sesion01-01.R}}](https://raw.githubusercontent.com/fernandosansegundo/MBDFME/master/scripts/sesion01-01.R) y guárdalo *en la subcarpeta scripts* de tu directorio de trabajo. En la próxima sección lo abriremos y usaremos para seguir avanzando con R.
+- También puedes abrir un fichero de comandos escrito por otra persona. De hecho en el curso vamos a usar a menudo ficheros de comandos prediseñados para dirigir nuestro trabajo. Empieza descargando este fichero de comandos [\textcolor{blue}{{sesion01-01.R}}](https://raw.githubusercontent.com/fernandosansegundo/MBDFME/master/scripts/sesion01-01.R) y guárdalo en tu directorio de trabajo. En la próxima sección lo abriremos y usaremos para seguir avanzando con R.
 
 + En esta y en próximas sesiones dispondrás de un fichero con el  \link{https://raw.githubusercontent.com/fernandosansegundo/MBDFME/master/scripts/sesion01-comandos.R}{código de la sesión} para agilizar el seguimiento de la explicación mientras pruebas el funcionamiento de los comandos en tu sistema.
 
@@ -417,7 +428,7 @@ include_graphics(figpath("01-fig15-RStudio-ElegirWorkDir.png"))
 
 ## Vectores.
 
-- Cierra el fichero del Editor de RStudio (usa `Ctrl + W`), cierra RStudio y vuelve a abrirlo. Ahora usa el Menú *File* $\to$ *Open File* y abre el fichero `sesion01-01.R` que acabas de descargar. Se abrirá en el Editor. 
+- Cierra el fichero del Editor de RStudio (usa $\text{\keys{\ctrl + W}}$), cierra RStudio y vuelve a abrirlo. Ahora usa el Menú $\text{\menu[,]{File, Open File}}$ y abre el fichero `sesion01-01.R` que acabas de descargar. Se abrirá en el Editor. 
   ```{r echo=FALSE, comment=NULL, fig.align='center', out.width = "60%",  purl=FALSE}
   include_graphics(figpath("01-fig17-RStudio-PrimerScriptAbierto.png"))
   ```
@@ -425,7 +436,7 @@ include_graphics(figpath("01-fig15-RStudio-ElegirWorkDir.png"))
 
 - Lo primero en lo que debes fijarte es que R usa el símbolo `#` para introducir comentarios en un fichero de comandos e ignorará el resto de la línea a partir del `#`. 
 
-- Vamos a usar los comentarios de ese fichero como guía para aprender las propiedades más básicas de los vectores en R.
+- Vamos a usar los comentarios de ese fichero como guía para aprender las propiedades más básicas de los vectores en R. Volveremos aquí después de recorrerlo.
 
 ## Tablas (Data Frames)
 
@@ -581,7 +592,7 @@ ggplot(data = flights) +
   ```
 
 - La librería `ggplot` es otro de los componentes del tidyverse y proporciona herramientas para construir gráficas muy útiles. Su uso puede resultar un poco complejo al principio, pero pronto te acostumbraras. La plantilla básica de un gráfico con ggplot es
-    ```{r eval = FALSE, comment = NULL, purl = FALSE}
+    ```{r eval = FALSE, comment = NULL, purl = FALSE, tidy=FALSE}
     ggplot(data = <DATA>) +
       <GEOM_FUNCTION>(mapping = aes(<MAPPINGS>))
     ```
@@ -594,8 +605,8 @@ ggplot(data = flights) +
     # Y un primer encuentro con ggplot
     library(gapminder)
     gapminder %>% 
-      filter(year == 2007) %>% # Hasta aquí dplyr, ahora entra en acción ggplot
-    ggplot() +
+      filter(year == 2007) %>%
+      ggplot() +
       geom_point(mapping = aes(x = lifeExp, log(gdpPercap, 10), 
                                color = continent, size = pop)) +
       scale_size(range = c(.1, 24), name="Population (M)")
@@ -603,7 +614,42 @@ ggplot(data = flights) +
     ¿Qué preguntas te haces a la vista de este gráfico?
 
 
+# Rmarkdown para la creación de documentos
+
+## Introducción
+
++ En este curso vamos a iniciarnos en el manejo de Rmarkdown y, progresivamente, lo usaremos cada vez más. El objetivo es que el trabajo personal y el examen de la asignatura se realicen en este formato.
+
++ Rmarkdown, creado por Yihui Xie, es una herramienta muy general para la creación de documentos, en especial documentos relacionados con el Análisis de Datos. A partir de los ficheros escritos con Rmarkdown se pueden obtener fácilmente salidas en formato pdf o HTML, pero también presentaciones, artículos e informes técnicos, entradas de blog, libros, dashboards con Shiny y la lista sigue creciendo. Aprovecharemos las secciones finales de nuestras sesiones para presentar algunas de estas posibilidades.
+
++ Hay dos fuentes de información online básicas para adentrarse en las posibilidades de RMarkdown:  
+  Del propio Yihui Xie: \link{https://bookdown.org/yihui/rmarkdown/}{R Markdown: The Definitive Guide.}  
+  De RStudio: \link{https://rmarkdown.rstudio.com/lesson-1.html}{R Markdown: Get Started.}  
+
++ Recomendamos empezar leyendo una \link{http://www.unavarra.es/personal/tgoicoa/ESTADISTICA_RMarkdown_tomas/basicRmarkdown/index.html}{introducción básica a RMarkdon} de T. Goicoa (Univ. Pública de Navarra). 
+
 ---
+
+## ¿Qué es un documento RMarkdown?
+
++ Un **documento Rmarkdown** es un fichero de texto con extensión *.Rmd* que contiene una mezcla de texto, comandos de formato (secciones, listas, negritas) y para inclusión de figuras, enlaces, etc. En particular se pueden usar comandos LaTeX para crear ecuaciones. 
+
++ Pero además, y de forma característica, el fichero contiene bloques (en inglés, *chunks*) con **comandos de código R**. Esos comandos de código R se evalúan como parte del procesado del documento para crear *documentos dinámicos*, similares a los notebooks de Jupyter, pero aún más flexibles. 
+
++ Usaremos como ejemplo un fichero Rmarkdown sencillo, llamado [`rmarkdownDemo.Rmd`](./rmarkdownDemo.Rmd) disponible en el repositorio. A partir de ese documento Rmd obtendremos salidas en formatos pdf, HTML y docx (MS Word). En todos estos formatos de salida se mantienen los formatos de texto, ecuaciones, figuras, enlaces y, por supuesto, el resultado del código en R.
+
+---
+
+## Otros formatos y capacidades.
+
++ Los tres formatos de salida ilustran las capacidades más básicas de Rmarkdown. Por ejemplo, se puede utilizar Rmarkdown para:
+  - Crear **presentaciones** en Beamer y otros formatos. Por ejemplo las presentaciones de este curso se han escrito integramente en Rmarkdown. 
+  - Escribir **artículos científicos** y libros (con \link{https://bookdown.org/yihui/bookdown/}{bookdown}).
+  - Mantener sitios Web y \link{https://www.fernandosansegundo.com}{blogs}, usando \link{https://bookdown.org/yihui/blogdown/}{blogdown}.
+  - Crear **dashboards** con Shiny para visualizaciones interactivas. Lo mejor es ver los ejemplos de la [galería](https://shiny.rstudio.com/gallery/).
++ Además los bloques de código no se limitan a R. Se puede usar **otros lenguajes**, entre otros, R, Python y SQL. El soporte para Python en particular es muy bueno como veremos más adelante.
+
+
 
 ## Referencias para la sesión
 

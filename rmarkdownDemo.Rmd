@@ -1,0 +1,63 @@
+---
+title: "Ejemplo de Rmarkdown básico"
+date: "`r format(Sys.time(), "%Y-%m-%d")`"
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
+---
+
+# Primera Sección
+
+Esto es texto con *cursiva*, **negrita**, con un [https://www.comillas.edu/icai](enlace).
+
++ Este es la primera línea de una lista.
++ Y esta es la segunda.
+
+## Subsección 
+
+En esta subsección vamos a incluir una ecuación en \LaTeX:
+
+$$\int_0^{\infty}\dfrac{dx}{1 + x^2} = \dfrac{\pi}{4}$$
+y vamos a insertar una figura:
+
+![](./fig/colimbo.png)
+
+
+# Usando código en R...
+
+Ahora vamos a incluir un bloque (*chunk*) de código en R, que simplemente suma dos números:
+
+```{r }
+a <- 2
+b <- 3
+a <- b
+```
+El documento procesado incluye tanto el bloque de código como el resultado. 
+
+También podemos incluir código en R dentro del texto (sin separarlo en un bloque), como en esta operación $a^b =$ `r a^b`.
+
+Vamos a ver otro bloque de código más interesante que elige al azar dos números enteros $a$ y $b$  entre 1 y 20 y luego los  multiplica.
+
+```{r}
+(a <- sample(1:20, 1))
+(b <- sample(1:20, 1))
+a * b
+```
+ A continuación, un fragmento de código más complejo que lee los valores de un fichero de datos csv externo, calcula su tabla de frecuencia y pinta el diagrama de barras correspondiente:
+```{r echo=-(1:3)}
+# set.seed(2020)
+# x = sample(1:7, 300, replace = TRUE, prob = sample(1:40, 7))
+# write.table(data.frame(x), file="../data/datos01.csv", row.names = FALSE)
+datos  <-  read.csv("./data/datos01.csv")
+table(datos$x)
+barplot(table(datos$x), col = terrain.colors(7))
+```
+ 
+ Es muy fácil decidir si mostramos u ocultamos los bloques de código. Por ejemplo, la siguiente figura muestra el histograma de unos datos procedentes de una distribución normal, pero el código que genera esa figura permanece oculto.
+ 
+```{r echo=FALSE, fig.height=3}
+set.seed(2020) # Para obtener resultados reproducibles
+hist(rnorm(1000), breaks = 20)
+```
+ 

@@ -26,13 +26,16 @@
 \newtranslation[to=spanish]{Section}{Secci\'on}
 \newtranslation[to=spanish]{Subsection}{Subsecci\'on}
 
-\usepackage{keystroke}
+%\usepackage{keystroke}
+\usepackage{menukeys}
 
 
 % logo of my university
 \titlegraphic{\includegraphics[width=4cm]{./fig/logoDMAsmall.png}}
 
 \newcommand{\link}[2]{\textcolor{blue}{{\href{#1}{#2}}}}
+\newcommand{\bcenter}{\begin{center}}
+\newcommand{\ecenter}{\end{center}}
 
 \definecolor{Gris050}{gray}{0.50}
 \definecolor{Gris025}{gray}{0.75}
