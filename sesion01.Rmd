@@ -1,22 +1,20 @@
 ---
-title: 'Master en Big Data. Fundamentos Matemáticos del Análisis de Datos (FMAD).' 
+title: "Master en Big Data. Fundamentos Matemáticos del Análisis de Datos (FMAD)."
 author: "Fernando San Segundo"
 date: 'Curso 2021-22. Última actualización: `r format(Sys.time(), "%Y-%m-%d")`'
-subtitle: "Sesión 1: Presentación. Instalación de Software y Primeros Pasos"
-fontsize: 9pt
 output:
   beamer_presentation:
-    toc: true
-    keep_tex: false
+    toc: yes
+    keep_tex: no
     includes:
-      #after_body: afterbody.txt
       in_header: beamer-header-simple.txt
     colortheme: seahorse
     incremental: no
     slide_level: 2
     theme: Boadilla
+fontsize: 9pt
+subtitle: 'Sesión 1: Presentación. Instalación de Software y Primeros Pasos'
 always_allow_html: yes
-#classoption: "handout"    
 bibliography: MBDFME.bib
 csl: ams-review.csl
 ---
