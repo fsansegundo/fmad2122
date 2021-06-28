@@ -136,7 +136,7 @@ include_graphics(figpath("01-fig02.png"))
 
 + El material de las sesiones del curso está alojado en un \link{https://github.com/mbdfmad/fmad2122}{repositorio en GitHub}. 
 
-+ Si no estás familiarizado con Git, el curso 0 te proporcionará una introducción y vamos a aprovechar esta asignatura para practicar el uso de una herramienta tan importante. Nuestro recurso favorito para aprender a combinar el uso de R y Git es el libro/web \link{https://happygitwithr.com}{Happy Git and GitHub for the useR}. En la primera sesión daremos más detalles de la forma en la que vamos a usar Git en este curso, pero si quieres ir adelantando trabajo puedes leer las primeras siete secciones de *Happy Git*.
++ Si no estás familiarizado con Git, el curso 0 te proporcionará una introducción y vamos a aprovechar esta asignatura para practicar el uso de una herramienta tan importante. Nuestro recurso favorito para aprender a combinar el uso de R y Git es el libro/web \link{https://happygitwithr.com}{Happy Git and GitHub for the useR}. En la primera sesión daremos más detalles de la forma en la que vamos a usar Git en este curso, pero si quieres ir adelantando trabajo puedes leer las primeras siete secciones de *Happy Git*. En esas secciones se presenta Git y se describe el proceso básico de instalación del software necesario.
 
 + Como complemento, puedes ver los vídeos 14 y 15 de esta \link{https://www.youtube.com/watch?v=3hqGcRoEYUY&list=PLmTpraKlPXDSPbP2L8MYZoweGSzi9gNTr}{playlist} del curso Data Science Toolbox de la Universidad John Hopkins para Coursera. También puedes encontrar información en este \link{https://lab.github.com/githubtraining/introduction-to-github}{curso de Introducción a GitHub}. Pregunta a tu profesor si necesitas más ayuda para empezar.  
 
@@ -148,7 +148,7 @@ include_graphics(figpath("01-fig02.png"))
 
 - En algún momento puede ser necesario usar un editor de texto. El que incluye RStudio sirve para tareas sencillas, pero en Windows recomendamos \link{https://notepad-plus-plus.org/}{Notepad++} y en Mac \link{https://www.barebones.com/products/bbedit/}{BBEdit}.
 
-- Para abrir algunos ficheros de datos es conveniente disponer de una hoja de cálculo como Excel de Microsoft o, preferiblemente, Calc (de \link{https://www.openoffice.org/es/}{Open Office} o de \link{https://es.libreoffice.org/}{Libre Office}). **Ten cuidado** si abres ficheros de datos (csv o txt) del curso con Excel: es  fácil *romper* uno de esos ficheros inadvertidamente.
+- Para abrir algunos ficheros de datos es conveniente disponer de una hoja de cálculo como Excel de Microsoft o, alternativamente, Calc (de \link{https://www.openoffice.org/es/}{Open Office} o de \link{https://es.libreoffice.org/}{Libre Office}). **Ten cuidado** si abres ficheros de datos (csv o txt) del curso con Excel: es  fácil *romper* uno de esos ficheros inadvertidamente.
 
 ## Python
 
@@ -269,7 +269,7 @@ include_graphics(figpath("01-fig18-RStudio-Paneles.png"))
 include_graphics(figpath("01-RStudioCloud.jpeg"))
 ```
 
-
++ Recomendamos crear una cuenta gratuita de RStudio Cloud para poder experimentar con la herramienta y para disponer de una forma de acceder a R en caso de necesidad. Haremos algunos experimentos con RStudio Cloud en las próximas sesiones del curso.
 
 ---
 
@@ -310,20 +310,20 @@ include_graphics(figpath("01-RStudioCloud.jpeg"))
 ## Ejercicio 3. Operaciones, asignaciones y resultados.
 
 - Ejecuta estos comandos, uno detrás de otro. Trata de imaginar el valor de las variables tras cada operación.
-    ```{r results='hide', echo=-1}
+    ```{r results='hide', echo=-1, tidy = TRUE}
     # Ejercicio 3
-    a = 2
-    b = 3
-    c = a + b
-    a = b * c
-    b = (c - a)^2
-    c = a * b
+    a <- 2
+    b <- 3
+    c <- a + b
+    a <- b * c
+    b <- (c - a)^2
+    c <- a * b
     ```
   Consulta el panel de entorno para ver cuanto valen las variables tras cada operación.
 
 - Una orden como `c <- a + b` en la que guardamos en una variable el resultado de una operación es una **asignación**. Por defecto R no muestra el resultado de las asignaciones al ejecutarlas. Si quieres ver el resultado encierra entre paréntesis *toda la asignación*
   ```{r comment=NULL}
-  (c = a + b)
+  (c <-a + b)
   ```
   Como ves, ahora R sí muestra el resultado.
 
@@ -332,7 +332,7 @@ include_graphics(figpath("01-RStudioCloud.jpeg"))
 
 - Es recomendable usar nombres informativos para las variables y jugar con la tipografía para haceros más legibles, como `precio_final` o `poblacion1995`. Los nombres de variables no pueden empezar por un número ni contener caracteres especiales. 
 
-- Aunque puedes usar el igual `=` para asignaciones, es importante que sepas que en R se usa a menudo el símbolo `->` para las asignaciones, de manera que 
+- Aunque puedes usar el igual `=` para asignaciones, es importante que sepas que en R se usa a menudo el símbolo ` <- ` para las asignaciones, de manera que 
     ```{r eval = FALSE, comment = NULL, tidy = FALSE}
     a = 2
     ```
@@ -475,7 +475,7 @@ include_graphics(figpath("01-fig15-RStudio-ElegirWorkDir.png"))
   ```
   Ese acceso permite cambiar los elementos de la tabla directamente:
   ```{r}
-  iris[2, 3] = 7
+  iris[2, 3] <- 7
   head(iris)
   ```
 
@@ -620,21 +620,21 @@ ggplot(data = flights) +
 
 + Rmarkdown, creado por Yihui Xie, es una herramienta muy general para la creación de documentos, en especial documentos relacionados con el Análisis de Datos. A partir de los ficheros escritos con Rmarkdown se pueden obtener fácilmente salidas en formato pdf o HTML, pero también presentaciones, artículos e informes técnicos, entradas de blog, libros, dashboards con Shiny y la lista sigue creciendo. Aprovecharemos las secciones finales de nuestras sesiones para presentar algunas de estas posibilidades.
 
-+ Hay dos fuentes de información online básicas para adentrarse en las posibilidades de RMarkdown:  
-  Del propio Yihui Xie: \link{https://bookdown.org/yihui/rmarkdown/}{R Markdown: The Definitive Guide.}  
-  De RStudio: \link{https://rmarkdown.rstudio.com/lesson-1.html}{R Markdown: Get Started.}  
-
 + Recomendamos empezar leyendo una \link{http://www.unavarra.es/personal/tgoicoa/ESTADISTICA_RMarkdown_tomas/basicRmarkdown/index.html}{introducción básica a RMarkdon} de T. Goicoa (Univ. Pública de Navarra). 
 
++ Hay dos fuentes de información online básicas para adentrarse en las posibilidades de RMarkdown:  
+    + Del propio Yihui Xie: \link{https://bookdown.org/yihui/rmarkdown/}{R Markdown: The Definitive Guide.}  
+    + De RStudio: \link{https://rmarkdown.rstudio.com/lesson-1.html}{R Markdown: Get Started.}  
+    
 ---
 
 ## ¿Qué es un documento RMarkdown?
 
-+ Un **documento Rmarkdown** es un fichero de texto con extensión *.Rmd* que contiene una mezcla de texto, comandos de formato (secciones, listas, negritas) y para inclusión de figuras, enlaces, etc. En particular se pueden usar comandos LaTeX para crear ecuaciones. 
++ Un **documento Rmarkdown** es un fichero de texto con extensión *.Rmd* que contiene una mezcla de texto, comandos de formato (secciones, listas, negritas) y para inclusión de figuras, enlaces, etc. En particular se pueden usar comandos \LaTeX para crear ecuaciones. 
 
 + Pero además, y de forma característica, el fichero contiene bloques (en inglés, *chunks*) con **comandos de código R**. Esos comandos de código R se evalúan como parte del procesado del documento para crear *documentos dinámicos*, similares a los notebooks de Jupyter, pero aún más flexibles. 
 
-+ Usaremos como ejemplo un fichero Rmarkdown sencillo, llamado [`rmarkdownDemo.Rmd`](./rmarkdownDemo.Rmd) disponible en el repositorio. A partir de ese documento Rmd obtendremos salidas en formatos pdf, HTML y docx (MS Word). En todos estos formatos de salida se mantienen los formatos de texto, ecuaciones, figuras, enlaces y, por supuesto, el resultado del código en R.
++ Usaremos como ejemplo un fichero Rmarkdown sencillo, llamado \link{./rmarkdownDemo.Rmd}{rmarkdownDemo.Rmd} disponible en el repositorio. A partir de ese documento Rmd obtendremos salidas en formatos pdf, HTML y docx (MS Word). En todas estas opciones de salida se mantienen los formatos de texto, ecuaciones, figuras, enlaces y, por supuesto, el resultado del código en R.
 
 ---
 
@@ -644,7 +644,7 @@ ggplot(data = flights) +
   - Crear **presentaciones** en Beamer y otros formatos. Por ejemplo las presentaciones de este curso se han escrito integramente en Rmarkdown. 
   - Escribir **artículos científicos** y libros (con \link{https://bookdown.org/yihui/bookdown/}{bookdown}).
   - Mantener sitios Web y \link{https://www.fernandosansegundo.com}{blogs}, usando \link{https://bookdown.org/yihui/blogdown/}{blogdown}.
-  - Crear **dashboards** con Shiny para visualizaciones interactivas. Lo mejor es ver los ejemplos de la [galería](https://shiny.rstudio.com/gallery/).
+  - Crear **dashboards** con Shiny para visualizaciones interactivas. Lo mejor es ver los ejemplos de la \link{https://shiny.rstudio.com/gallery/}{galería}.
 + Además los bloques de código no se limitan a R. Se puede usar **otros lenguajes**, entre otros, R, Python y SQL. El soporte para Python en particular es muy bueno como veremos más adelante.
 
 
@@ -654,10 +654,10 @@ ggplot(data = flights) +
 **Enlaces**
 
 ```{r eval = FALSE, comment = NULL,  echo=FALSE, purl=FALSE, message=FALSE, error=FALSE}
-sessionName = "sesion01"
-RmdName = paste0(sessionName,".Rmd")
-ScriptName = paste0(sessionName,"-comandos.R")
-lnkScriptGitHub = paste0("https://raw.githubusercontent.com/fernandosansegundo/MBDFME/master/scripts/", ScriptName)
+sessionName <-  "sesion01"
+RmdName <-  paste0(sessionName,".Rmd")
+ScriptName  <-  paste0(sessionName,"-comandos.R")
+lnkScriptGitHub  <-  paste0("https://raw.githubusercontent.com/fernandosansegundo/MBDFME/master/scripts/", ScriptName)
 knitr::purl(RmdName, output = paste0("../scripts/", ScriptName), documentation = 0)
 ```
 
