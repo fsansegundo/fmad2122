@@ -29,7 +29,7 @@ cat("\014") # Es Ctrl + L para limpiar la Consola
 # Comprobamos el directorio de trabajo
 getwd()
 # Datos del fichero. La url, incluyendo el nombre del fichero.
-file_url <-   "http://users.stat.ufl.edu/~winner/data/train_acc_2010.xls"
+file_url <-   ""
 # Cambia la siguiente fila si quieres usar una subcarpeta del wd.
 local_folder <-  "./"
 # No cambies nada a partir de aquí

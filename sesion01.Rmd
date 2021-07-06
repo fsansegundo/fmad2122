@@ -407,6 +407,13 @@ include_graphics(figpath("01-fig15-RStudio-ElegirWorkDir.png"))
 
 ---
 
+```{r echo=FALSE, comment=NULL, fig.align='center', out.width = "90%",  purl=FALSE}
+include_graphics(figpath("01-fig19-EstructuraCarpetasAsignatura.png"))
+```
+
+
+---
+
 - A continuación usa el menú $\text{\menu[,]{File, Save As}}$ y guarda el fichero de instrucciones de R con el nombre `sesion01-00` en el directorio de trabajo. Al guardarlo RStudio le añadirá la extensión `.R`, que identifica a los ficheros de comandos de R. 
 
 - Es recomendable que uses el *Explorador de Archivos* de Windows (o el *Finder* de Mac, etc.)  para navegar a la carpeta en la que has guardado ese fichero y lo abras con un *editor de texto* (como el Bloc de Notas). Habla con tu profesor si tienes dudas de como hacer esto. Comprueba que se trata de un fichero de texto que contiene simplemente los comandos que hemos escrito en el Editor de RStudio. 
@@ -419,11 +426,11 @@ include_graphics(figpath("01-fig15-RStudio-ElegirWorkDir.png"))
 
 + \textcolor{red}{\large IMPORTANTE:} En muchas ocasiones te vamos a pedir que descargues ficheros de datos, código, etc. Dependiendo del navegador, sistema operativo y servidor que aloje esos ficheros, la descarga puede presentar problemas que complicarán nuestro trabajo. Para evitarlos vamos a usar una serie de comandos de R que te servirán con cualquiera de esos ficheros simplemente **copiando su enlace de descarga dentro de las comillas de la variable `file_url` y ejecutando estos comandos**.
 \scriptsize
-    ```{r eval=FALSE, comment=NULL}
+    ```{r eval=FALSE, comment=NULL, purl=FALSE}
       # Comprobamos el directorio de trabajo
       getwd()
       # Datos del fichero. La url, incluyendo el nombre del fichero.
-      file_url <-   "http://users.stat.ufl.edu/~winner/data/train_acc_2010.xls"
+      file_url <-   ""
       # Cambia la siguiente fila si quieres usar una subcarpeta del wd.
       local_folder <-  "./"
       # No cambies nada a partir de aquí
@@ -681,8 +688,7 @@ ggplot(data = flights) +
 \link{https://happygitwithr.com/github-acct.html\#username-advice}{Happy Git: username-advice}  
 Es imprescindible que envíes a tu profesor el nombre de usuario que hayas elegido lo antes posible.  
 3. Instala Git en tu ordenador si aún no lo has hecho. Sigue las instrucciones de \link{https://happygitwithr.com/install-git.html\#install-git}{este enlace}.
-
-
+4. Instala la librería `usethis` de R.
 
 
 ## Referencias para la sesión
@@ -694,7 +700,7 @@ sessionName <-  "sesion01"
 RmdName <-  paste0(sessionName,".Rmd")
 ScriptName  <-  paste0(sessionName,"-comandos.R")
 lnkScriptGitHub  <-  paste0("https://raw.githubusercontent.com/fernandosansegundo/MBDFME/master/scripts/", ScriptName)
-knitr::purl(RmdName, output = paste0("../scripts/", ScriptName), documentation = 0)
+knitr::purl(RmdName, output = paste0("./scripts/", ScriptName), documentation = 0)
 ```
 
 Junto con el material alojado en Moodle tenéis a vuestra disposición estos recursos:
