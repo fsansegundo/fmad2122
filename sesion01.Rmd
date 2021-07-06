@@ -132,13 +132,6 @@ include_graphics(figpath("01-fig02.png"))
 
 - Versión disponible en la fecha de publicación de estas notas: `r rstudioapi::versionInfo()$version`
 
-## Git y GitHub
-
-+ El material de las sesiones del curso está alojado en un \link{https://github.com/mbdfmad/fmad2122}{repositorio en GitHub}. 
-
-+ Si no estás familiarizado con Git, el curso 0 te proporcionará una introducción y vamos a aprovechar esta asignatura para practicar el uso de una herramienta tan importante. Nuestro recurso favorito para aprender a combinar el uso de R y Git es el libro/web \link{https://happygitwithr.com}{Happy Git and GitHub for the useR}. En la primera sesión daremos más detalles de la forma en la que vamos a usar Git en este curso, pero si quieres ir adelantando trabajo puedes leer las primeras siete secciones de *Happy Git*. En esas secciones se presenta Git y se describe el proceso básico de instalación del software necesario.
-
-+ Como complemento, puedes ver los vídeos 14 y 15 de esta \link{https://www.youtube.com/watch?v=3hqGcRoEYUY&list=PLmTpraKlPXDSPbP2L8MYZoweGSzi9gNTr}{playlist} del curso Data Science Toolbox de la Universidad John Hopkins para Coursera. También puedes encontrar información en este \link{https://lab.github.com/githubtraining/introduction-to-github}{curso de Introducción a GitHub}. Pregunta a tu profesor si necesitas más ayuda para empezar.  
 
 ## Software adicional
 
@@ -259,9 +252,9 @@ include_graphics(figpath("01-fig18-RStudio-Paneles.png"))
 
 - *Ayuda;* El panel `Help` (abajo a la derecha) nos servirá, cuando aprendamos más, para acceder al sistema de ayuda de R.
 
-# Otras opciones de trabajo. 
+## Otras opciones de trabajo. 
 
-## RStudio Cloud 
+### RStudio Cloud 
 
 + Los creadores de RStudio ponen a nuestra disposición una versión web gratuita de la aplicación, llamada \link{https://rstudio.cloud}{RStudio Cloud}, que puede ser muy útil. Aunque se accede a través del navegador la interfaz es muy similar e incluso los atajos de teclado coinciden mayoritariamente. Esta opción puede resultar especialmente útil cuando se combina con el uso de repositorios en GitHub; por ejemplo para trabajar desde una tablet como se está haciendo en la figura:
 
@@ -273,7 +266,7 @@ include_graphics(figpath("01-RStudioCloud.jpeg"))
 
 ---
 
-## Jupyter
+### Jupyter
 
 + En el trabajo con Python es frecuente utilizar como herramienta de desarrollo los \link{https://jupyter.org}{Jupyter Notebooks}. Los Notebooks son un tipo de documento que permite combinar código ejecutable con documentación (texto, figuras, ecuaciones, enlaces). El Notebook puede ejecutarse desde un navegador y los resultados de la ejecución del código se incorporan al propio documento.  Aunque los Notebooks de Jupyter se usan habitualmente como una herramienta para código Python, también ofrecen soporte para R y otros lenguajes. 
 
@@ -305,7 +298,7 @@ include_graphics(figpath("01-RStudioCloud.jpeg"))
   ```{r eval = FALSE, comment = NULL,}
   a + 1
   ```
-  obtendrás como respuesta $3$. Comprueba en el panel de entorno que el valor de `a` no ha cambiado. ¿Qué sucede si ejecutas `a = a + 1`? ¿Y si ejecutas `a = A + 1`?
+  obtendrás como respuesta $3$. Comprueba en el panel de entorno que el valor de `a` no ha cambiado. ¿Qué sucede si ejecutas `a <- a + 1`? ¿Y si ejecutas `a <- A + 1`?
 
 ## Ejercicio 3. Operaciones, asignaciones y resultados.
 
@@ -323,7 +316,7 @@ include_graphics(figpath("01-RStudioCloud.jpeg"))
 
 - Una orden como `c <- a + b` en la que guardamos en una variable el resultado de una operación es una **asignación**. Por defecto R no muestra el resultado de las asignaciones al ejecutarlas. Si quieres ver el resultado encierra entre paréntesis *toda la asignación*
   ```{r comment=NULL}
-  (c <-a + b)
+  (c <- a + b)
   ```
   Como ves, ahora R sí muestra el resultado.
 
@@ -364,7 +357,7 @@ include_graphics(figpath("01-RStudioCloud.jpeg"))
 
 - El trabajo en la Consola de Comandos puede resultar conveniente para algunas operaciones básicas. Pero resulta incómodo para cualquier análisis de datos salvo los más triviales. Vamos a ver otra forma mejor de trabajar. 
 
-- Pulsa $\text{\keys{\ctrl + \shift + N}}$ (o, en un Mac, $\text{\keys{\cmd + \shift + N}}$). Alternativamente usa el menú $\text{\menu[,]{File, New File, R Script}}$. Verás aparecer un panel nuevo en la parte superior izquierda de la ventana, el *Editor* de RStudio.
+- Pulsa $\text{\keys{\ctrl + \shift + N}}$ (o, en un Mac, $\text{\keys{\cmd + \shift + N}}\,$ ). Alternativamente usa el menú $\text{\menu[,]{File, New File, R Script}}$. Verás aparecer un panel nuevo en la parte superior izquierda de la ventana, el *Editor* de RStudio.
     ```{r echo=FALSE, comment=NULL, fig.align='center', out.width = "55%",  purl=FALSE}
     include_graphics(figpath("01-InterfazRstudio-Editor.png"))
     ```
@@ -647,6 +640,25 @@ ggplot(data = flights) +
   - Crear **dashboards** con Shiny para visualizaciones interactivas. Lo mejor es ver los ejemplos de la \link{https://shiny.rstudio.com/gallery/}{galería}.
 + Además los bloques de código no se limitan a R. Se puede usar **otros lenguajes**, entre otros, R, Python y SQL. El soporte para Python en particular es muy bueno como veremos más adelante.
 
+# Introducción al uso de GitHub para el curso
+
+## Git y GitHub
+
++ El material de las sesiones del curso está alojado en un \link{https://github.com/mbdfmad/fmad2122}{repositorio en GitHub}. 
+
++ Si no estás familiarizado con Git, el curso 0 te proporcionará una introducción y vamos a aprovechar esta asignatura para practicar el uso de una herramienta tan importante. Nuestro recurso favorito para aprender a combinar el uso de R y Git es el libro/web \link{https://happygitwithr.com}{Happy Git and GitHub for the useR}. En la primera sesión de prácticas daremos más detalles de la forma en la que vamos a usar Git en este curso, pero para ir adelantando trabajo puedes leer las primeras siete secciones de *Happy Git*. En esas secciones se presenta Git y se describe el proceso básico de instalación del software necesario.
+
++ Como complemento, puedes ver los vídeos 14 y 15 de esta \link{https://www.youtube.com/watch?v=3hqGcRoEYUY&list=PLmTpraKlPXDSPbP2L8MYZoweGSzi9gNTr}{playlist} del curso Data Science Toolbox de la Universidad John Hopkins para Coursera. También puedes encontrar información en este \link{https://lab.github.com/githubtraining/introduction-to-github}{curso de Introducción a GitHub}. Pregunta a tu profesor si necesitas más ayuda para empezar.  
+
+## Preparación para el curso
+
+1. Crea una cuenta en [GitHub](https://github.com). **IMPORTANTE:** debes utilizar tu dirección de correo electrónico de la universidad.
+2. **Lee el siguiente enlace antes de elegir un nombre de usuario**.   
+[Happy Git: username-advice](https://happygitwithr.com/github-acct.html#username-advice)  
+Es imprescindible que envíes a tu profesor el nombre de usuario que hayas elegido lo antes posible.  
+3. Instala Git en tu ordenador si aún no lo has hecho. Sigue las instrucciones de [este enlace](https://happygitwithr.com/install-git.html#install-git).
+
+
 
 
 ## Referencias para la sesión
@@ -668,6 +680,10 @@ Junto con el material alojado en Moodle tenéis a vuestra disposición estos rec
 - [\textcolor{blue}{{R for Data Science (Wickham).}}](https://r4ds.had.co.nz/)
 
 - [\textcolor{blue}{{Repositorio del curso}}](https://github.com/mbdfmad/fmad2122)  en  GitHub.
+
+- \link{https://bookdown.org/yihui/rmarkdown/}{R Markdown: The Definitive Guide  (Yihui Xie).}  
+
+- \link{https://happygitwithr.com}{Happy Git and GitHub for the useR (Jenny Bryan)}
 
 - Web del libro [\textcolor{blue}{{PostData}}](http://www.postdata-statistics.com). Para esta sesión se recomienda el Capítulo 1.
 
