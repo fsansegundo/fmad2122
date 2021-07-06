@@ -396,7 +396,7 @@ include_graphics(figpath("01-RStudioCloud.jpeg"))
 
 - Cada sesión de trabajo con R utiliza una carpeta de nuestro ordenador llamada *Working Directory (Directorio de Trabajo)* para almacenar datos, ficheros de comandos, etc. Es necesario que elijas un directorio de trabajo para este curso y que te acostumbres, al principio de cada sesión, a indicarle a R cuál es ese directorio. 
 
-- Dentro de tu carpeta de usuario crea una carpeta para usar como directorio de trabajo en este curso (llámala por ejemplo FME, aunque el nombre no es importante). Si tu nombre de usuario contiene acentos, espacios, la letra ñ, etc. y experimentas algún problema al usar R, habla con tu profesor. 
+- Dentro de tu carpeta de usuario crea una carpeta para los ficheros de esta asignatura (llámala por ejemplo FMAD o Fundamentos, aunque el nombre no es importante). Si tu nombre de usuario contiene acentos, espacios, la letra ñ, etc. y experimentas algún problema al usar R, habla con tu profesor. 
 
 - Crea también una *subcarpeta* dentro del directorio de trabajo que se llame *datos*. **¡Así, en  minúsculas, esto es muy importante!**. 
 
@@ -411,9 +411,33 @@ include_graphics(figpath("01-fig15-RStudio-ElegirWorkDir.png"))
 
 - Es recomendable que uses el *Explorador de Archivos* de Windows (o el *Finder* de Mac, etc.)  para navegar a la carpeta en la que has guardado ese fichero y lo abras con un *editor de texto* (como el Bloc de Notas). Habla con tu profesor si tienes dudas de como hacer esto. Comprueba que se trata de un fichero de texto que contiene simplemente los comandos que hemos escrito en el Editor de RStudio. 
 
-- También puedes abrir un fichero de comandos escrito por otra persona. De hecho en el curso vamos a usar a menudo ficheros de comandos prediseñados para dirigir nuestro trabajo. Empieza descargando este fichero de comandos [\textcolor{blue}{{sesion01-01.R}}](https://raw.githubusercontent.com/fernandosansegundo/MBDFME/master/scripts/sesion01-01.R) y guárdalo en tu directorio de trabajo. En la próxima sección lo abriremos y usaremos para seguir avanzando con R.
+- También puedes abrir un fichero de comandos escrito por otra persona. De hecho en el curso vamos a usar a menudo ficheros de comandos prediseñados para dirigir nuestro trabajo. Empieza descargando este fichero de comandos [\textcolor{blue}{{sesion01-01.R}}](https://raw.githubusercontent.com/fernandosansegundo/MBDFME/master/scripts/sesion01-01.R) y guárdalo en tu directorio de trabajo. En la próxima sección lo abriremos y usaremos para seguir avanzando con R. **IMPORTANTE:** para llevar a cabo la descarga lee la siguiente página.
 
 + En esta y en próximas sesiones dispondrás de un fichero con el  \link{https://raw.githubusercontent.com/fernandosansegundo/MBDFME/master/scripts/sesion01-comandos.R}{código de la sesión} para agilizar el seguimiento de la explicación mientras pruebas el funcionamiento de los comandos en tu sistema.
+
+## Instrucciones de descarga de ficheros.
+
++ \textcolor{red}{\large IMPORTANTE:} En muchas ocasiones te vamos a pedir que descargues ficheros de datos, código, etc. Dependiendo del navegador, sistema operativo y servidor que aloje esos ficheros, la descarga puede presentar problemas que complicarán nuestro trabajo. Para evitarlos vamos a usar una serie de comandos de R que te servirán con cualquiera de esos ficheros simplemente **copiando su enlace de descarga dentro de las comillas de la variable `file_url` y ejecutando estos comandos**.
+\scriptsize
+    ```{r eval=FALSE, comment=NULL}
+      # Comprobamos el directorio de trabajo
+      getwd()
+      # Datos del fichero. La url, incluyendo el nombre del fichero.
+      file_url <-   "http://users.stat.ufl.edu/~winner/data/train_acc_2010.xls"
+      # Cambia la siguiente fila si quieres usar una subcarpeta del wd.
+      local_folder <-  "./"
+      # No cambies nada a partir de aquí
+      file_name <- tail(unlist(strsplit(file_url, split = "/")), 1)
+      localFile <-  paste0(local_folder, file_name)
+      if(!file.exists(localFile)){
+        download.file(url = file_url, destfile = localFile)
+      } else {
+        warning(paste0("Cuidado: el fichero de datos", localFile, " ya existe."))
+      }
+    ```
+    \normalsize
+
++ Te recomiendo que abras un nuevo script de R y que copies estos comandos en ese script. Llámalo `herramientas.R` o algo parecido y guárdalo en la carpeta de la asignatura, donde puedas localizarlo fácilmente. Si lo dejas abierto en la primera pestaña del editor de RStudio siempre podrás volver a usar estos comandos fácilmente.
 
 # Estructuras de datos básicas en R. 
 
