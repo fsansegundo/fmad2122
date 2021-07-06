@@ -3,13 +3,13 @@ title: "Master en Big Data. Fundamentos Matemáticos del Análisis de Datos (FMA
 author: "Fernando San Segundo"
 date: 'Curso 2021-22. Última actualización: `r format(Sys.time(), "%Y-%m-%d")`'
 output:
-  beamer_presentation:
+  beamer_presentation: 
     toc: yes
-    keep_tex: no
+    # keep_tex: yes
+    # keep_md: yes
     includes:
       in_header: beamer-header-simple.txt
     colortheme: seahorse
-    incremental: no
     slide_level: 2
     theme: Boadilla
 fontsize: 9pt
@@ -646,17 +646,17 @@ ggplot(data = flights) +
 
 + El material de las sesiones del curso está alojado en un \link{https://github.com/mbdfmad/fmad2122}{repositorio en GitHub}. 
 
-+ Si no estás familiarizado con Git, el curso 0 te proporcionará una introducción y vamos a aprovechar esta asignatura para practicar el uso de una herramienta tan importante. Nuestro recurso favorito para aprender a combinar el uso de R y Git es el libro/web \link{https://happygitwithr.com}{Happy Git and GitHub for the useR}. En la primera sesión de prácticas daremos más detalles de la forma en la que vamos a usar Git en este curso, pero para ir adelantando trabajo puedes leer las primeras siete secciones de *Happy Git*. En esas secciones se presenta Git y se describe el proceso básico de instalación del software necesario.
++ Si no estás familiarizado con Git, el curso 0 te proporcionará una introducción y vamos a aprovechar esta asignatura para practicar el uso de una herramienta tan importante. Nuestro recurso favorito para aprender a combinar el uso de R y Git es el libro/web \link{https://happygitwithr.com}{Happy Git and GitHub for the useR}. En la primera sesión de prácticas daremos más detalles de la forma en la que vamos a usar Git en este curso, pero para ir adelantando trabajo puedes leer las primeras siete secciones de *Happy Git*. No te llevará demasiado tiempo. En esas secciones se presenta Git y se describe el proceso básico de instalación del software necesario. **Te recomendamos encarecidamente** que primero leas esas siete secciones sin instalar ni hacer nada en tu ordenador, luego vuelvas aquí, termines de leer esta sección y **entonces** empieces a instalar cosas, crear cuentas, etc.
 
 + Como complemento, puedes ver los vídeos 14 y 15 de esta \link{https://www.youtube.com/watch?v=3hqGcRoEYUY&list=PLmTpraKlPXDSPbP2L8MYZoweGSzi9gNTr}{playlist} del curso Data Science Toolbox de la Universidad John Hopkins para Coursera. También puedes encontrar información en este \link{https://lab.github.com/githubtraining/introduction-to-github}{curso de Introducción a GitHub}. Pregunta a tu profesor si necesitas más ayuda para empezar.  
 
 ## Preparación para el curso
 
-1. Crea una cuenta en [GitHub](https://github.com). **IMPORTANTE:** debes utilizar tu dirección de correo electrónico de la universidad.
+1. Crea una cuenta en \link{https://github.com/join}{GitHub} (es gratuito). **IMPORTANTE:** aunque ya tengas una cuenta en GitHub, para esta debes utilizar tu dirección de correo electrónico de la universidad. Si ya tienes una cuenta y tienes dudas sobre cómo proceder ¡consulta a tu profesor antes de estropear algo!
 2. **Lee el siguiente enlace antes de elegir un nombre de usuario**.   
-[Happy Git: username-advice](https://happygitwithr.com/github-acct.html#username-advice)  
+\link{https://happygitwithr.com/github-acct.html\#username-advice}{Happy Git: username-advice}  
 Es imprescindible que envíes a tu profesor el nombre de usuario que hayas elegido lo antes posible.  
-3. Instala Git en tu ordenador si aún no lo has hecho. Sigue las instrucciones de [este enlace](https://happygitwithr.com/install-git.html#install-git).
+3. Instala Git en tu ordenador si aún no lo has hecho. Sigue las instrucciones de \link{https://happygitwithr.com/install-git.html\#install-git}{este enlace}.
 
 
 
