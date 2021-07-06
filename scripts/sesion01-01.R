@@ -1,5 +1,5 @@
 #############################################################
-# Fundamentos Matemáticos de la Estadística. Curso 2019-2020.
+# Fundamentos Matemáticos de la Estadística. Curso 2020-2021.
 # sesion01-01
 #############################################################
 
@@ -149,52 +149,55 @@ edades[edades %in% c(17, 21)]
 
 
 # Tablas (Data Frames)
+#####################################
+
+# Veamos los primeros elementos de la tabla (seis filas)
 head(iris)
 
-
-
+# Número de filas y columnas
 dim(iris)
 
 # Selección de elementos de una tabla
 iris[2, 3]
 
+# y remplazamiemto
 iris[2, 3] <- 7
 head(iris)
 
+# Selección de una columna completa
 iris[ , 3]
-head(iris[ , 3], 38)
 
+# Selección de columnas por nombre con $
 iris$Petal.Length
-head(iris$Petal.Length, 38)
 
+# Selección de una fila completa
 iris[2, ]
 
+# Selección de un bloque
 iris[49:52, c(1, 3, 5)]
 
+# Selección por condiciones lógicas
 iris[iris$Sepal.Width > 2, ]
-head(iris[iris$Sepal.Width > 2, ])
-
 
 
 # Instalación y carga de librerías
+#####################################
+
 library(tidyverse)
-
-
 
 library(nycflights13)
 
 
-
 # Un primer encuentro con dplyr
+#####################################
+
 iris %>%
   select(c('Petal.Length', 'Petal.Width'))  %>%
   filter(Petal.Width > 2.3) 
 
 
-
-
-
 # Y un primer encuentro con ggplot
+#####################################
 library(gapminder)
 gapminder %>% 
   filter(year == 2007) %>%

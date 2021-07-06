@@ -508,7 +508,7 @@ include_graphics(figpath("01-fig19-EstructuraCarpetasAsignatura.png"))
 - Puesto que las columnas están formadas por elementos homogéneos podemos extraer una columna y obtenemos un vector de R. Hay dos formas de hacer esto:
 
     1. usando la notación de corchetes con el número de columna y dejando el número de fila en blanco (solo se muestra el principio de la columna).
-    ```{r eval = FALSE, comment = NULL,}
+    ```{r eval = FALSE, comment = NULL, purl=FALSE}
     iris[ , 3]
     ```
     ```{r echo=FALSE}
