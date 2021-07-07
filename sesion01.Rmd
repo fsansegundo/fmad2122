@@ -689,7 +689,24 @@ $\includegraphics[width=0.7cm]{fig/01-fig21-boton_code_GitHub.png}$ y en la vent
 
 ---
 
-7. En RStudio usa el menú $\text{\menu[,]{File, New Project}}$ y en la ventana que aparece selecciona *Version Control*. A continuación selecciona *Git* e introduce en el primer campo la URL que has copiado en GitHub en el paso anterior. Acepta *fmad2122* como nombre del repositorio y, **muy importante**, usa el botón *browse* para seleccionar la ubicación del clon local del repositorio de la asignatura. Deberías situarlo dentro de tu carpeta de la asignatura la que hemos llamado FMAD [\textcolor{blue}{en esta figura}](estructura_carpetas)
+7. En RStudio usa el menú $\text{\menu[,]{File, New Project}}$ y en la ventana que aparece selecciona *Version Control*. A continuación selecciona *Git* y en el primer campo copia la URL en GitHub del paso anterior. Acepta *fmad2122* como nombre del repositorio y, **muy importante**, con el botón *browse* selecciona la ubicación del clon local del repositorio. Deberías situarlo dentro de tu carpeta de la asignatura; la que hemos llamado FMAD en esta figura:
+    ```{r echo=FALSE, comment=NULL, fig.align='center', out.width = "30%",  purl=FALSE}
+    include_graphics(figpath("01-fig19-EstructuraCarpetasAsignatura.png"))
+    ```
+Por ejemplo en Windows una ubicación típica podría ser algo como: 
+\scriptsize
+    ```{r eval=FALSE}
+    C:/Users/tu_nombre/.../MasterBD/FMAD/
+    ```
+    \normalsize mientras que en Mac sería algo como: \scriptsize
+    ```{r eval=FALSE}
+    /Users/tu_nombre/.../MasterBD/FMAD/
+    ```
+    \normalsize En ambos casos los puntos se refieren a subcarpetas intermedias que puedas querer usar (como OneDrive, Dropbox o cualquier otra).
+
+
+
+
 
 ## Referencias para la sesión
 
