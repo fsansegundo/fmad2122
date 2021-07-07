@@ -396,18 +396,16 @@ include_graphics(figpath("01-RStudioCloud.jpeg"))
 
 - Cada sesión de trabajo con R utiliza una carpeta de nuestro ordenador llamada *Working Directory (Directorio de Trabajo)* para almacenar datos, ficheros de comandos, etc. Es necesario que elijas un directorio de trabajo para este curso y que te acostumbres, al principio de cada sesión, a indicarle a R cuál es ese directorio. 
 
-- Dentro de tu carpeta de usuario crea una carpeta para los ficheros de esta asignatura (llámala por ejemplo FMAD o Fundamentos, aunque el nombre no es importante). Si tu nombre de usuario contiene acentos, espacios, la letra ñ, etc. y experimentas algún problema al usar R, habla con tu profesor. 
-
-- Crea también una *subcarpeta* dentro del directorio de trabajo que se llame *datos*. **¡Así, en  minúsculas, esto es muy importante!**. 
+- Dentro de tu carpeta de usuario crea una carpeta para los ficheros de esta asignatura (llámala por ejemplo FMAD o Fundamentos, aunque el nombre no es importante). Si tu nombre de usuario contiene acentos, espacios, la letra ñ, etc. y experimentas algún problema al usar R, habla con tu profesor. Finalmente dentro de esta crea una carpeta llamada `S0` para la sesión de hoy. La figura de la siguiente página ilustra la estructura de carpetas que vamos a usar en la asignatura.
 
 - Ahora usa el menú $\text{\menu[,]{Session, Set Working Directory, Choose Directory}}$:
 ```{r echo=FALSE, comment=NULL, fig.align='center', out.width = "30%",  purl=FALSE}
 include_graphics(figpath("01-fig15-RStudio-ElegirWorkDir.png"))
 ```
 
----
+## Estructura de carpetas. {#estructura_carpetas}
 
-```{r echo=FALSE, comment=NULL, fig.align='center', out.width = "90%",  purl=FALSE}
+```{r echo=FALSE, comment=NULL, fig.align='center', out.width = "70%",  purl=FALSE}
 include_graphics(figpath("01-fig19-EstructuraCarpetasAsignatura.png"))
 ```
 
@@ -418,9 +416,7 @@ include_graphics(figpath("01-fig19-EstructuraCarpetasAsignatura.png"))
 
 - Es recomendable que uses el *Explorador de Archivos* de Windows (o el *Finder* de Mac, etc.)  para navegar a la carpeta en la que has guardado ese fichero y lo abras con un *editor de texto* (como el Bloc de Notas). Habla con tu profesor si tienes dudas de como hacer esto. Comprueba que se trata de un fichero de texto que contiene simplemente los comandos que hemos escrito en el Editor de RStudio. 
 
-- También puedes abrir un fichero de comandos escrito por otra persona. De hecho en el curso vamos a usar a menudo ficheros de comandos prediseñados para dirigir nuestro trabajo. Empieza descargando este fichero de comandos [\textcolor{blue}{{sesion01-01.R}}](https://raw.githubusercontent.com/fernandosansegundo/MBDFME/master/scripts/sesion01-01.R) y guárdalo en tu directorio de trabajo. En la próxima sección lo abriremos y usaremos para seguir avanzando con R. **IMPORTANTE:** para llevar a cabo la descarga lee la siguiente página.
-
-+ En esta y en próximas sesiones dispondrás de un fichero con el  \link{https://raw.githubusercontent.com/fernandosansegundo/MBDFME/master/scripts/sesion01-comandos.R}{código de la sesión} para agilizar el seguimiento de la explicación mientras pruebas el funcionamiento de los comandos en tu sistema.
+- También puedes abrir un fichero de comandos escrito por otra persona. De hecho en el curso vamos a usar a menudo ficheros de comandos prediseñados para dirigir nuestro trabajo. Empieza descargando este fichero de comandos [\textcolor{blue}{{sesion01-01.R}}](https://raw.githubusercontent.com/mbdfmad/fmad2122/master/scripts/sesion01-01.R) y guárdalo en tu directorio de trabajo. En la próxima sección lo abriremos y usaremos para seguir avanzando con R. **IMPORTANTE:** para llevar a cabo la descarga lee la siguiente página.
 
 ## Instrucciones de descarga de ficheros.
 
@@ -450,19 +446,17 @@ include_graphics(figpath("01-fig19-EstructuraCarpetasAsignatura.png"))
 
 ## Vectores.
 
-- Cierra el fichero del Editor de RStudio (usa $\text{\keys{\ctrl + W}}$), cierra RStudio y vuelve a abrirlo. Ahora usa el Menú $\text{\menu[,]{File, Open File}}$ y abre el fichero `sesion01-01.R` que acabas de descargar. Se abrirá en el Editor. 
+- Ahora usa el Menú $\text{\menu[,]{File, Open File}}$ y abre el fichero `sesion01-01.R` que acabas de descargar. Se abrirá en el Editor. 
   ```{r echo=FALSE, comment=NULL, fig.align='center', out.width = "60%",  purl=FALSE}
   include_graphics(figpath("01-fig17-RStudio-PrimerScriptAbierto.png"))
   ```
-  Si tienes problemas con los acentos al abrir el fichero pregunta a tu profesor.
+  Si tienes problemas con los acentos al abrir el fichero usa el menú $\text{\menu[,]{File, Reopen with Encoding}}$ y si los problemas persisten pregunta a tu profesor. Nosotros usamos (y recomendamos) UTF-8 como encoding por defecto en todos los ficheros.
 
-- Lo primero en lo que debes fijarte es que R usa el símbolo `#` para introducir comentarios en un fichero de comandos e ignorará el resto de la línea a partir del `#`. 
-
-- Vamos a usar los comentarios de ese fichero como guía para aprender las propiedades más básicas de los vectores en R. Volveremos aquí después de recorrerlo.
+- Fíjate en que R usa el símbolo `#` para introducir comentarios en un fichero de comandos e ignorará el resto de la línea a partir del `#`. Vamos a usar los comentarios de ese fichero como guía para aprender las propiedades más básicas de los vectores en R. Volveremos aquí después de recorrerlo.
 
 ## Tablas (Data Frames)
 
-- Junto con los vectores, las tablas y listas constituyen las estructuras de datos básicos de R. Vamos a ver ahora el segundo de estos tipos de estructuras. En el sistema base de R se denominan `data.frames`. Las tablas de datos son muchas veces el punto de partida de nuestros análisis. Pronto aprenderemos a abrir tablas almacenadas en ficheros externos de datos y a usar funciones relacionadas del tidyverse. Pero para empezar vamos a usar una tabla de datos de ejemplo que R trae incorporada al instalarlo. 
+- Junto con los vectores, las tablas y listas constituyen las estructuras de datos básicos de R. Vamos a ver ahora el primero de estos dos tipos de estructuras. En el sistema base de R se denominan `data.frames`. Las tablas de datos son muchas veces el punto de partida de nuestros análisis. Pronto aprenderemos a abrir tablas almacenadas en ficheros externos de datos y a usar funciones relacionadas del tidyverse. Pero para empezar vamos a usar una tabla de datos de ejemplo que R trae incorporada al instalarlo. 
 
 - Ejecuta este código:
   ```{r size="small", echo=-1}
@@ -472,7 +466,7 @@ include_graphics(figpath("01-fig19-EstructuraCarpetasAsignatura.png"))
         
 - La tabla contiene datos sobre 150 flores de 3 especies de iris. La función `head` hace que R solo nos muestre el encabezamiento y las primeras 6 filas de la tabla (con `tail` verías las 6 últimas). Prueba a ejecutar `head(iris, 12)`.
     
-- Si ejecutas `View(iris)`  la tabla completa se abrirá en otra pestaña del editor.
+- Si ejecutas `View(iris)` la tabla completa se abrirá en otra pestaña del editor.
   
 ---
 
@@ -551,9 +545,9 @@ include_graphics(figpath("01-fig19-EstructuraCarpetasAsignatura.png"))
 
 ## Instalación y carga de librerías
 
-- La instalación básica de R contiene muchas herramientas pero hay además miles de librerías adicionales disponibles, muchas de ellas muy especializadas para temas concretos (por ejemplo *BioConductor* agrupa miles de programas para Bioinformática). Nosotros vamos a utilizar mucho una librería de herramientas llamada `tidyverse` de H. Wickham. 
+- La instalación básica de R contiene muchas herramientas pero hay además miles de librerías adicionales disponibles, muchas de ellas muy especializadas para temas concretos (por ejemplo *Caret* para Machine Learning, *BioConductor* para Bioinformática). Nosotros vamos a utilizar mucho una librería de herramientas llamada `tidyverse` de H. Wickham. 
 
-- Para usar una librería de R debemos  instalarla (una única vez) y cargarla (en cada sesión en la que vayamos a usarla). Para instalar una librería sigue los pasos que aparecen en la figura;
+- Para usar una librería de R debemos instalarla (una única vez) y cargarla (en cada sesión en la que vayamos a usarla). Para instalar una librería sigue los pasos que aparecen en la figura;
     ```{r echo=FALSE, comment=NULL, fig.align='center', out.width = "35%",  purl=FALSE}
     include_graphics(figpath("01-fig16-RStudio-InstalarLibreria.png"))
     ```
@@ -665,7 +659,7 @@ ggplot(data = flights) +
 ## Otros formatos y capacidades.
 
 + Los tres formatos de salida ilustran las capacidades más básicas de Rmarkdown. Por ejemplo, se puede utilizar Rmarkdown para:
-  - Crear **presentaciones** en Beamer y otros formatos. Por ejemplo las presentaciones de este curso se han escrito integramente en Rmarkdown. 
+  - Crear **presentaciones** en Beamer y otros formatos. Por ejemplo las presentaciones de este curso se han escrito íntegramente en Rmarkdown. 
   - Escribir **artículos científicos** y libros (con \link{https://bookdown.org/yihui/bookdown/}{bookdown}).
   - Mantener sitios Web y \link{https://www.fernandosansegundo.com}{blogs}, usando \link{https://bookdown.org/yihui/blogdown/}{blogdown}.
   - Crear **dashboards** con Shiny para visualizaciones interactivas. Lo mejor es ver los ejemplos de la \link{https://shiny.rstudio.com/gallery/}{galería}.
@@ -689,7 +683,13 @@ ggplot(data = flights) +
 Es imprescindible que envíes a tu profesor el nombre de usuario que hayas elegido lo antes posible.  
 3. Instala Git en tu ordenador si aún no lo has hecho. Sigue las instrucciones de \link{https://happygitwithr.com/install-git.html\#install-git}{este enlace}.
 4. Instala la librería `usethis` de R.
+5. Ve al \link{https://github.com/mbdfmad/fmad2122}{repositorio de la asignatura en GitHub}. Asegúrate de que estás registrado con el usuario que has creado (usa el botón *Sign in* en la esquina superior derecha de la página si no es así).
+6. Usa el botón $\includegraphics[width=0.7cm]{fig/01-fig20-boton_fork_GitHub.png}$ que aparece arriba a la derecha para generar tu copia de ese repositorio. Cuando el fork acabe (asegúrate de que es tu nombre de usuario el que aparece en la barra de direcciones del navegador). Usa el botón verde 
+$\includegraphics[width=0.7cm]{fig/01-fig21-boton_code_GitHub.png}$ y en la ventana que aparece copia la URL del repositorio haciendo clic en el símbolo del portapapeles.
 
+---
+
+7. En RStudio usa el menú $\text{\menu[,]{File, New Project}}$ y en la ventana que aparece selecciona *Version Control*. A continuación selecciona *Git* e introduce en el primer campo la URL que has copiado en GitHub en el paso anterior. Acepta *fmad2122* como nombre del repositorio y, **muy importante**, usa el botón *browse* para seleccionar la ubicación del clon local del repositorio de la asignatura. Deberías situarlo dentro de tu carpeta de la asignatura la que hemos llamado FMAD [\textcolor{blue}{en esta figura}](estructura_carpetas)
 
 ## Referencias para la sesión
 
@@ -699,13 +699,13 @@ Es imprescindible que envíes a tu profesor el nombre de usuario que hayas elegi
 sessionName <-  "sesion01"
 RmdName <-  paste0(sessionName,".Rmd")
 ScriptName  <-  paste0(sessionName,"-comandos.R")
-lnkScriptGitHub  <-  paste0("https://raw.githubusercontent.com/fernandosansegundo/MBDFME/master/scripts/", ScriptName)
+lnkScriptGitHub  <-  paste0("https://raw.githubusercontent.com/mbdfmad/fmad2122/master/scripts/", ScriptName)
 knitr::purl(RmdName, output = paste0("./scripts/", ScriptName), documentation = 0)
 ```
 
 Junto con el material alojado en Moodle tenéis a vuestra disposición estos recursos:
 
-- \link{https://raw.githubusercontent.com/fernandosansegundo/MBDFME/master/scripts/sesion01-comandos.R}{Código de esta sesión}
+- \link{https://raw.githubusercontent.com/mbdfmad/fmad2122/master/scripts/sesion01-comandos.R}{Código de esta sesión}
 
 - [\textcolor{blue}{{R for Data Science (Wickham).}}](https://r4ds.had.co.nz/)
 
@@ -715,7 +715,7 @@ Junto con el material alojado en Moodle tenéis a vuestra disposición estos rec
 
 - \link{https://happygitwithr.com}{Happy Git and GitHub for the useR (Jenny Bryan)}
 
-- Web del libro [\textcolor{blue}{{PostData}}](http://www.postdata-statistics.com). Para esta sesión se recomienda el Capítulo 1.
+- Web del libro [\textcolor{blue}{{PostData}}](http://www.postdata-statistics.com). 
 
 - [\textcolor{blue}{{Resumen de uso de dplyr}}](https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf)  elaborado por RStudio.
 
