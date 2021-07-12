@@ -222,13 +222,13 @@ fhs = read_csv("./data/framingham.csv")
 + La variable `cty` de `mpg` el número de millas por galón que el coche recorre en ciclo urbano (atención: valores más altos indican menor consumo de combustible). Fíjate en que los valores son un número entero de millas. En principio no hay nada que impida dar esos valores con decimales. Pero no es eso lo que se *ha decidido* hacer aquí, sino que se trata como una variable discreta. 
 
 + El primer paso con una variable discreta como esta es obtener una tabla de frecuencias (absolutas), que nos dirá qué valores toma la variable y cuántas veces toma cada valor. Usando `table` 
-  ```{r comment=NULL, echo=-(1:2), size="small"}
+  ```{r comment=NULL, echo=-(1:2)}
   # variable discreta, tabla de frecuencia absoluta
   options(width = 100)
   table(mpg$cty)
   ```
  
- + También se puede usar la función `count` de dplyr así (se omite el resultado):
+ + También se puede usar la función `count` de `dplyr` así (se omite el resultado):
     ```{r eval = FALSE, comment=NULL}
     mpg %>%
       count(cty)
@@ -238,43 +238,45 @@ fhs = read_csv("./data/framingham.csv")
 
 + A menudo, y especialmente cuando se usan para comparaciones, nos interesa más saber la fracción del total que corresponde a cada uno de los valores de una variable discreta. Cuando esas fracciones se expresan como *tanto por uno* obtenemos las frecuencias relativas, que es fácil convertir en porcentajes.
 
-+ Para obtener una tabla de frecuencias relativas usando R básico hacemos (hemos usado la función `signif` para controlar el número de cifras significativas y mejorar la presentación):
-  ```{r echo = -(1:2), size="small"}
++ Vamos a obtener una tabla de frecuencias relativas con R básico (para mejorar la presentación elegimos el número de cifras significativas con `signif`):\small
+  ```{r echo = -(1:2)}
   # y tabla de frecuencia relativa
   options(width = 70)
   signif(prop.table(table(mpg$cty)), 2)
   ```
+  \normalsize
 
 + Se puede usar `dplyr` pero en este caso es más complicado que con el R básico.
-```{r eval = FALSE, size="small", comment=NULL}
-      mpg %>% 
-        count(cty) %>%
-          mutate(cty, relFreq = prop.table(n), n=NULL) 
-          # NULL aquí elimina la columna n
-```
+  ```{r eval = FALSE, comment=NULL}
+        mpg %>% 
+          count(cty) %>%
+            mutate(cty, relFreq = prop.table(n), n=NULL) 
+  ```
+  Ejecuta el código por fases para entenderlo y analizar el papel de cada función y argumento.
 
 ---
 
 ### Propiedades de las frecuencias relativas.
 
-+ Las frecuencias relativas suman siempre 1,
-  ```{r echo=-1}
++ Las frecuencias relativas suman siempre 1. Compruébalo:
+  ```{r echo=-1, results= 'hide'}
   # suma frecuencias relativas
   sum(prop.table(table(mpg$cty)))
   ```
+  **Ejercicio:** Piensa cómo hacer esto en `dplyr`.
 
 + Además las frecuencias relativas están relacionadas con la idea de *probabilidad empírica*. Es decir, si elegimos aleatoriamente un valor de la variable `cty` y repetimos esa elección muchas veces, la probabilidad de cada uno de los distintos valores es la frecuencia relativa que hemos calculado. 
 
 
 ### Frecuencias acumuladas.
 
-+ Las *frecuencias acumuladas* se usan con variables discretas para responder a la pregunta *"¿cuántos valores hay que sean menores o iguales que ...?"* En R se obtienen con:
++ Las *frecuencias acumuladas* se usan con variables discretas para responder a la pregunta *"¿cuántos valores hay que sean menores o iguales que ...?"* En R se obtienen con:\small
   ```{r echo=-(1:2)}
   # Frecuencias acumuladas.
   options(width = 60)
   cumsum(table(mpg$cty))
   ```
-  que nos dice, por ejemplo, que en la tabla hay `r cumsum(table(mpg$cty))[7]` valores menores o iguales que `r (sort(unique(mpg$cty)))[7]`.
+  \normalsize que nos dice, por ejemplo, que en la tabla hay `r cumsum(table(mpg$cty))[7]` valores menores o iguales que `r (sort(unique(mpg$cty)))[7]`.  **Ejercicio:** (1) usa `mutate` con una función adecuada para hacer esto en `dplyr`. (2) ¿qué pregunta responden las frecuencias acumuladas relativas? ¿son distintas de las *relativas acumuladas*?
 
 # Variables cuantitativas continuas,
 
@@ -294,9 +296,7 @@ fhs = read_csv("./data/framingham.csv")
   head(cholLevels)
   ```
 
-+ La respuesta de R nos indica que ha dividido el *recorrido* de la variable (de mínimo a máximo) en 10 intervalos semiabiertos de igual longitud. El primero incluye los valores entre 106 y 166, hasta el último que incluye los valores de 637 a 697. 
-  
-+ La variable `cholLevels` que hemos fabricado es un *factor ordenado*, Veremos más ejemplos cuando aprendamos más sobre factores.  
++ La respuesta de R nos indica que ha dividido el *recorrido* de la variable (de mínimo a máximo) en 10 intervalos semiabiertos de igual longitud. El primero incluye los valores entre 106 y 166, hasta el último que incluye los valores de 637 a 697. La variable `cholLevels` que hemos fabricado es un *factor ordenado*. Veremos más ejemplos cuando aprendamos más sobre factores.  
 
 ---
 
@@ -310,29 +310,36 @@ fhs = read_csv("./data/framingham.csv")
 + En cualquier caso si una variable cuantitativa discreta solo toma cinco o menos valores en general es beneficioso pensar en ella como un *factor ordenado*, que discutiremos más adelante. 
 
 
-## Histogramas con R básico
+## Histogramas. 
 
-+ Una forma común de representar gráficamente la tabla de frecuencias una variable discreta que tome más de cinco valores distintos es mediante un *histograma*, que es un diagrama de barras. Con R básico:
-  ```{r echo=-1, message=FALSE, fig.align='center', out.width = "40%"}
-  # Histograma con R basico (seleccionando los cortes)
++ Una forma común de representar gráficamente la tabla de frecuencias de una variable discreta que tome más de cinco valores distintos es mediante un *histograma*, que es un diagrama de barras. 
+
++ Lo dibujmos con ggplot, eligiendo primero los puntos de corte con `cut`:\small
+  ```{r echo=TRUE, message=FALSE, fig.align='center', out.width = "30%"}
+  # Histograma con ggplot2
   cortes = seq(min(mpg$cty), max(mpg$cty), length.out = 11)
-  hist(mpg$cty, breaks = cortes, col="orange", main="")
-  ```
-+ Fíjate en que el eje horizontal contiene los valores de la variable mientras que el eje vertical muestra las frecuencias. Hemos usado la opción `breaks` combinada con `seq` para elegir los puntos de corte entre intervalos.  
-
-+ **Ejercicio.** Ejecuta `hist(mpg$cyl)`. ¿Por qué ocurre esto?
-
-## Histogramas con ggplot. Número de intervalos.
-
-+ O usando ggplot y los mismos puntos de corte:
-  ```{r echo=TRUE, message=FALSE, fig.align='center', out.width = "40%"}
-  # Histograma con ggplot2 (los mismos cortes)
   ggplot(data = mpg) + 
     geom_histogram(mapping = aes(cty), breaks = cortes, 
                    fill = "orange", color="black")
   ```
+  \normalsize Fíjate en que el eje horizontal contiene los valores de la variable mientras que el eje vertical muestra las frecuencias.
+
+---
+
+
++ **Ejercicios:** 
+   - Dibuja un histograma de `mpg$cyl`. ¿Por qué ocurre esto?
+   - Fíjate en las opciones de color de `geom_histogram` y busca información sobre nombres de colores en R.
+   - Consulta \link{http://www.sthda.com/english/wiki/histogram-and-density-plots-r-base-graphs}{este enlace} para ver cómo se dibujan histogramas en R básico.
   
-+ ¿Cuántos intervalos se deben usar en la construcción de un histograma? No hay una regla fija. Aunque R y el resto de programas utilizan diversos algoritmos para determinar ese número, lo cierto es que la respuesta depende mucho de los datos concretos con los que trabajamos. Por eso normalmente es necesario experimentar un poco con diversos valores. En cualquier caso es *muy desaconsejable* utilizar menos de cinco intervalos (o más que $\sqrt{n}$, siendo $n$ el número de datos).
+${}$
+
+${}$
+  
+### Número de intervalos.
+
++ ¿Cuántos intervalos se deben usar en la construcción de un histograma? No hay una regla fija. Aunque R y el resto de programas utilizan diversos algoritmos para determinar ese número, lo cierto es que la respuesta depende mucho de los datos concretos con los que trabajamos. Por eso normalmente es necesario experimentar un poco con diversos valores. En cualquier caso es *desaconsejable* utilizar menos de cinco intervalos (o más que $\sqrt{n}$, siendo $n$ el número de datos).
+  
 
 ## Curvas de densidad. 
 
@@ -351,7 +358,7 @@ plot(density(auto2$rep78, na.rm = TRUE), col="red", main="", lwd = 3)
 ## Curvas de densidad con ggplot.
 
 + Para  obtener las curvas de densidad en ggplot usaremos algo como:
-  ```{r message=FALSE, fig.align='center', out.width = "50%", size="small", echo = -1}
+  ```{r message=FALSE, fig.align='center', out.width = "50%", echo = -1}
   # Curvas de densidad con ggplot
   ggplot(mpg) + 
     geom_density(mapping = aes(cty), color="red", fill="lightblue", size=1.5)
@@ -480,7 +487,7 @@ $$
 + La media aritmética se usa mucho porque su definición matemática es muy sencilla. Pero tiene un problema: su valor se ve muy afectado por la presencia de valores anormalmente grandes o pequeños de la variable, los llamados *valores atípicos* (que muy pronto vamos a definir con más rigor).
 
 + Por ejemplo, si elegimos 99 números al azar de 0 a 100, su media es parecida a 50 como cabría esperar.
-  ```{r echo = -1, size="small"}
+  ```{r echo = -1}
   # Valores atípicos, p. 10
   set.seed(2019)
   muestra = sample(0:100, size = 99, replace = TRUE) 
@@ -617,7 +624,7 @@ include_graphics("fig/02-fig05-BoxPlotEstructura.png")
 ## Boxplots con R básico.
 
 + Dibujar un boxplot con R básico es muy sencillo. Por ejemplo, para la variable `cty`:
-  ```{r echo=-1, comment=NULL, fig.align='center', out.width = "50%", size="small"}
+  ```{r echo=-1, comment=NULL, fig.align='center', out.width = "50%"}
   # Boxplot con R básico p. 19
   bxp_cty = boxplot(mpg$cty, col="orange")
   ```
@@ -634,7 +641,7 @@ include_graphics("fig/02-fig05-BoxPlotEstructura.png")
 ## Boxplot con ggplot
 
 + En este caso usamos:
-  ```{r echo=-1, comment=NULL, fig.align='center', out.width = "60%", size="small"}
+  ```{r echo=-1, comment=NULL, fig.align='center', out.width = "60%"}
   # Boxplot y violinplot con R básico p. 20
   ggplot(mpg) + 
     geom_boxplot(mapping = aes(y = cty), fill="orange") +
@@ -740,7 +747,7 @@ puedes comprobar que esto es lo mismo que:
 + Hasta ahora hemos centrado la discusión en variables cuantitativas, con valores numéricos. Vamos a tratar aquí muy brevemente las variables cualitativas o factores. Habrá muchas ocasiones en las próximas sesiones de practicar su uso. 
 
 + Al trabajar con factores sigue teniendo sentido usar tablas de frecuencias absolutas y relativas (pero no acumuladas, en general):
-  ```{r echo=-1, size="small"}
+  ```{r echo=-1}
   # Factores p. 26
   table(accidentes$TrkType)
   prop.table(table(accidentes$TrkType))
