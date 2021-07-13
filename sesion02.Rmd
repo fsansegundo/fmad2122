@@ -134,12 +134,13 @@ ${ }$
 
 ## Usando readr para leer y escribir ficheros csv.
 
-+ La librería `readr`, que forma parte del tidyverse, incluye la función `read_csv`, que es muy fácil de usar y más rápida que `read.table` para ficheros grandes. Explora esta tabla como hemos hecho con la primera versión.  
-  ```{r size="small", echo=-1, message=FALSE, warning=FALSE}
++ La librería `readr`, que forma parte del tidyverse, incluye la función `read_csv`, que es muy fácil de usar y más rápida que `read.table` para ficheros grandes. Explora esta tabla como hemos hecho con la primera versión.\small
+  ```{r echo=-1, message=FALSE, warning=FALSE}
   # Usando readr para leer y escribir ficheros csv.
   library(tidyverse)
   movies2 <- read_csv("./data/movies.csv")
   ```  
+  \normalsize
 
 + **Ejercicio:** Ejecuta `str(movies2)`. ¿Qué tipo de objeto usa el tidyverse para almacenar tablas en lugar del `data.frame` del R básico?
 
@@ -537,28 +538,30 @@ $$
   
 ## Otros valores de posición. Recorrido. Función summary.
 
-+ **Cuartiles y percentiles.** La mediana se puede pensar como el valor que es mayor o igual que el 50% de los valores de nuestro conjunto de datos. De la misma forma se definen el *primer y tercer cuartil* como los valores que son mayores o iguales respectivamente que el 25% y el 75% de los valores. Esto se generaliza a la noción de percentil. El percentil 43, por ejemplo, es un valor que deja por debajo al 43% de los valores. En R ese percentil se calcula para una variable como `cty` de `mpg` mediante:
-  ```{r size="small", echo=-1}
-  # Valores de posición, p. 13
-  quantile(mpg$cty, probs = 0.43)
-  ```
++ **Cuartiles y percentiles.** La mediana se puede pensar como el valor que es mayor o igual que el 50% de los valores de nuestro conjunto de datos. De la misma forma se definen el *primer y tercer cuartil* como los valores que son mayores o iguales respectivamente que el 25% y el 75% de los valores. Esto se generaliza a la noción de percentil. El percentil 43, por ejemplo, es un valor que deja por debajo al 43% de los valores. En R ese percentil se calcula para una variable como `cty` de `mpg` mediante:\small
+    ```{r echo=-1}
+    # Valores de posición, p. 13
+    quantile(mpg$cty, probs = 0.43)
+    ```
+    \normalsize
 
 + El *recorrido* (del inglés *range*) de un conjunto de valores es el intervalo que va del valor mínimo al máximo. Cuidado: en español se usa a menudo erróneamente *rango*. Pero los rangos en Estadística son otra cosa (que corresponde a *rank* en inglés).
 
-+ Una manera sencilla de obtener varias de estas medidas de posición es usando `summary`
-  ```{r size="small", echo=-1}
++ Una manera sencilla de obtener varias de estas medidas de posición es usando `summary`\small
+  ```{r echo=-1}
   # Summary, p. 13
   summary(mpg$cty)
   ```
+  \normalsize
 
-+ **Ejercicio.** Prueba a aplicar la función a todo el `data.frame` con `summary(mpg)`.
++ **Ejercicio.** Prueba a aplicar la función a todo el `data.frame` con `summary(mpg)`. Ejecuta también `str(mpg)` y `glimpse(mpg)`.
 
 
 ## Dispersión
 
 + La siguiente figura muestra dos conjuntos de valores, ambas con media 0 y el mismo número de puntos. Las coordenadas verticales de los puntos se han modificado con un poco de *ruido* para hacer mejorar la visualización de ambos conjuntos. Puedes mirar el código de esta sesión para ver como se ha construido esta figura. 
-  ```{r echo = FALSE, message=FALSE, warning=FALSE, fig.align='center', out.width = "70%"}
-  # El gráfico de dispersión de la página 14
+  ```{r echo = FALSE, message=FALSE, warning=FALSE, fig.align='center', out.width = "50%"}
+  # El gráfico para ilustrar la idea de dispersión
   library(tidyverse)
   set.seed(2019)
   n = 400
@@ -584,8 +587,8 @@ $$
 ### Dispersión en los diagramas de densidad.
 
 + En esta otra figura puedes ver juntas las curvas de densidad de esos dos conjuntos de datos. 
-  ```{r echo = FALSE, message=FALSE, warning=FALSE, fig.align='center', out.width = "70%"}
-  # y la versión en curvas de densidad de la página 15
+  ```{r echo = FALSE, message=FALSE, warning=FALSE, fig.align='center', out.width = "50%"}
+  # y la versión en curvas de densidad de la siguiente página
   plot(density(muestra1, adjust = 2), col="blue", 
        xlim = c(-12, 12), lwd = 3, main = "", xlab= "")
   lines(density(muestra2, adjust = 2), col="red", lwd = 3, sub="")
@@ -625,7 +628,7 @@ include_graphics("fig/02-fig05-BoxPlotEstructura.png")
 ## Boxplots con R básico.
 
 + Dibujar un boxplot con R básico es muy sencillo. Por ejemplo, para la variable `cty`:
-  ```{r echo=-1, comment=NULL, fig.align='center', out.width = "50%"}
+  ```{r echo=-1, comment=NULL, fig.align='center', out.width = "30%"}
   # Boxplot con R básico p. 19
   bxp_cty = boxplot(mpg$cty, col="orange")
   ```
@@ -642,12 +645,12 @@ include_graphics("fig/02-fig05-BoxPlotEstructura.png")
 ## Boxplot con ggplot
 
 + En este caso usamos:
-  ```{r echo=-1, comment=NULL, fig.align='center', out.width = "60%"}
-  # Boxplot y violinplot con R básico p. 20
-  ggplot(mpg) + 
-    geom_boxplot(mapping = aes(y = cty), fill="orange") +
-    scale_x_discrete(breaks = c())
-  ```
+    ```{r echo=-1, comment=NULL, fig.align='center', out.width = "45%"}
+    # Boxplot y violinplot con R básico p. 20
+    ggplot(mpg) + 
+      geom_boxplot(mapping = aes(y = cty), fill="orange")
+    ```
+    A diferencia de lo que sucede con el boxplot de R básico, ggplot no proporciona una forma directa de localizar los posibles valores atípicos. 
 
 ## Boxplot con datos y violinplots. 
 
@@ -656,8 +659,7 @@ include_graphics("fig/02-fig05-BoxPlotEstructura.png")
   - usando un *violinplot* que es básicamente un boxplot con curvas de densidad añadidas.
 
 + Esos dos remedios se pueden aplicar por separado o combinados como hemos hecho en este gráfico de ggplot:
-  ```{r echo=TRUE, comment=NULL, fig.align='center', out.width = "40%", size="tiny"}
-  
+  ```{r echo=TRUE, comment=NULL, fig.align='center', out.width = "30%", size="tiny"}
   ggplot(mpg) + 
     geom_violin(mapping = aes(x=0, y = cty)) +
     scale_x_discrete(breaks = c()) +
@@ -674,17 +676,18 @@ d_1 = |x_1 - c|,\quad d_2 = |x_2 - c|,\quad\cdots\quad d_n = |x_n - c|
 $$
 Usamos valores absolutos para evitar que las desviaciones por exceso compensen a las desviaciones por defecto. Aunque el valor absoluto es complicado...
 
-+ Para obtener una medida de dispersión buscamos un valor representativo (valor central) de las desviaciones absolutas. Por ejemplo, la mediana de las desviaciones absolutas respecto de la mediana (usando $c$ igual a la mediana de los datos). Este valor es la **desviación absoluta mediana (MAD)**, que en R se calcula así:
-  ```{r size="small", echo = -1}
-  # Desviación absoluta mediana p. 21
-  library(readxl)
-  accidentes = read_excel("./data/train_acc_2010.xls")
-  mad(accidentes$Speed, constant = 1)
-  ```
++ Para obtener una medida de dispersión buscamos un valor representativo (valor central) de las desviaciones absolutas. Por ejemplo, la mediana de las desviaciones absolutas respecto de la mediana (usando $c$ igual a la mediana de los datos). Este valor es la **desviación absoluta mediana (MAD)**, que en R se calcula así:\small
+    ```{r echo = -1}
+    # Desviación absoluta mediana p. 21
+    library(readxl)
+    accidentes = read_excel("./data/train_acc_2010.xls")
+    mad(accidentes$Speed, constant = 1)
+    ```
+    \normalsize
 
 + **Ejercicio:** calcula este valor a partir de los datos usando `median`. Mira lo que sucede si quitas la opción `constant = 1`. Lee la ayuda de `mad` y [\textcolor{blue}{{esta página}}](https://en.wikipedia.org/wiki/Median_absolute_deviation).
 
-+ **Ejercicio:**  calcula `mean(accidentes$Speed - mean(accidentes$Speed))`. Cambia de variable y de tabla y  repite el cálculo. ¿Por qué pasa esto?
++ **Ejercicio:**  calcula `mean(accidentes$Speed - mean(accidentes$Speed))`. Cambia de variable y de tabla y repite el cálculo. ¿Por qué pasa esto?
 
 ## Varianza y desviación típica (definición poblacional).
 
@@ -706,7 +709,7 @@ Elevamos al cuadrado para conseguir un efecto similar al valor absoluto, pero us
 
 + Al introducir la varianza y desviación típica les hemos puesto el apellido de *poblacionales*. Y tal vez te hayas dado cuenta de que no hemos dicho como calcular esos valores en R. 
 
-+ La razón para hacer esto empezará a quedar más clara en las próximas sesiones y tiene que ver con la esencia misma de la Estadística. La misión fundamental de la Estadística se puede resumir en **obtener información fiable sobre la población a partir de una muestra.** En particular, para obtener información sobre la media y la dispersión en la población usaremos la media y la dispersión en la muestra. Y ese es el problema: usar en la muestra la misma fórmula de la varianza que en la población *no funciona bien*. 
++ La razón para hacer esto empezará a quedar más clara en las próximas sesiones y tiene que ver con la esencia misma de la Estadística. La misión fundamental de la Estadística se puede resumir en **obtener información fiable sobre una población a partir de muestras.** En particular, para obtener información sobre la media y la dispersión en la población usaremos la media y la dispersión en la muestra. Y ese es el problema: usar en la muestra la misma fórmula de la varianza que en la población *no funciona bien para averiguar la varianza de la población*. 
 
 + El remedio es sencillo, afortunadamente. Hay que usar en la muestra las fórmulas *muestrales* para la varianza y desviación típica:
 $$
@@ -716,7 +719,7 @@ S^2_x =
 s_x = \sqrt{s^2_x} = 
 \sqrt{\dfrac{\sum_{i=1}^n (x_i-\bar x)^2}{\textcolor{red}{n - 1}}}
 $$
-como ves, la diferencia estriba en que dividimos por $n-1$ en lugar de $n$.
+como ves, la diferencia estriba en que dividimos por $n-1$ en lugar de $n$, siendo $n$ el **tamaño de la muestra** (no el de la población).
 
 ## Las funciones var y sd.
 
@@ -757,24 +760,67 @@ puedes comprobar que esto es lo mismo que:
 + **¡Con factores genéricos los valores centrales o la dispersión no tienen sentido!**
   
 + Los distintos valores de un factor se suelen llamar *niveles (levels)* del factor. Un factor *dicotómico* (o binario) tiene dos niveles; es decir, solo toma dos valores distintos. Si toma más de dos valores el factor es *politómico*. El nivel más frecuente es la *moda* del factor.
+
+## Operaciones básicas con factores.
+
++ Podemos crear un factor a partir de un vector de strings con la función `factor`:
+  \small
+    ```{r echo=-1}
+    options(width = 70)
+    (ardeida = factor(c("martinete", "garzaReal", "avetorillo", "garzaReal",
+                        "cangrejera", "martinete", "martinete"), ))
+    ```
+ \normalsize Dos detalles sobre la salida: fíjate en la ausencia de comillas y en que el orden de los niveles es alfabético. Si quieres otro orden (por ejemplo para las tablas de frecuencia) puedes hacerlo explícito:
+  \small
+    ```{r echo=-1}
+    options(width = 70)
+    (ardeida = factor(c("martinete", "garzaReal", "avetorillo", "garzaReal",
+                      "cangrejera", "martinete", "martinete"), 
+    levels = c("garzaReal", "martinete",  "cangrejera", "avetorillo")))  
+    ```
+\normalsize
+
++ El factor puede ser *ordenado* si además incorporamos la opción `ordered = TRUE`. *No se debe confundir con el uso de levels* para fijar un orden "estético"  de los niveles. En un factor ordenado el orden aporta información *relevante* sobre los niveles.
+
+
+## Más funciones que generan factores
+
++ Ya hemos visto que el resultado de `cut` es un factor ordenado cuyos niveles son los intervalos en que se divide el recorrido de la variable.
+
++ La función `gl` sirve para generar factores a medida y es un complemento para otras funciones como `rep`. Un ejemplo en el que fabricamos un factor con tres niveles y 4 repeticiones: 
+\small
+    ```{r echo=-(1:2)}
+    ## Más funciones que generan factores
+    options(width = 70)
+    gl(n = 3, k = 4, labels = c("piedra", "papel", "tijera"))
+    ```
+\normalsize  
+
++ A veces, por cuestiones de diseño del experimento o del conjunto de datos, querremos que los niveles del factor aparezcan intercalados.
+\small
+    ```{r}
+    gl(n = 3, k=1, length = 30, labels = c("piedra", "papel", "tijera"))
+    ```
+\normalsize
+
++ Puedes consultar el Capítulo 7 de [@Boehmke2016], el \link{https://r4ds.had.co.nz/factors.html}{Capítulo 12 (15 en la versión online)} de [@Wickham2016], o el Capítulo 6 de [@Matloff2011].
   
 
 ## Gráficos para factores: diagramas de barras.
 
-+ El diagrama más simple y a menudo el más efectivo para representar la tabla de frecuencias de los niveles de un factor es el diagrama de barras. En R básico y ggplot respectivamente:
-  ```{r echo=-1, message=FALSE, fig.align='center', out.width = "30%", size="scriptsize"}
-  # Gráficos para factores, p. 27
-  library(viridisLite)
-  barplot(prop.table(table(accidentes$TrkType)), col=viridis(5))
-  ggplot(accidentes) + 
-    geom_bar(mapping = aes(x = TrkType), fill= viridis(5))
-  ```
-
++ El diagrama más simple y a menudo el más efectivo para representar la tabla de frecuencias de los niveles de un factor es el diagrama de barras: 
+    ```{r echo=-1, message=FALSE, fig.align='center', out.width = "45%", size="scriptsize"}
+    # Gráficos para factores
+    library(viridisLite)
+    ggplot(accidentes) + 
+      geom_bar(mapping = aes(x = TrkType), fill= viridis(5))
+    ```
+  
 + **Se desaconseja** el uso de diagramas de tarta (*piecharts* en inglés).
 
 ## Factores dicotómicos: variables binarias (de Bernouilli). 
 
-+ Un factor dicotómico solo tiene dos niveles (valores). Esos valores se pueden representar como sí/no, cierto/falso, éxito/fallo, etc. Los factores dicotómicos también se llaman a menudo variables binarias o de Bernouilli. 
++ Un factor dicotómico solo tiene dos niveles (valores). Esos valores se pueden representar como sí/no, cierto/falso, éxito/fallo, etc. Los factores dicotómicos también se llaman a menudo variables binarias o de Bernouilli. Los factores con más de dos niveles se llaman *politómicos*.
 
 + *Media como proporción.* Si pensamos en los niveles de un factor binario como cierto/falso, entonces al igual que hace R podemos identificar cierto/falso con 1/0. Esta representación numérica  tiene una ventaja importante. Aunque hemos dicho que los valores centrales no tienen sentido en factores genéricos, en este caso concreto la media aritmética de un vector de unos y ceros *mide la proporción* de valores iguales a 1. 
 
