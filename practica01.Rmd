@@ -62,5 +62,7 @@ $\includegraphics[width=0.7cm]{fig/01-fig21-boton_code_GitHub.png}$ y en la vent
     https://github.com/mbdfmad/apellido_nombre.git
     ```
 
+4. Ahora, como hicimos en la Sesión 1, en RStudio usa el menú $\text{\menu[,]{File, New Project}}$ y en la ventana que aparece selecciona *Version Control*. A continuación selecciona *Git* y en el primer campo copia la URL en GitHub del paso anterior. No modifiques el nombre del repositorio y, **muy importante**, con el botón *browse* selecciona la ubicación del clon local del repositorio. Deberías situarlo dentro de tu carpeta de la asignatura
+
 
 
