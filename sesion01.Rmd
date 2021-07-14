@@ -682,7 +682,7 @@ ggplot(data = flights) +
 \link{https://happygitwithr.com/github-acct.html\#username-advice}{Happy Git: username-advice}  
 Es imprescindible que envíes a tu profesor el nombre de usuario que hayas elegido lo antes posible.  
 3. Instala Git en tu ordenador si aún no lo has hecho. Sigue las instrucciones de \link{https://happygitwithr.com/install-git.html\#install-git}{este enlace}.
-4. Instala la librería `usethis` de R.
+4. Instala las librerías `usethis` y `gitcreds` de R.
 5. Ve al \link{https://github.com/mbdfmad/fmad2122}{repositorio de la asignatura en GitHub}. Asegúrate de que estás registrado con el usuario que has creado (usa el botón *Sign in* en la esquina superior derecha de la página si no es así).
 6. Usa el botón $\includegraphics[width=0.7cm]{fig/01-fig20-boton_fork_GitHub.png}$ que aparece arriba a la derecha para generar tu copia de ese repositorio. Cuando el fork acabe (asegúrate de que es tu nombre de usuario el que aparece en la barra de direcciones del navegador). Usa el botón verde 
 $\includegraphics[width=0.7cm]{fig/01-fig21-boton_code_GitHub.png}$ y en la ventana que aparece copia la URL del repositorio haciendo clic en el símbolo del portapapeles.
