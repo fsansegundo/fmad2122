@@ -1,0 +1,66 @@
+---
+title: "Master en Big Data. Fundamentos Matemáticos del Análisis de Datos (FMAD)."
+author: "Fernando San Segundo"
+date: 'Curso 2021-22. Última actualización: `r format(Sys.time(), "%Y-%m-%d")`'
+output:
+  beamer_presentation: 
+    toc: yes
+    # keep_tex: yes
+    # keep_md: yes
+    includes:
+      in_header: beamer-header-simple.txt
+    colortheme: seahorse
+    slide_level: 2
+    theme: Boadilla
+fontsize: 9pt
+subtitle: 'Práctica 1'
+always_allow_html: yes
+bibliography: MBDFME.bib
+csl: ams-review.csl
+---
+
+
+```{r set-options, echo=FALSE, purl=FALSE}
+options(width = 60)
+library(knitr)
+knitr::opts_chunk$set(comment = '', fig.width = 6, fig.height = 6,
+                      tidy = TRUE, tidy.opts=list(arrow=TRUE, indent=2))
+def.chunk.hook  <- knitr::knit_hooks$get("chunk")
+knitr::knit_hooks$set(chunk = function(x, options) {
+  x <- def.chunk.hook(x, options)
+  ifelse(options$size != "normalsize", paste0("\\", options$size,"\n\n", x, "\n\n \\normalsize"), x)
+})
+if (grepl(pattern = "cloud", getwd())){
+  homeDir  <-  "/cloud/project/"
+  } else {
+  homeDir <- "./"
+  }
+figpath <- function(figname){
+  paste0(homeDir,"fig/", figname)
+} 
+```
+
+```{r echo = FALSE}
+## title: 'Master en Big Data. Fundamentos  matemáticos  del  análisis  de  datos.'
+## author: "Fernando San Segundo"
+## subtitle: "Sesión 1: Presentación. Instalación de Software y Primeros Pasos"
+```
+
+
+# Instrucciones para GitHub
+
+1. Ve a la página de la organización del curso en GitHub:  
+\link{https://github.com/mbdfmad}{https://github.com/mbdfmad}.  
+Si has enviado tu nombre de usuario en GitHub a los profesores de la asignatura debes haber recibido una invitación para unirte a la organización `mbdfmad`. Si aún no has aceptado esa invitación puedes hacerlo al acceder a la página por primera vez usando el enlace que aparece en la parte superior.
+
+
+2. Localiza tu repositorio en esa página. Tendrá un nombre como `apellido_nombre` ¡Pero con tu propio nombre y apellido, claro! No lo confundas con el repositorio de pruebas que se llama *textualmente* `apellido_nombre`.
+
+3. Al entrar en tu repositorio usa el botón verde 
+$\includegraphics[width=0.7cm]{fig/01-fig21-boton_code_GitHub.png}$ y en la ventana que aparece copia la URL del repositorio haciendo clic en el símbolo del portapapeles. Asegúrate de usar la versión https, que debe ser algo como:
+    ```
+    https://github.com/mbdfmad/apellido_nombre.git
+    ```
+
+
+
