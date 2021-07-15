@@ -116,6 +116,56 @@ En el campo  *Commit Message* escribe `Primer commit del curso`, asegúrate de q
 
 + Abre ese fichero con RStudio. Puedes hacer doble clic con el ratón y *si todo va como se espera*, el fichero se abrirá normalmente. Pero siempre tienes la opción segura de usar el menú de RStudio. 
 
-+ Examina el contenido del fichero y después busca el menú desplegable (el pequeño triángulo negro) junto al botón `Knit` de la parte superior del editor de RStudio. Usa la opción `Knit to HTML` para empezar. Al cabo de unos segundos debe abrirse una ventana con el resultado del procesamiento de ese fichero. 
++ Examina el contenido del fichero y después busca el menú desplegable (el pequeño triángulo negro) junto al botón `Knit` de la parte superior del editor de RStudio. Usa la opción `Knit to HTML` para empezar. Al cabo de unos segundos debe abrirse una ventana con el resultado del procesamiento de ese fichero. Si tienes problemas avisa a tus profesores.
+
+---
+
++ En particular observa que el código R de cada uno de los bloques (*chunks*) se ha ejecutado y que el resultado de la ejecucuión se ha incorporado al documento HTML de salida.
+
++ Prueba a usar ahora los botones `Knit to PDF` y `Knit to Word`. Estas dos opciones usan software adicional que debe estar instalado correctamente en tu ordenador, así que la probabilidad de fallo es más alta. Si ocurre eso avisa a tus profesores para que te aconsejen cómo proceder.
+
++ En la siguiente sección vamos a hacer el trabajo de la práctica de hoy relacionado con los contenidos teóricos de la asignatura. Usa ese documento Rmarkdown para hacer los ejericios que se proponen. Te servirá de ensayo para la primera tarea que debes entregar.
+
+# Ejercicios
+
+1. Usando la función `sample` crea un vector `dado_honesto` con 100 números del 1 al 6. Haz una tabla de frecuencias absolutas (de dos maneras, con `table` y `dplyr`) y una tabla de frecuencias relativas. 
+
+2. A continuación crea un nuevo vector `dado_cargado` de manera que la probabilidad de que el número elegido valga 6 sea el doble que la probabilidad de elegir cualquiera de los cinco números restantes. Lee la ayuda de `sample` si lo necesitas. De nuevo, haz tablas de frecuencias absolutas y relativas de este segundo vector.
+
+3. Utiliza las funciones `rep` y `seq` para crear tres vectores `v1`, `v2` y `v3` con estos elementos respectivamente:
+
+    ```{}
+    4, 4, 4, 4, 3, 3, 3, 3, 2, 2, 2, 2, 1, 1, 1, 1 
+    
+    1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5
+    
+    1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4
+    
+    ```
+
+4. Utilizando la tabla `mpg` de la librería `tidyverse` crea una tabla `mpg2` que: 
+    + contenga las filas en las que la variable `class` toma el valor `pickup`.
+    + y las columnas de la tabla original cuyos nombres empiezan por `c`. No se trata de que las selecciones *a mano*, por sus nombres. Busca información sobre funciones auxiliares para `select` en la \link{https://r4ds.had.co.nz/transform.html\#select}{Sección 5.4 de R4DS}.
+
+
+---
+
+5. Descarga el fichero \link{http://www.stata-press.com/data/r8/census.dta}{census.dta}. Averigua de qué tipo de fichero se trata y usa la herramienta `Import DataSet` del panel `Environment` de RStudio para leer con R los datos de ese fichero. Asegúrate de copiar en esta práctica los dos primeros comandos que llevan a cabo la importación (excluye el comando `View`) y que descubrirás al usar esa herramienta. Después completa los siguientes apartados con esos datos y usando `dplyr` y `ggplot`:
+    + ¿Cuáles son las poblaciones totales de las regiones censales?
+    + Representa esas poblaciones totales en un diagrama de barras (una barra por región censal).
+    + Ordena los estados por población, de mayor a menor.
+    + Crea una nueva variable que contenga la tasa de divorcios /matrimonios para cada estado.
+    + Si nos preguntamos cuáles son los estados más envejecidos podemos responder de dos maneras. Mirando la edad mediana o mirando en qué estados la franja de mayor edad representa una proporción más alta de la población total. Haz una tabla en la que aparezcan los valores de estos dos criterios, ordenada según la edad mediana decreciente y muestra los 10 primeros estados de esa tabla.
+    + Haz un histograma (con 10 intervalos) de los valores de la variable `medage` (edad mediana) y con la curva de densidad de la variable superpuesta.
+    
+## Practicando la entrega de la Tarea 1.
+
+- Cada semana del curso tras la práctica tendrás que hacer un Quiz en Moodle y una tarea. La tarea consistirá en elaborar un documento Rmarkdown en el que realizarás análisis de datos más complejos a medida que avancemos en el curso. Para entregarla debes crear en tu repositorio personal una carpeta. La de la primera tarea se llamará A1, la segunda A2, etc. Esta semana vamos a practicar la entrega y para ello usaremos el fichero Rmarkdown que has creado en la práctica de hoy. Vamos a ver paso a paso cómo hacer la entrega. 
+
+
+
+
+
+
 
 
