@@ -105,3 +105,12 @@ En el campo  *Commit Message* escribe `Primer commit del curso`, asegúrate de q
 
 # Creando un fichero Rmarkdown para esta práctica. 
 
++ Antes de seguir adelante asegúrate de que en RStudio está abierto el proyecto 
+
++ Descarga ahora el fichero  Rmarkdown llamado \link{Nope}{practica01\_apellidos\_nombre.Rmd}. **Recuerda:** usa el código con `download.file`, no hagas la descarga con el navegador. 
+
++ 
+
+
+
+
