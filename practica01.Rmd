@@ -23,8 +23,7 @@ csl: ams-review.csl
 ```{r set-options, echo=FALSE, purl=FALSE}
 options(width = 60)
 library(knitr)
-knitr::opts_chunk$set(comment = '', fig.width = 6, fig.height = 6,
-                      tidy = TRUE, tidy.opts=list(arrow=TRUE, indent=2))
+knitr::opts_chunk$set(comment = '', fig.width = 6, fig.height = 6)
 def.chunk.hook  <- knitr::knit_hooks$get("chunk")
 knitr::knit_hooks$set(chunk = function(x, options) {
   x <- def.chunk.hook(x, options)
@@ -89,9 +88,9 @@ $\includegraphics[width=0.7cm]{fig/01-fig21-boton_code_GitHub.png}$ y en la vent
   
 8. Comprobemos que todo funciona. Usa el panel `Files` de RStudio (abajo a la derecha) para abrir el fichero llamado  `README.MD`. Es un fichero (de tipo `markdown`) que GitHub usa como punto de entrada y descripción de tu repositorio. Deja el contenido del repositorio como está pero añade una línea en la parte inferior que diga:
     ```{r eval=FALSE, comment=NULL}
-    Repositorio activado el fecha_de_hoy.
+    Repositorio activado el [fecha_de_hoy].
     ```
-    cambiando ese texto por la fecha real. Graba el fichero y mira el panel `Git` de RStudio (arriba, derecha). Debería aparecer el nombre del fichero `README.MD`. **Si aparecen más ficheros avisa a tu profesor antes de seguir adelante**. Marca la casilla a la izquierda del nombre y haz clic en el botón `Commit` de la parte superior.  Aparecerá una ventana como esta:
+    cambiando el texto entre corchetes por la fecha real. Graba el fichero y mira el panel `Git` de RStudio (arriba, derecha). Debería aparecer el nombre del fichero `README.MD`. **Si aparecen más ficheros avisa a tu profesor antes de seguir adelante**. Marca la casilla a la izquierda del nombre y haz clic en el botón `Commit` de la parte superior.  Aparecerá una ventana como esta:
     ```{r echo=FALSE, comment=NULL, fig.align='center', out.width = "30%",  purl=FALSE}
     include_graphics("fig/PR1-ventana_Git_Rstudio.png")
     ```
@@ -105,12 +104,18 @@ En el campo  *Commit Message* escribe `Primer commit del curso`, asegúrate de q
 
 # Creando un fichero Rmarkdown para esta práctica. 
 
-+ Antes de seguir adelante asegúrate de que en RStudio está abierto el proyecto 
++ Antes de seguir adelante asegúrate de cerrar en RStudio el proyecto que acabamos de crear. Para ello puedes usar el menú $\text{\menu[,]{File,  Close Project}}$ Lo usaremos después pero ahora debe estar cerrado. 
 
-+ Descarga ahora el fichero  Rmarkdown llamado \link{Nope}{practica01\_apellidos\_nombre.Rmd}. **Recuerda:** usa el código con `download.file`, no hagas la descarga con el navegador. 
++ Crea una carpeta llamada P1 dentro de tu  tu *carpeta de la asignatura* (a la que nos referiremos como carpeta FMAD, aunque la puedes haber llamado como quieras). En particular asegúrate de que la carpeta P1 **no está** dentro de ninguna de las dos carpetas de repositorios (la que se llama `fmad2122` y la que se llama `apellido_nombre`).
 
-+ 
++ Descarga ahora a esa carpeta `P1` el fichero  Rmarkdown llamado  
+\begin{center}
+\link{Nope}{practica01\_apellidos\_nombre.Rmd}.  
+\end{center}
+**Recuerda:** usa el código con `download.file`, no hagas la descarga con el navegador. 
 
++ Abre ese fichero con RStudio. Puedes hacer doble clic con el ratón y *si todo va como se espera*, el fichero se abrirá normalmente. Pero siempre tienes la opción segura de usar el menú de RStudio. 
 
++ Examina el contenido del fichero y después busca el menú desplegable (el pequeño triángulo negro) junto al botón `Knit` de la parte superior del editor de RStudio. Usa la opción `Knit to HTML` para empezar. Al cabo de unos segundos debe abrirse una ventana con el resultado del procesamiento de ese fichero. 
 
 
