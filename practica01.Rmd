@@ -114,7 +114,7 @@ En el campo  *Commit Message* escribe `Primer commit del curso`, asegúrate de q
 \end{center}
 **Recuerda:** usa el código con `download.file`, no hagas la descarga con el navegador. 
 
-+ Cambia el nombre del fichero para que incluya tu apellido y nombre. Abre ese fichero con RStudio. Puedes hacer doble clic con el ratón y *si todo va como se espera*, el fichero se abrirá normalmente. Pero siempre tienes la opción segura de usar el menú de RStudio. 
++ Abre ese fichero con RStudio. Puedes hacer doble clic con el ratón y *si todo va como se espera*, el fichero se abrirá normalmente. Pero siempre tienes la opción segura de usar el menú de RStudio. 
 
 + Examina el contenido del fichero y después busca el menú desplegable (el pequeño triángulo negro) junto al botón `Knit` de la parte superior del editor de RStudio. Usa la opción `Knit to HTML` para empezar. Al cabo de unos segundos debe abrirse una ventana con el resultado del procesamiento de ese fichero. Si tienes problemas avisa a tus profesores.
 
@@ -160,16 +160,21 @@ En el campo  *Commit Message* escribe `Primer commit del curso`, asegúrate de q
     
 ## Practicando la entrega de la Tarea 1.
 
-- Cada semana del curso tras la práctica tendrás que hacer un Quiz en Moodle y una tarea. La tarea consistirá en elaborar un documento Rmarkdown en el que realizarás análisis de datos más complejos a medida que avancemos en el curso. Para entregarla debes crear en tu repositorio personal una carpeta. La de la primera tarea se llamará A1, la segunda A2, etc. Esta semana vamos a practicar la entrega y para ello usaremos el fichero Rmarkdown que has creado en la práctica de hoy. Vamos a ver paso a paso cómo hacer la entrega. 
-
-1. Empieza creando dentro de tu repositorio (appellidos_nombre) una carpeta llamada A0. Copia en esa carpeta el fichero Rmarkdown que hemos usado para hacer los ejercicios de la práctica de hoy. Para entregar tareas debes guardar en esa carpeta cualquier fichero de datos, figura, etc. que sea necesario en la tarea.
-
-2. Asegúrate de ejecutar en ese fichero *Knit to ...* para cada formato de entrega requerido (HTML, PDF) y comprueba que el resultado es correcto.
-
-3. Ahora usa el botón `Commit` situado sobre el panel `Git` de Rstudio. En la parte superior izquierda de la ventana que aparece debes ver los ficheros que vas a entregar. En particular.
-
-
-
++ Cada semana del curso tras la práctica tendrás que hacer un Quiz en Moodle y una tarea. La tarea consistirá en elaborar un documento Rmarkdown en el que realizarás análisis de datos más complejos a medida que avancemos en el curso. Para entregarla debes crear en tu repositorio personal una carpeta. La de la primera tarea se llamará A1, la segunda A2, etc. Esta semana vamos a practicar la entrega y para ello usaremos el fichero Rmarkdown que has creado en la práctica de hoy. Vamos a ver paso a paso cómo hacer la entrega. 
+    
++ Empieza creando dentro de tu repositorio (appellidos_nombre) una carpeta llamada A0. Copia en esa carpeta el fichero Rmarkdown que hemos usado para hacer los ejercicios de la práctica de hoy. Para entregar tareas debes guardar en esa carpeta cualquier fichero de datos, figura, etc. que sea necesario en la tarea.
+    
++ Asegúrate de ejecutar en ese fichero *Knit to ...* para cada formato de entrega requerido (HTML, PDF) y comprueba que el resultado es correcto.
+    
++ El resto es muy parecido a la que hicimos al activar este repositorio. Usa el botón `Commit` situado sobre el panel `Git` de Rstudio. En la parte superior izquierda de la ventana que aparece debes ver los ficheros que vas a entregar. En particular, debes ver el fichero Rmarkdown y el HTML o PDF. Marca la casilla `staged` para todos los ficheros (selecciona uno de ellos, pulsa CTRL+A y la barra de espacio). *Nota:* si sólo ves la carpeta `A0` haz clic en ella para desvelar los ficheros que contiene.
+    
+---
+      
++ **Escribe un mensaje en la ventana** `commit message`. El texto del mensaje debe ser algo como *Entrega de la tarea A0*. Después usa el botón `Commit`.
+    
++ Aparecerá la ventana que ya conoces para confirmar que el `commit` se ha completado. Ciérrala y ahora haz clic en la flecha verde  `Push`. Si aparecen mensajes de error o el sistema te pide una contraseña o, en cualquier caso, si tienes dudas consulta a tus profesores. Al terminar correctamente cierra esa ventana y la ventana titulada `RStudio Review Changes`.
+    
++ Ve a la web de GitHub y comprueba que esos cambios se han propagado hasta tu repositorio personal. Es decir, que existe una carpeta A0 que contiene los ficheros Rmarkdown y HTML o PDF y que el mensaje de commmit que has escrito aparece junto a ellos.
 
 
 
