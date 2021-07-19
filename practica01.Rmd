@@ -120,7 +120,7 @@ En el campo  *Commit Message* escribe `Primer commit del curso`, asegúrate de q
 
 ---
 
-+ En particular observa que el código R de cada uno de los bloques (*chunks*) se ha ejecutado y que el resultado de la ejecucuión se ha incorporado al documento HTML de salida.
++ En particular observa que el código R de cada uno de los bloques (*chunks*) se ha ejecutado y que el resultado de la ejecución se ha incorporado al documento HTML de salida.
 
 + Prueba a usar ahora los botones `Knit to PDF` y `Knit to Word`. Estas dos opciones usan software adicional que debe estar instalado correctamente en tu ordenador, así que la probabilidad de fallo es más alta. Si ocurre eso avisa a tus profesores para que te aconsejen cómo proceder.
 
