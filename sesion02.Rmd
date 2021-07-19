@@ -1,6 +1,6 @@
 ---
 title: 'Master en Big Data. Fundamentos  matemáticos  del  análisis  de  datos.' 
-author: "Fernando San Segundo"
+author: "Fernando \n San Segundo"
 date: 'Curso 2021-22. Última actualización: `r format(Sys.time(), "%Y-%m-%d")`'
 subtitle: "Sesión 2: Tipos de Variables y Análisis Exploratorio"
 fontsize: 9pt
@@ -49,6 +49,12 @@ if (grepl(pattern = "cloud", getwd())){
 ## author: "Fernando San Segundo"
 ## subtitle: "Sesión 2: Tipos de Variables y Análisis Exploratorio"
 ```
+
+---
+
+\begin{center}
+\textcolor{red}{\Huge RECUERDA: ANTES DE SEGUIR\\[5mm] EJECUTA GIT PULL EN EL REPOSITORIO\\[5mm] FMAD2122} 
+\end{center}
 
 <!-- ---------------------------------------- -->
 <!-- ---------------------------------------- -->
