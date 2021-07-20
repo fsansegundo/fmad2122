@@ -684,7 +684,7 @@ Es imprescindible que envíes a tu profesor el nombre de usuario que hayas elegi
 3. Instala Git en tu ordenador si aún no lo has hecho. Sigue las instrucciones de \link{https://happygitwithr.com/install-git.html\#install-git}{este enlace}.
 4. Instala las librerías `usethis` y `gitcreds` de R.
 5. Ve al \link{https://github.com/mbdfmad/fmad2122}{repositorio de la asignatura en GitHub}. Asegúrate de que estás registrado con el usuario que has creado (usa el botón *Sign in* en la esquina superior derecha de la página si no es así).
-6. Usa el botón $\includegraphics[width=0.7cm]{fig/01-fig20-boton_fork_GitHub.png}$ que aparece arriba a la derecha para generar tu copia de ese repositorio. Cuando el fork acabe (asegúrate de que es tu nombre de usuario el que aparece en la barra de direcciones del navegador). Usa el botón verde 
+6. Usa el botón verde 
 $\includegraphics[width=0.7cm]{fig/01-fig21-boton_code_GitHub.png}$ y en la ventana que aparece copia la URL del repositorio haciendo clic en el símbolo del portapapeles.
 
 ---
@@ -703,6 +703,12 @@ Por ejemplo en Windows una ubicación típica podría ser algo como:
     /Users/tu_nombre/.../MasterBD/FMAD/
     ```
     \normalsize En ambos casos los puntos se refieren a subcarpetas intermedias que puedas querer usar (como OneDrive, Dropbox o cualquier otra).
+
+## Manteniedo la copia local actualizada
+
++ Aunque Git permite mantener sincronizada tu copia con los cambios que se vayan produciendo en el repositorio de la asignatura, si te has acostumbrado al funcionamiento de solcuiones como Dropbox, OneDrive, iCloud y otras similares, al principio te costará un poco de trabajo comprender que **en Git la sincroniazción no es automática.** Es razonable que sea así puesto que se trata de un sistema pensado para el control de versiones en el desarrollo de software: nadie quiere que los cambios en ese tipo de trabajo sean *demasiado automáticos*, eso causaría muchos más problemas de los que solucionaría.
+
++ Por eso, cuando los profesores del curso hagan cambios en el repositorio *fmad2122* deberás pedir explícitamente a Git que sincronice esos cambios con tu copia local. La forma más sencilla de hacer esto desde RStudio es abrir el proyecto asociado a ese repositorio y en el panel Git usar el botón `pull`. A lo largo del curso te recordaremos varias veces la necesidad de hacer esto con regularidad hasta que lo conviertas en una acto reflejo cada vez que empieces el trabajo. 
 
 
 

@@ -120,11 +120,11 @@ En el campo  *Commit Message* escribe `Primer commit del curso`, asegúrate de q
 
 ---
 
-+ En particular observa que el código R de cada uno de los bloques (*chunks*) se ha ejecutado y que el resultado de la ejecucuión se ha incorporado al documento HTML de salida.
++ En particular observa que el código R de cada uno de los bloques (*chunks*) se ha ejecutado y que el resultado de la ejecución se ha incorporado al documento HTML de salida.
 
 + Prueba a usar ahora los botones `Knit to PDF` y `Knit to Word`. Estas dos opciones usan software adicional que debe estar instalado correctamente en tu ordenador, así que la probabilidad de fallo es más alta. Si ocurre eso avisa a tus profesores para que te aconsejen cómo proceder.
 
-+ En la siguiente sección vamos a hacer el trabajo de la práctica de hoy relacionado con los contenidos teóricos de la asignatura. Usa ese documento Rmarkdown para hacer los ejericios que se proponen. Te servirá de ensayo para la primera tarea que debes entregar.
++ En la siguiente sección vamos a hacer el trabajo de la práctica de hoy relacionado con los contenidos teóricos de la asignatura. Usa ese documento Rmarkdown para hacer los ejercicios que se proponen. Te servirá de ensayo para la primera tarea que debes entregar.
 
 # Ejercicios
 
@@ -158,11 +158,11 @@ En el campo  *Commit Message* escribe `Primer commit del curso`, asegúrate de q
     + Si nos preguntamos cuáles son los estados más envejecidos podemos responder de dos maneras. Mirando la edad mediana o mirando en qué estados la franja de mayor edad representa una proporción más alta de la población total. Haz una tabla en la que aparezcan los valores de estos dos criterios, ordenada según la edad mediana decreciente y muestra los 10 primeros estados de esa tabla.
     + Haz un histograma (con 10 intervalos) de los valores de la variable `medage` (edad mediana) y con la curva de densidad de la variable superpuesta.
     
-## Practicando la entrega de la Tarea 1.
+# Practicando la entrega de la Tarea 1.
 
 + Cada semana del curso tras la práctica tendrás que hacer un Quiz en Moodle y una tarea. La tarea consistirá en elaborar un documento Rmarkdown en el que realizarás análisis de datos más complejos a medida que avancemos en el curso. Para entregarla debes crear en tu repositorio personal una carpeta. La de la primera tarea se llamará A1, la segunda A2, etc. Esta semana vamos a practicar la entrega y para ello usaremos el fichero Rmarkdown que has creado en la práctica de hoy. Vamos a ver paso a paso cómo hacer la entrega. 
     
-+ Empieza creando dentro de tu repositorio (appellidos_nombre) una carpeta llamada A0. Copia en esa carpeta el fichero Rmarkdown que hemos usado para hacer los ejercicios de la práctica de hoy. Para entregar tareas debes guardar en esa carpeta cualquier fichero de datos, figura, etc. que sea necesario en la tarea.
++ Empieza creando dentro de tu repositorio (apellidos_nombre) una carpeta llamada A0. Copia en esa carpeta el fichero Rmarkdown que hemos usado para hacer los ejercicios de la práctica de hoy. Para entregar tareas debes guardar en esa carpeta cualquier fichero de datos, figura, etc. que sea necesario en la tarea.
     
 + Asegúrate de ejecutar en ese fichero *Knit to ...* para cada formato de entrega requerido (HTML, PDF) y comprueba que el resultado es correcto.
     
