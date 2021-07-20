@@ -1,0 +1,15 @@
+---
+title: "Master en Big Data. Fundamentos Matemáticos del Análisis de Datos (FMAD)."
+subtitle: 'Tarea 1'
+author: "Departamento de Matemática Aplicada"
+date: 'Curso 2021-22. Última actualización: `r format(Sys.time(), "%Y-%m-%d")`'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Instrucciones preliminares
+
++ Empieza abriendo el proyecto de RStudio correspondiente a tu repositorio personal de la asignatura. 
