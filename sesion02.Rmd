@@ -172,10 +172,30 @@ xls, que contiene datos sobre accidentes ferroviarios ocurridos en 2010 en los E
   library(readxl)
   accidentes <- read_excel("./data/train_acc_2010.xls")
   ```
-  Puedes leer más sobre `readxl` \link{https://readxl.tidyverse.org}{aquí}.
+  Puedes leer más sobre `readxl` \link{https://readxl.tidyverse.org}{aquí}. Por ejemplo, para aprender como leer una selección rectangular de filas y columnas concretas de una hoja en particular del fichero Excel.
 
 + **Ejercicio:** exporta esta tabla de R a un fichero en formato csv llamado `accidentes.csv`. 
 
+
+
+---
+
+#### Exportando nuestros datos a Excel
+
++ Veamos como guardar una tabla de datos de R (`data.frame` o similar) en formato Excel. Empezamos cargando la librería `wrtiexl`. Recuerda que debes instalarla primero si todavía no dispones de ella.
+    ```{r}
+    library(writexl)
+    ```
+    Ahora vamos a usarla para exportar a Excel la tabla de datos `iris` (que siempre está disponible como ejemplo en R). Asegúrate siempre de comprobar el directorio de trabajo antes de una operación de este tipo, para saber dónde estás poniendo los datos. 
+    ```{r}
+    getwd()
+    write_xlsx(iris, path = "./data/iris.xlsx")
+    ```
+    Asegúrate de abrir el fichero con Excel (o Calc) para comprobar el resultado. Después puedes borrarlo de tu carpeta de trabajo con
+    ```{r}
+    file.remove("./data/iris.xlsx")
+    ```
+    
 <!-- ---------------------------------------- -->
 <!-- ---------------------------------------- -->
 # Tipos de Variables. 
