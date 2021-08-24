@@ -1,5 +1,5 @@
 #############################################################
-# Fundamentos Matemáticos de la Estadística. Curso 2020-2021.
+# Fundamentos Matemáticos de la Estadística. Curso 2021-2022.
 # sesion01-01
 #############################################################
 
