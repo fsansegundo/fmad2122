@@ -1,0 +1,41 @@
+---
+title: "Práctica 0. FMAD 2021-2022"
+subtitle: "ICAI. Master en Big Data. Fundamentos Matemáticos del Análisis de Datos (FMAD)."
+author: "Apellido, Nombre"
+date: 'Curso 2021-22. Última actualización: `r format(Sys.time(), "%Y-%m-%d")`'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Ejercicio 0 (ejemplo).
+
+**Enunciado:** Usa la función `seq` de R para fabricar un vector `v` con los múltiplos de 3 del 0 al 300. Muestra los primeros 20 elementos de `v` usando `head` y calcula:
+
++ la suma del vector `v`,
++ su media,
++ y su longitud.
+
+**Respuesta:**
+
+```{r}
+v = seq(from = 0, to = 300, by = 3)
+head(v, 20)
+```
+
+Suma de `v`
+```{r}
+sum(v)
+```
+
+Media:
+```{r}
+mean(v)
+```
+
+Longitud:
+```{r}
+length(v)
+```
