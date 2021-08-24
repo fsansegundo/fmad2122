@@ -110,7 +110,7 @@ En el campo  *Commit Message* escribe `Primer commit del curso`, asegúrate de q
 
 + Descarga ahora a esa carpeta `P1` el fichero  Rmarkdown llamado  
 \begin{center}
-\link{Nope}{practica01\_apellidos\_nombre.Rmd}.  
+\link{https://raw.githubusercontent.com/mbdfmad/fmad2122/main/practicas/p1/P01_apellidos_nombre.Rmd}{practica01\_apellidos\_nombre.Rmd}.  
 \end{center}
 **Recuerda:** usa el código con `download.file`, no hagas la descarga con el navegador. 
 
