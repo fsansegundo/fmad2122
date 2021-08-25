@@ -223,7 +223,7 @@ lines(x = c(0, 0, 20, 20), c(0, 1/20, 1/20, 0), lwd=4, col="blue")
 abline(v = mean(poblacion), lty=2, lwd=5, col="blue")
 ```
   
-```{r eval=FALSE, comment=NULL}
+```{r eval=FALSE, echo=FALSE, comment=NULL}
 #####################################################################
 # Otras poblaciones por si quieres experimentar
 #####################################################################  
@@ -306,7 +306,7 @@ desvTipPob / sqrt(Tmuestra)
     
   Así que en principio ambas apuestas parecen iguales,
 
-+ Vamos a usar R para jugar a estos dos juegos sin tener que jugarnos el dinero. Descarga este \link{https://raw.githubusercontent.com/fernandosansegundo/MBDFME/master/scripts/sesion04-01-JuegosDeMere.R}{fichero de código} y ejecútalo. 
++ Vamos a usar R para jugar a estos dos juegos sin tener que jugarnos el dinero. Descarga este \link{https://raw.githubusercontent.com/fernandosansegundo/fmad2122/main/scripts/sesion03-01-JuegosDeMere.R}{fichero de código} y ejecútalo. 
 
 
 ## La paradoja del cumpleaños.
@@ -356,7 +356,7 @@ $$
   
 + Pero es necesario entender que la Regla de Laplace *no es una definición de Probabilidad*. En primer lugar porque sería una definición circular. Y en segundo lugar porque no sirve para responder a preguntas sencillas que tienen respuestas intuitivamente obvias como esta:  
   
-  - Si elegimos al azar un número real $x$ en el intervalo $[0,1]$, ¿cuál es la probabilidad de que sea $1/3\leq x\leq 2/3$? ¿Qué dice (a gritos) la intuición? Y ahora trata de pensar en este problema usando la regla de Laplace. ¿Cuántos casos posibles (valores de $x$) hay? ¿Cuántos son los casos favorables? Experimenta con este \link{https://raw.githubusercontent.com/fernandosansegundo/MBDFME/master/scripts/sesion04-02-ProbabilidadGeometrica.R}{fichero de código R}.
+  - Si elegimos al azar un número real $x$ en el intervalo $[0,1]$, ¿cuál es la probabilidad de que sea $1/3\leq x\leq 2/3$? ¿Qué dice (a gritos) la intuición? Y ahora trata de pensar en este problema usando la regla de Laplace. ¿Cuántos casos posibles (valores de $x$) hay? ¿Cuántos son los casos favorables? Experimenta con este \link{https://raw.githubusercontent.com/fernandosansegundo/fmad2122/main/scripts/sesion03-02-ProbabilidadGeometrica.R}{fichero de código R}.
   
   La Regla de Laplace no se diseñó para tratar con valores continuos, como el $x$ de este ejemplo. Necesitamos una noción de Probabilidad más general.
 
@@ -466,7 +466,7 @@ $$
 
 + Vamos a usar una tabla de datos sobre spam en mensajes de correo electrónico. La tabla se llama `spam` y pertenece a la librería `kernlab`. Instala la librería y carga la tabla con `data(spam)`, La tabla contiene datos sobre varios miles de mensajes de correo. La última columna contiene la clasificación como spam o no spam. Las primeras 48 columnas indican el porcentaje de palabras del mensaje que coinciden con el título de la columna. Aquí se muestra una parte de la tabla:
   \scriptsize
-    ```{r echo = 4}
+    ```{r message=FALSE, warning=FALSE, echo = -1}
     # Librería spam de Kernlab y Teorema de Bayes
     library(kernlab)
     data(spam)
@@ -526,13 +526,11 @@ $$
 \hline
 \end{tabular}
 
-+ Vamos a usar este \link{https://raw.githubusercontent.com/fernandosansegundo/MBDFME/master/scripts/sesion04-TablasContingencia.R}{script de R} para aprender algo más de lenguaje sobre tablas de contingencia y de como manejarlas con R.
++ Vamos a usar este \link{https://raw.githubusercontent.com/fernandosansegundo/fmad2122/main/scripts/sesion03-03-TablasContingencia.R}{script de R} para aprender algo más de lenguaje sobre tablas de contingencia y de como manejarlas con R.
 
 + Una prueba diagnóstica es un *clasificador* de pacientes. Más adelante vamos a encontrar muchos algoritmos clasificadores, porque \link{https://en.wikipedia.org/wiki/Statistical_classification}{clasificar} es una de las tareas básicas en *Machine Learning*. Veremos entonces que en ese contexto se usa mucho el vocabulario de pruebas diagnósticas.
 
 
-
-  
 ## Referencias para la sesión
 
 **Enlaces**
