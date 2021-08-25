@@ -306,7 +306,7 @@ desvTipPob / sqrt(Tmuestra)
     
   Así que en principio ambas apuestas parecen iguales,
 
-+ Vamos a usar R para jugar a estos dos juegos sin tener que jugarnos el dinero. Descarga este \link{https://raw.githubusercontent.com/fernandosansegundo/fmad2122/main/scripts/sesion03-01-JuegosDeMere.R}{fichero de código} y ejecútalo. 
++ Vamos a usar R para jugar a estos dos juegos sin tener que jugarnos el dinero. Descarga este \link{https://raw.githubusercontent.com/mbdfmad/fmad2122/main/scripts/sesion03-01-JuegosDeMere.R}{fichero de código} y ejecútalo. 
 
 
 ## La paradoja del cumpleaños.
@@ -356,7 +356,7 @@ $$
   
 + Pero es necesario entender que la Regla de Laplace *no es una definición de Probabilidad*. En primer lugar porque sería una definición circular. Y en segundo lugar porque no sirve para responder a preguntas sencillas que tienen respuestas intuitivamente obvias como esta:  
   
-  - Si elegimos al azar un número real $x$ en el intervalo $[0,1]$, ¿cuál es la probabilidad de que sea $1/3\leq x\leq 2/3$? ¿Qué dice (a gritos) la intuición? Y ahora trata de pensar en este problema usando la regla de Laplace. ¿Cuántos casos posibles (valores de $x$) hay? ¿Cuántos son los casos favorables? Experimenta con este \link{https://raw.githubusercontent.com/fernandosansegundo/fmad2122/main/scripts/sesion03-02-ProbabilidadGeometrica.R}{fichero de código R}.
+  - Si elegimos al azar un número real $x$ en el intervalo $[0,1]$, ¿cuál es la probabilidad de que sea $1/3\leq x\leq 2/3$? ¿Qué dice (a gritos) la intuición? Y ahora trata de pensar en este problema usando la regla de Laplace. ¿Cuántos casos posibles (valores de $x$) hay? ¿Cuántos son los casos favorables? Experimenta con este \link{https://raw.githubusercontent.com/mbdfmad/fmad2122/main/scripts/sesion03-02-ProbabilidadGeometrica.R}{fichero de código R}.
   
   La Regla de Laplace no se diseñó para tratar con valores continuos, como el $x$ de este ejemplo. Necesitamos una noción de Probabilidad más general.
 
@@ -526,7 +526,7 @@ $$
 \hline
 \end{tabular}
 
-+ Vamos a usar este \link{https://raw.githubusercontent.com/fernandosansegundo/fmad2122/main/scripts/sesion03-03-TablasContingencia.R}{script de R} para aprender algo más de lenguaje sobre tablas de contingencia y de como manejarlas con R.
++ Vamos a usar este \link{https://raw.githubusercontent.com/mbdfmad/fmad2122/main/scripts/sesion03-03-TablasContingencia.R}{script de R} para aprender algo más de lenguaje sobre tablas de contingencia y de como manejarlas con R.
 
 + Una prueba diagnóstica es un *clasificador* de pacientes. Más adelante vamos a encontrar muchos algoritmos clasificadores, porque \link{https://en.wikipedia.org/wiki/Statistical_classification}{clasificar} es una de las tareas básicas en *Machine Learning*. Veremos entonces que en ese contexto se usa mucho el vocabulario de pruebas diagnósticas.
 
@@ -536,17 +536,17 @@ $$
 **Enlaces**
 
 ```{r echo = FALSE, purl=FALSE, message=FALSE, error=FALSE}
-sessionName = "sesion02"
+sessionName = "sesion03"
 RmdName = paste0(sessionName,".Rmd")
 ScriptName = paste0(sessionName, "-comandos.R")
-lnkScriptGitHub = paste0("https://raw.githubusercontent.com/fernandosansegundo/MBDFME/master/scripts/", ScriptName)
+lnkScriptGitHub = paste0("https://raw.githubusercontent.com/mbdfmad/fmad2122/main/scripts/", ScriptName)
 ```
 ```{r eval=FALSE, echo=FALSE, error=FALSE, message=FALSE, purl=FALSE}
-sessionName = "sesion02"
+sessionName = "sesion03"
 RmdName = paste0(sessionName,".Rmd")
 ScriptName = paste0(sessionName, "-comandos.R")
-lnkScriptGitHub = paste0("https://raw.githubusercontent.com/fernandosansegundo/MBDFME/master/scripts/", ScriptName)
-knitr::purl(RmdName, output = paste0("../scripts/", ScriptName), documentation = 0)
+lnkScriptGitHub = paste0("https://raw.githubusercontent.com/mbdfmad/fmad2122/main/scripts/", ScriptName)
+knitr::purl(RmdName, output = paste0("./scripts/", ScriptName), documentation = 0)
 ```
 
 
@@ -558,14 +558,7 @@ download.file(lnkScriptGitHub, destfile = paste0(getwd(),"/", ScriptName))
 
 - \link{`r lnkScriptGitHub`}{Código de esta sesión}
 
-+ [\textcolor{blue}{{Cookbook for R}}](http://www.cookbook-r.com/)
-
-+ [\textcolor{blue}{{Página web de ggplot2}}](https://ggplot2.tidyverse.org/index.html), que contiene el 
-[\textcolor{blue}{{resumen (chuleta)}}](https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf)  elaborado por RStudio.
-
-+ [\textcolor{blue}{{Resumen sobre importación de datos a R (chuleta)}}](https://github.com/rstudio/cheatsheets/raw/master/data-import.pdf)  elaborado por RStudio.
-
-+ Web del libro [\textcolor{blue}{{PostData}}](http://www.postdata-statistics.com) y los tutoriales asociados. Para esta sesión se recomienda el Capítulo 2. 
++ Web del libro [\textcolor{blue}{{PostData}}](http://www.postdata-statistics.com) y los tutoriales asociados. Para esta sesión se recomienda el Capítulo 3. 
 
 
 **Bibliografía**
