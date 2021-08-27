@@ -230,14 +230,14 @@ $$
   
   $(4)$  La **probabilidad de éxito** en cada repetición se denomina $p$ y la de fracaso es $q = 1- p$.  En el ejemplo $p = 1/6, q= 5/6$.  
   
-  $(5)$ . La variable $X$ es la **suma del número de éxitos en las $n$ repeticiones independientes**.
+  $(5)$ La variable $X$ es la **suma del número de éxitos en las $n$ repeticiones independientes**.
 
 + **Definición de la variable aleatoria binomial.**  
   Una variable aleatoria discreta $X$ que reúne esas características es una variable aleatoria binomial de parámetros $n$ y $p$, y escribiremos $X \sim B(n, p)$. 
 
 ## Ejemplo:
 
-+ Vamos a ver un ejemplo de variable binomial. Para ello usaremos la variable `prevalentHyp` de la tabla `fhs` que hemos usado en sesiones previas. Esa variable vale 1 si el paciente hipertenso y 0 en caso contrario. Para insistir en la arbitrariedad de la elección mantenemos esos valores y definimos como *éxito* el hecho de que el paciente sea hipertenso. 
++ Vamos a ver un ejemplo de variable binomial. Para ello usaremos la variable `prevalentHyp` de la tabla `fhs`  (fichero `framingham.csv`) que hemos usado en sesiones previas. Esa variable vale 1 si el paciente hipertenso y 0 en caso contrario. Para insistir en la arbitrariedad de la elección mantenemos esos valores y definimos como *éxito* el hecho de que el paciente sea hipertenso. 
 
     ```{r message=FALSE, echo=FALSE}
     ## Variable aleatoria binomial.
@@ -326,7 +326,7 @@ $\quad$
 ## Representación gráfica de la variable binomial.
 
 + Para visualizar la tabla de densidad de probabilidad de una variable binomial con $n$ moderado lo mejor es utilizar un diagrama de barras como este que muestra como se *distribuye* la probabilidad sobre los valores de $0$ a $n$ (hemos reducido a 0 es espacio entre barras por razones que pronto quedarán claras).\scriptsize
-    ```{r message=FALSE, fig.align='center', out.width = "50%", echo = -1}
+    ```{r message=FALSE, fig.align='center', out.width = "30%", echo = -1}
     ## Representación gráfica de la variable binomial.
     probabilidades = dbinom(x = 0:7, size = 7, prob = p)
     bp = barplot(probabilidades, space = 0, col="tan", names.arg = 0:7)
@@ -364,12 +364,12 @@ $\quad$
   
   $(2)$ Binomiales con **$n$ grande y $p$ moderado (ni cerca de 0, ni cerca de 1)**.  De estas hablaremos en el resto de este tema.  
   
-  $(3)$ Binomiales con **$n$ grande y $p$ no moderado (cerca de 0 o cerca de 1)**.  Hablaremos de ellas más adelante al discutir la *Distribución de Poisson*.  
+  $(3)$ Binomiales con **$n$ grande y $p$ no moderado (cerca de 0 o cerca de 1)**.  De ellas se ocupa la *Distribución de Poisson*.  
 
 ## Binomiales con $n$ grande y $p$ moderado.
 
 + Vamos a ver ahora lo que sucede cuando $n$ es grande y mantenemos $p$ moderado (sin acercarlo al $0$ o al $1$). La siguiente figura muestra un diagrama de barras para la binomial $B(100, 1/3)$:
-    ```{r message=FALSE, fig.align='center', out.width = "60%", echo = FALSE}
+    ```{r message=FALSE, fig.align='center', out.width = "40%", echo = FALSE}
     ## Binomiales con $n$ grande y $p$ moderado.
     probabilidades = dbinom(x = 0:100, size = 100, prob = 1/3)
     bp = barplot(probabilidades, space = 0, col="tan", names.arg = 0:100)
@@ -387,7 +387,7 @@ P(25 \leq X \leq 35) =
 P(X = 25) + P(X = 26) + \cdots + P(X = 34) + P(X= 35)
 $$
   \normalsize Calcular la probabilidad de ese intervalo equivale a calcular el área sombreada.
-    ```{r probBinomial, message=FALSE, fig.align='center', out.width = "40%", echo = FALSE}
+    ```{r probBinomial, message=FALSE, fig.align='center', out.width = "25%", echo = FALSE}
     ## Cálculos de probabilidad en binomiales con $n$ muy grande.
     probabilidades = dbinom(x = 0:100, size = 100, prob = 1/3)
     barplot(probabilidades, space = 0, col="tan", names.arg = 0:100)
@@ -471,9 +471,9 @@ $$P(a \leq X \leq b) \approx \text{área bajo la gráfica de }f = \int_a^bf(x)\,
 ## Interpretación de la función de densidad.
 
 + La siguiente figura muestra una función de densidad y la forma de interpretar sus valores. Recuerda que los valores de la función no son probabilidades. Las probabilidades son *áreas*.
-  ```{r echo = FALSE, comment=NULL, fig.align='center', out.width = "65%", purl=FALSE}
-  include_graphics("./fig/04-05-InterpretacionFuncionDensidadFicticia.png")
-  ```
+    ```{r echo = FALSE, comment=NULL, fig.align='center', out.width = "65%", purl=FALSE}
+    include_graphics("./fig/04-05-InterpretacionFuncionDensidadFicticia.png")
+    ```
   Por eso decimos que una de estas funciones define una *distribución* (una forma de repartir) la probabilidad. Las variables discretas tienen una tabla de valores y probabilidades. Ahora tenemos la función $f$ para hacer el mismo trabajo. Es la versión teórica de las curvas de densidad que aprendimos a dibujar para describir los datos de una muestra.
 
 + Otra observación importante y que al principio resulta paradójica es que sea cual sea $x_0$ se cumple $P(X = x_0) = 0$.
@@ -666,10 +666,13 @@ $(c)$ Ejecuta `scale(168, center = 123, scale = 17)`
 
 ---
 
+En \link{https://xkcd.com/2118/}{XKCD} apareció esta viñeta sobre cálculo de probabilidades en la normal:
+
 $\quad$  
 ```{r echo = FALSE, comment=NULL, fig.align='center', out.width = "90%", purl=FALSE}
 include_graphics("./fig/04-08-XKCDNormallDistribution.png")
 ```
+
 
 
 ## Suma (y mezcla) de normales independientes.
@@ -679,7 +682,7 @@ $$
 N\left(\mu_1+\mu_2,\sqrt{\sigma_1^2+\sigma_2^2}\right).
 $$
 \normalsize Insistimos, la novedad es que *la suma de dos normales independientes sigue siendo normal*.  Ejecuta este código para ver un ejemplo\scriptsize
-    ```{r echo = -1, fig.align='center', out.width = "30%"}
+    ```{r echo = -1, fig.align='center', out.width = "25%"}
     ## Suma (y mezcla) de normales independientes.
     set.seed(2019)
     pob1 = rnorm(30000, mean = -3, sd = 1)
@@ -698,13 +701,13 @@ La **mezcla** de variables normales es un proceso completamente distinto. A menu
 **Enlaces**
 
 ```{r echo = FALSE, purl=FALSE, message=FALSE, error=FALSE}
-sessionName = "sesion03"
+sessionName = "sesion04"
 RmdName = paste0(sessionName,".Rmd")
 ScriptName = paste0(sessionName, "-comandos.R")
 lnkScriptGitHub = paste0("https://raw.githubusercontent.com/mbdfmad/fmad2122/main/scripts/", ScriptName)
 ```
 ```{r eval=FALSE, echo=FALSE, error=FALSE, message=FALSE, purl=FALSE}
-sessionName = "sesion03"
+sessionName = "sesion04"
 RmdName = paste0(sessionName,".Rmd")
 ScriptName = paste0(sessionName, "-comandos.R")
 lnkScriptGitHub = paste0("https://raw.githubusercontent.com/mbdfmad/fmad2122/main/scripts/", ScriptName)
@@ -712,7 +715,7 @@ knitr::purl(RmdName, output = paste0("./scripts/", ScriptName), documentation = 
 ```
 
 
-```{r echo=FALSE, eval=FALSE, comment=NULL}
+```{r echo=FALSE, eval=FALSE, comment=NULL, purl=FALSE}
 download.file(lnkScriptGitHub, destfile = paste0(getwd(),"/", ScriptName))
 ```
 
