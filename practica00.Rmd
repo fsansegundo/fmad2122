@@ -72,7 +72,7 @@ $\includegraphics[width=0.7cm]{fig/01-fig21-boton_code_GitHub.png}$ y en la vent
     En la lista que aparece asegúrate de comprobar que la información de las líneas `user.name`, `user.email` y `remote.origin.url` es correcta. 
 
 
-6. Ahora vuelve a la consola de RStudio (la pestaña de la izquierda si estás en *Terminal*). Vamos a llevar a cabo el proceso que se describe en el \link{Capítulo 19 de Happy Git}{https://happygitwithr.com/credential-caching.html\#credential-caching}, para que puedas sincronizar este repositorio con GitHub. Para hacerlo ejecuta este comando de R:
+6. Ahora vuelve a la consola de RStudio (la pestaña de la izquierda si estás en *Terminal*). Vamos a llevar a cabo el proceso que se describe en el \link{https://happygitwithr.com/credential-caching.html\#credential-caching}{Capítulo 19 de Happy Git}, para que puedas sincronizar este repositorio con GitHub. Para hacerlo ejecuta este comando de R:
     ```{r eval=FALSE, comment=NULL}
     usethis::create_github_token()
     ```
