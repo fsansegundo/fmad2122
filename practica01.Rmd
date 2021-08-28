@@ -19,7 +19,6 @@ bibliography: MBDFME.bib
 csl: ams-review.csl
 ---
 
-
 ```{r set-options, echo=FALSE, purl=FALSE}
 options(width = 60)
 library(knitr)
@@ -39,142 +38,499 @@ figpath <- function(figname){
 } 
 ```
 
+## Preliminares
+
 ```{r echo = FALSE}
 ## title: 'Master en Big Data. Fundamentos  matemáticos  del  análisis  de  datos.'
 ## author: "Fernando San Segundo"
-## subtitle: "Sesión 1: Presentación. Instalación de Software y Primeros Pasos"
+## subtitle: "Práctica 1"
+
+```
+
++ En esta y en las próximas prácticas vamos a empezar cargando algunas librerías y conjuntos de datos que luego necesitaremos en los ejemplos.
+    ```{r message=FALSE}
+    library(tidyverse)
+    
+    fhs = read_csv("data/framingham.csv")
+    ```
+
+
+## Verbos de dplyr
+
++ Esta sección pretende ser una invitación a la lectura del Capítulo 5 de [@Wickham2016] y desde luego no aspira a sustituir esa lectura.
+
++ Aunque ya hemos visto algunos ejemplos de `dplyr` en acción, vamos a recopilar aquí de forma más sistemática, los elementos básicos de la transformación de datos con esa librería. En esencia, la mayoría de las operaciones se organizan en torno a una familia de verbos. Los principales son:
+  - `select`
+  - `filter`
+  - `mutate`
+  - `arrange`
+  - `summarize`
+  - `group_by`
+  En las próximas páginas vamos a ver ejemplos de uso de estos verbos. Los tres primeros han aparecido ya, así que nos detendremos un poco más en los nuevos.
+
+```{r echo = FALSE}
+#############################################
+### Verbos de dplyr
+#############################################
+
+```
+
+## `select` para elegir columnas
+
++ En esta y en las siguientes páginas vamos a usar la tabla `gapminder, así que empezamos cargándola. Además vamos a ver los nombres de las variables que la componen:
+\small
+    ```{r echo = -1}
+    # dplyr: select.
+    
+    library(gapminder)
+    names(gapminder)
+    ```
+    \normalsize
+
++ Ahora vamos a usar `select` para elegir las columnas de `lifeExp` y `gdpPercap`.
+    ```{r size="small"}
+    gapminder %>% 
+      select(lifeExp, gdpPercap) %>% 
+      head(3)
+    ```
+  Fíjate en que hemos usado `head` para ver los primeros elementos de la tabla. 
+  
+## Otras posibilidades de `select`
+
++ De la misma forma que `12:20` representa un conjunto consecutivo de números podemos usar `:` para seleccionar un conjunto consecutivo de columnas *por sus nombres*. Y si usamos `-` estaremos excluyendo una columna:
+\small
+    ```{r}
+    gapminder %>% 
+      select(continent:pop, -year) %>% 
+      names()
+    ```
+    \normalsize Asegúrate de que entiendes por qué se incluyen específicamente esas columnas.
+  
++ Además podemos usar una serie de funciones auxiliares que permiten elegir las columnas cuyos nombres cumplan cierto patrón. Esas funciones incluyen: 
+`contain`, `starts_with`, `ends_with`, `matches`, `one_of` (\link{https://dplyr.tidyverse.org/reference/select.html}{pero hay más}). Por ejemplo:
+    ```{r}
+    gapminder %>%  
+      select(starts_with("c")) %>% 
+        names()
+    ```
+  Este tipo de funciones auxiliares son muy útiles cuando estemos *limpiando* *conjuntos sucios* de datos antes del análisis. 
+
+
+## `filter` para elegir filas.
+
++ La función `filter` realiza selección por filas en una tabla. Por ejemplo, para ver las observaciones correspondientes a España:
+\small
+    ```{r echo = -1}
+    # dplyr: filter
+    
+    gapminder %>%
+      filter(country == 'Spain') %>%
+      head(4)
+    ```
+  \normalsize
+  
++ Además de `filter` existen otras funciones que permiten seleccionar por filas. Por ejemplo aquí usamos `top_n` (mira la chuleta de dplyr para ver más posibilidades):
+\scriptsize
+    ```{r echo = -1}
+    # dplyr: filter
+    
+    gapminder %>% 
+    filter(year == "1997") %>% 
+    top_n(3, gdpPercap)
+    ```
+  \normalsize    
+
+## `mutate` para crear nuevas variables.
+
++ Usemos `mutate` para añadir una columna que calcule el `gdp` (en millones de dolares) multiplicando `pop` por `gdpPercap. Aprovechamos para usar `sample_n`, emparentada con `filter`:
+\small
+    ```{r echo=-1}
+    # dplyr: mutate
+    gapminder %>% 
+      mutate(gdp = pop * gdpPercap / 10^6) %>% 
+      filter(year == 1982) %>% 
+      sample_n(4)
+    ```
+    \normalsize
+
++ Hay otras funciones relacionadas con `mutate`, como `add_column`, `rename`, etc.  
+
++ Si quieres aplicar una función a todos los elementos de una columna puedes usar `mutate_at`. Por ejemplo, para calcular el logaritmo en base 10 del gdp, ejecuta:
+\small
+    ```{r eval=FALSE, comment=NULL}
+    gapminder %>% 
+      mutate(gdp = pop * gdpPercap / 10^6) %>% 
+      mutate_at("gdp", log10) %>% 
+      head(4)
+    ```
+    \normalsize
+
+## `summarize` y `group_by` para describir los datos
+
++ Vamos a ver como usar `summarize` para explorar nuestros datos. En un primer ejemplo sencillo vamos a calcular la longitud media de los pétalos en la tabla `iris`:
+\scriptsize
+    ```{r echo=-1}
+    # dplyr: summarise 
+        iris %>% 
+          summarise(mediana = median(Petal.Length), desvMediana = mad(Petal.Length))
+
+    ```
+    \normalsize Por cierto ¿como harías esto con R básico? Busca información sobre la familia de funciones `apply` de R (por ejemplo en el Capítulo 21 de [@Wickham2016], o las Secciones 3.3 y 4.4 de [@Matloff2011].)
+
+
++ Eso está bien, pero sabemos que `iris` contiene datos de tres especies y lo natural es preguntar si hay diferencias *significativas* (volveremos pronto sobre esa palabra) entre las longitudes de los pétalos de cada una de esas especies. Así que queremos calcular las medias por especie, que son *medias agrupadas*. Ahí es donde interviene `group_by`:
+\scriptsize
+    ```{r echo=-1}
+    # dplyr: summarise con group_by
+        
+        iris %>% 
+          group_by(Species) %>% 
+          summarise(mediana = median(Petal.Length), desvMediana = mad(Petal.Length))
+    ```
+    \normalsize 
+
+## Grupos con más de un factor.
+
++ En el ejemplo anterior hemos agrupado las observaciones de la tabla `iris` usando únicamente el factor `Species`. Pero no es necesario limitarse a un único factor. Por ejemplo en la tabla `mpg` 
+\scriptsize
+    ```{r echo=-1}
+    # group_by con más de un factor
+
+        mpg %>% 
+          group_by(manufacturer, cyl) %>% 
+          summarise(urbano = mean(cty), n = n()) %>% 
+      head(8)
+    ```
+    \normalsize 
+    
++ **Ejercicio:** ¿qué cambia si usas el orden inverso `group_by(manufacturer, cyl)` en el anterior código?
+    
++ **Ejercicio:** piensa qué hace la función `n()` en este código ()
+
+## Funciones que podemos usar con `summarize`
+
++ Para que podamos usar una función dentro de `summarize` tiene que ser una función vectorial (que actúa sobre una columna de la tabla, vista como vector) cuyo resultado sea un valor simple (como un número o un booleano). Te recomendamos consultar la discusión de la Sección 5.6.4 de [@Wickham2016]. 
+
++ Una de las funciones más útiles de ese tipo es la función `count`. Fíjate en el resultado de este código y compáralo con el anterior. 
+\scriptsize
+    ```{r echo=-1}
+    # group_by con más de un factor
+
+        mpg %>% 
+          group_by(manufacturer) %>% 
+          count(cyl) %>% 
+          head(8)
+    ```
+    \normalsize 
+    Observa en particular que no hemos necesitado agrupar por `cyl`.
+    
++ La Sección 5.7.1. de [@Wickham2016] describe otras operaciones interesantes que podemos hacer usando `group_by`.
+
+
+
+## Listas.
+
++ Como referencias para este apartado puedes usar [@Boehmke2016, capítulo 11], [@Matloff2011, capítulo 4]. 
+
++ A diferencia de los vectores, las listas sirven para guardar elementos heterogéneos (incluidas sublistas). La forma más sencilla de crear una lista es usando `list `:\small
+  ```{r}
+  (planeta = list(nombre = "Marte", exterior = TRUE, 
+                   radio = 3389.5, satelites = list("Fobos", "Deimos")))
+  ```
+  \normalsize
+
+## Accediendo a los elementos de una lista.
+
++ R usa `$` o doble corchete `[[ ]]` para identificar los elementos de la lista.\small
+  ```{r echo=-1}
+  # accediendo a los elementos de una lista
+  planeta[[1]]
+  planeta$exterior
+  planeta$satelites[[1]]
+  ```
+  \normalsize La salida es del tipo de objeto que hay en esa posición de la lista.
+  
++ Pero fíjate en la diferencia si usamos un único corchete:\small
+  ```{r }
+  planeta[1]
+  planeta["exterior"]
+  ```
+  \normalsize En este caso la salida *siempre es una lista*.
+
+## Funciones `list`, `append` y `c`.
+
++ Atención a esta diferencia:\scriptsize
+  ```{r echo=-1}
+  # Funciones list, append y c
+  (l1 = list("A", "B"))
+  (l2 = list(c("A", "B")))
+  ```
+  \normalsize La función `list` siempre crea *listas anidadas*. Por ejemplo este comando (no se muestra la salida) crea una lista con dos componentes y el primero es `l2`:\scriptsize
+  ```{r eval=FALSE}
+  (l3 = list(l2, "C"))
+  ```
+  \normalsize
+
++ Las funciones `append` y `c` *adjuntan* elementos. Estos comandos son equivalentes:\scriptsize
+  ```{r }
+  l4 = append(l2, "D")
+  (l4 = c(l2, "D"))
+  ```
+  \normalsize También se pueden añadir elementos por nombre, como en  
+  \small `planeta$distSol = 227.9` \normalsize 
+
+## Otras propiedades y operaciones con listas.
+
++ La función `length` produce el número de elementos de una lista. Y con `names` se obtienen los nombres de sus elementos (si se han dado nombres).
+
++ **Ejercicio:** Prueba a usar `names` y `length` con varias de las listas que hemos creado. Ejecuta `(sesion = sessionInfo())` `para ver lo que hace esa función. Y luego explora como acceder a las componentes usando `sesion$`
+
+
++ Para eliminar elementos de una lista basta con hacerlos `NULL`.\small
+  ```{r echo=-1}
+  # Otras propiedades y operaciones con listas
+  l4[3] = NULL
+  l4
+  ```
+  \normalsize
+
++ La función `unlist` *`aplana`* una lista dando como resultado un vector:\small
+  ```{r}
+  unlist(l1)
+  ```
+  \normalsize
+  
++ **Ejercicio:** ¿qué se obtiene al aplicar `unlist` a la siguiente `lista`?  
+\small `lista = list(letters[1:3], matrix(1:12, nrow = 3), TRUE)`. \normalsize
+```{r echo=FALSE, eval=FALSE, comment=NULL}
+lista = list(letters[1:3], matrix(1:12, nrow = 3), TRUE)
+unlist(lista)
 ```
 
 
-# Configurando tu repositorio personal en GitHub
+## Estructuras de control en R. Bloques if/else.
 
-1. Ve a la página de la organización del curso en GitHub:  
-\link{https://github.com/mbdfmad}{https://github.com/mbdfmad}.  
-Al enviar tu nombre de usuario en GitHub a los profesores habrás recibido una invitación para unirte a `mbdfmad`. Si aún no has aceptado esa invitación hazlo al acceder a la página por primera vez usando el enlace de la parte superior.
++ Como referencias para este apartado puedes usar [@Boehmke2016, capítulo 19], [@Matloff2011, capítulo 7]. 
 
++ **Bloques if/else.** La estructura básica de estos bloques es:\small
+  ```{}
+  if (condición) {
+    ...
+    sentencias que se ejecutan si condicion = TRUE
+    ...
+  }  else {
+    ...
+    sentencias que se ejecutan si condicion = FALSE
+    ...
+  }
+  ```
+  \normalsize Si necesitas condiciones anidadas puedes cambiar `else` por `else if` y añadir a continuación otra condición para crear un nuevo nivel de la estructura.
 
-2. Localiza tu repositorio en esa página. Tendrá un nombre como `apellido_nombre` ¡Pero con tu propio nombre y apellido, claro! No lo confundas con el repositorio de pruebas que se llama *textualmente* `apellido_nombre`.
++ La estructura `if` está pensada para ejecutarse sobre una *única* condición que produzca un  *único* valor `TRUE/FALSE`. Existe también una función vectorializada, llamada `ifelse` que se puede aplicar a un vector de condiciones. Un ejemplo:\small
+  ```{r echo=-1}
+  # Estructuras de control. If/else 
+  ifelse(((1:5) < 3), yes = "A",  no = "B")
+  ```
+  \normalsize
 
-3. Al entrar en tu repositorio usa el botón verde 
-$\includegraphics[width=0.7cm]{fig/01-fig21-boton_code_GitHub.png}$ y en la ventana que aparece copia la URL del repositorio haciendo clic en el símbolo del portapapeles. Asegúrate de usar la versión https, que debe ser algo como:
-    ```
-    https://github.com/mbdfmad/apellido_nombre.git
-    ```
+## Bucles for.
 
-4. Ahora, como hicimos en la Sesión 1, en RStudio usa el menú $\text{\menu[,]{File, New Project}}$ y en la ventana que aparece selecciona *Version Control*. A continuación selecciona *Git* y en el primer campo copia la URL en GitHub del paso anterior. No modifiques el nombre del repositorio y, **muy importante**, con el botón *browse* selecciona la ubicación del clon local del repositorio. Deberías situarlo dentro de tu carpeta de la asignatura, *al mismo nivel* que tu copia del repositorio `fmad2122`, **¡pero no dentro de este!**
-
----
-
-5. Cuando se abra la ventana de RStudio para el nuevo proyecto usa la pestaña *Terminal* (al lado de la consola) y ejecuta este comando:  
-    ```{r eval=FALSE, comment=NULL}
-    git config --local --list
-    ```
-    En la lista que aparece asegúrate de comprobar que la información de las líneas `user.name`, `user.email` y `remote.origin.url` es correcta. 
-
-
-6. Ahora vuelve a la consola de RStudio (la pestaña de la izquierda si estás en *Terminal*). Vamos a llevar a cabo el proceso que se describe en el \link{Capítulo 19 de Happy Git}{https://happygitwithr.com/credential-caching.html\#credential-caching}, para que puedas sincronizar este repositorio con GitHub. Para hacerlo ejecuta este comando de R:
-    ```{r eval=FALSE, comment=NULL}
-    usethis::create_github_token()
-    ```
-    Al ejecutarlo se abrirá tu navegador en una página de GitHub, con el encabezamiento *New personal access token*. El cursor se sitúa en un campo en el que verás el nombre `R:GITHUB_PAT`. Te sugiero que uses un nombre más descriptivo como `R_PAT_FMAD2122`. Acepta las opciones que aparecen marcadas por defecto y en la parte inferior de la página usa el botón verde *Generate token*. Cuando la ventana se recargue verás el PAT (personal access token) que has creado. Es, a los efectos que nos interesan, como una contraseña. Trátala como tal, y guárdala como harías con una contraseña de correo, de una cuenta bancaria, etc. 
-
----
-
-7. Nos queda un último paso de configuración. Ejecuta este comando en la consola de R:
-    ```{r eval=FALSE, comment=NULL}
-    gitcreds::gitcreds_set()
-    ```
-    Entonces R te pedirá que introduzcas el PAT que has creado en el paso anterior.
++ El bucle for se utiliza cuando queremos repetir un bloque de comando y conocemos de antemano el número máximo de repeticiones. Su estructura básica es similar a esta:\small
+  ```{}
+  for(k in valores_k) {
+    ...
+    cuerpo del bucle, se repite a lo sumo length(valores_k) veces
+    ...
+  }
+  ```
+  \normalsize La variable `k` (el nombre es arbitrario) es el *contador* del bucle for. El vector  `valores_k` contiene los valores que toma `k` en cada iteración. 
   
-8. Comprobemos que todo funciona. Usa el panel `Files` de RStudio (abajo a la derecha) para abrir el fichero llamado  `README.MD`. Es un fichero (de tipo `markdown`) que GitHub usa como punto de entrada y descripción de tu repositorio. Deja el contenido del repositorio como está pero añade una línea en la parte inferior que diga:
-    ```{r eval=FALSE, comment=NULL}
-    Repositorio activado el [fecha_de_hoy].
-    ```
-    cambiando el texto entre corchetes por la fecha real. Graba el fichero y mira el panel `Git` de RStudio (arriba, derecha). Debería aparecer el nombre del fichero `README.MD`. **Si aparecen más ficheros avisa a tu profesor antes de seguir adelante**. Marca la casilla a la izquierda del nombre y haz clic en el botón `Commit` de la parte superior.  Aparecerá una ventana como esta:
-    ```{r echo=FALSE, comment=NULL, fig.align='center', out.width = "30%",  purl=FALSE}
-    include_graphics("fig/PR1-ventana_Git_Rstudio.png")
-    ```
-En el campo  *Commit Message* escribe `Primer commit del curso`, asegúrate de que `README.md` está seleccionado en el panel de la izquierda y usa el botón `Commit`.
++ Si en alguna iteración queremos interrumpir el bucle cuando se cumple alguna condición (y no hacer ninguna iteración más), podemos combinar `if` con la función `break`. Si lo que queremos es solamente pasar a la siguiente iteración usamos `next` en lugar de `break`.
 
----
++ A menudo se usa un bucle for para *"rellenar"* un objeto como un vector o matriz. Es importante recordar que R es poco eficiente haciendo *"crecer"* estos objetos. En esos casos es mucho mejor comenzar creando el objeto completo, con todas sus posiciones, e ir asignado valores a posiciones en cada iteración (R lo inicializa a 0 ). 
 
-9. Aparecerá una ventana confirmando que el `commit` se ha completado. Ciérrala y ahora haz clic en al flecha verde  `Push` para enviar ese cambio a GitHub. De nuevo aparecerá una ventana en la que apenas debería haber tres líneas de texto, indicando que el `push` se ha completado. Si aparecen mensajes de error o tienes dudas consulta a tus profesores. Si todo ha ido bien, cierra esa ventana y la ventana titulada `RStudio Review Changes`.
++ En general **es preferible usar operaciones vectorializadas en lugar de bucles for**. Pronto aprenderemos las funciones de la familia `apply` para hacer esto.
 
-10. Finalmente, ve a la página de este repositorio en GitHub (recárgala si es necesario) y comprueba que el fichero `README.md` incluye la línea de texto que has añadido y que encima de ese fichero aparece el `commit` que acabas de hacer con su mensaje.
+## Ejemplo de bucle for con `next` y `break`.
 
-# Creando un fichero Rmarkdown para esta práctica. 
++ El siguiente código ilustra un bucle for con el uso de next y break. Ejecútalo varias veces para ver como se comporta según los valores de sus parámetros.
+  ```{r eval=FALSE, echo=-1, comment=NULL}
+  # Ejemplo de bucle for con next y break
+  valores = numeric(10) # Creamos un vector del tamaño previsto
+  for (k in 1:10){
+    sorteo = sample(1:20, 1)
+    print(paste0("k = ", k, ", sorteo = ", sorteo))
+    if (k %in% 5:6){
+      next # saltamos dos valores
+    } else if (sorteo  == 1){
+      print("Resultado del sorteo es 1, fin del bucle")
+      break # paramos si un valor aleatorio es 1
+    }
+    valores[k] = sorteo # se ejecuta cuando no se cumplan las condiciones
+  } 
+  valores
+  ```
+  
++ **Ejercicio:** ¿Qué valores asigna R a los elementos de los vectores creados respectivamente con `x = logical(10)` y con `v = character(10)`?  
 
-+ Antes de seguir adelante asegúrate de cerrar en RStudio el proyecto que acabamos de crear. Para ello puedes usar el menú $\text{\menu[,]{File,  Close Project}}$ Lo usaremos después pero ahora debe estar cerrado. 
+## Otros bucles: while y repeat.
 
-+ Crea una carpeta llamada P1 dentro de tu  tu *carpeta de la asignatura* (a la que nos referiremos como carpeta FMAD, aunque la puedes haber llamado como quieras). En particular asegúrate de que la carpeta P1 **no está** dentro de ninguna de las dos carpetas de repositorios (la que se llama `fmad2122` y la que se llama `apellido_nombre`).
++ En R también existen estos dos tipos de bucles, comunes a muchos lenguajes. Conviene insistir en que suele ser más eficiente evitar el uso de bucles.
 
-+ Descarga ahora a esa carpeta `P1` el fichero  Rmarkdown llamado  
-\begin{center}
-\link{https://raw.githubusercontent.com/mbdfmad/fmad2122/main/practicas/p1/P01_apellidos_nombre.Rmd}{practica01\_apellidos\_nombre.Rmd}.  
-\end{center}
-**Recuerda:** usa el código con `download.file`, no hagas la descarga con el navegador. 
++ El bucle `while` tiene esta estructura:\small
+  ```{}
+  while (condición){
+      ...
+      cuerpo del bucle, que eventualmente debe hacer condición TRUE o usar break
+      ...
+  }
+  ```
+  \normalsize 
 
-+ Abre ese fichero con RStudio. Puedes hacer doble clic con el ratón y *si todo va como se espera*, el fichero se abrirá normalmente. Pero siempre tienes la opción segura de usar el menú de RStudio. 
++ El bucle `repeat` tiene esta estructura:\small
+  ```{}
+  repeat {
+      ...
+      cuerpo del bucle, que debe usar break
+      ...
+  }
+  ```
+  \normalsize Insistimos: a diferencia de otros lenguajes, en R un bucle `repeat` debe usar explícitamente `break` para detenerse.
 
-+ Examina el contenido del fichero y después busca el menú desplegable (el pequeño triángulo negro) junto al botón `Knit` de la parte superior del editor de RStudio. Usa la opción `Knit to HTML` para empezar. Al cabo de unos segundos debe abrirse una ventana con el resultado del procesamiento de ese fichero. Si tienes problemas avisa a tus profesores.
+  
++ El código de este tema contiene ejemplos de bucle `while` y `repeat` con `break`, que puedes ejecutar varias veces. Observa las diferencias en el comportamiento de ambos bucles.
+```{r eval=FALSE, echo=FALSE, comment=NULL}
+# Ejemplo de bucle while
+k = 0
+while (k < 4){
+  k = k + 1
+  print(k)
+  if(sample(1:6, 1) == 6){
+    print("Final prematuro")
+    break()
+  } 
+}
+```
 
----
-
-+ En particular observa que el código R de cada uno de los bloques (*chunks*) se ha ejecutado y que el resultado de la ejecución se ha incorporado al documento HTML de salida.
-
-+ Prueba a usar ahora los botones `Knit to PDF` y `Knit to Word`. Estas dos opciones usan software adicional que debe estar instalado correctamente en tu ordenador, así que la probabilidad de fallo es más alta. Si ocurre eso avisa a tus profesores para que te aconsejen cómo proceder.
-
-+ En la siguiente sección vamos a hacer el trabajo de la práctica de hoy relacionado con los contenidos teóricos de la asignatura. Usa ese documento Rmarkdown para hacer los ejercicios que se proponen. Te servirá de ensayo para la primera tarea que debes entregar.
-
-# Ejercicios
-
-1. Usando la función `sample` crea un vector `dado_honesto` con 100 números del 1 al 6. Haz una tabla de frecuencias absolutas (de dos maneras, con `table` y `dplyr`) y una tabla de frecuencias relativas. 
-
-2. A continuación crea un nuevo vector `dado_cargado` de manera que la probabilidad de que el número elegido valga 6 sea el doble que la probabilidad de elegir cualquiera de los cinco números restantes. Lee la ayuda de `sample` si lo necesitas. De nuevo, haz tablas de frecuencias absolutas y relativas de este segundo vector.
-
-3. Utiliza las funciones `rep` y `seq` para crear tres vectores `v1`, `v2` y `v3` con estos elementos respectivamente:
-
-    ```{}
-    4, 4, 4, 4, 3, 3, 3, 3, 2, 2, 2, 2, 1, 1, 1, 1 
-    
-    1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5
-    
-    1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4
-    
-    ```
-
-4. Utilizando la tabla `mpg` de la librería `tidyverse` crea una tabla `mpg2` que: 
-    + contenga las filas en las que la variable `class` toma el valor `pickup`.
-    + y las columnas de la tabla original cuyos nombres empiezan por `c`. No se trata de que las selecciones *a mano*, por sus nombres. Busca información sobre funciones auxiliares para `select` en la \link{https://r4ds.had.co.nz/transform.html\#select}{Sección 5.4 de R4DS}.
+```{r eval=FALSE, echo=FALSE, comment=NULL}
+# Ejemplo de bucle repeat similar al bucle while previo
+k = 1
+repeat {
+  k = k + 1
+  print(k)
+  if(sample(1:6, 1) == 6){
+    print("Final prematuro")
+    break()
+  } 
+}
+```
 
 
----
 
-5. Descarga el fichero \link{http://www.stata-press.com/data/r8/census.dta}{census.dta}. Averigua de qué tipo de fichero se trata y usa la herramienta `Import DataSet` del panel `Environment` de RStudio para leer con R los datos de ese fichero. Asegúrate de copiar en esta práctica los dos primeros comandos que llevan a cabo la importación (excluye el comando `View`) y que descubrirás al usar esa herramienta. Después completa los siguientes apartados con esos datos y usando `dplyr` y `ggplot`:
-    + ¿Cuáles son las poblaciones totales de las regiones censales?
-    + Representa esas poblaciones totales en un diagrama de barras (una barra por región censal).
-    + Ordena los estados por población, de mayor a menor.
-    + Crea una nueva variable que contenga la tasa de divorcios /matrimonios para cada estado.
-    + Si nos preguntamos cuáles son los estados más envejecidos podemos responder de dos maneras. Mirando la edad mediana o mirando en qué estados la franja de mayor edad representa una proporción más alta de la población total. Haz una tabla en la que aparezcan los valores de estos dos criterios, ordenada según la edad mediana decreciente y muestra los 10 primeros estados de esa tabla.
-    + Haz un histograma (con 10 intervalos) de los valores de la variable `medage` (edad mediana) y con la curva de densidad de la variable superpuesta.
-    
-# Practicando la entrega de la Tarea 1.
+## Funciones de R.
 
-+ Cada semana del curso tras la práctica tendrás que hacer un Quiz en Moodle y una tarea. La tarea consistirá en elaborar un documento Rmarkdown en el que realizarás análisis de datos más complejos a medida que avancemos en el curso. Para entregarla debes crear en tu repositorio personal una carpeta. La de la primera tarea se llamará A1, la segunda A2, etc. Esta semana vamos a practicar la entrega y para ello usaremos el fichero Rmarkdown que has creado en la práctica de hoy. Vamos a ver paso a paso cómo hacer la entrega. 
-    
-+ Empieza creando dentro de tu repositorio (apellidos_nombre) una carpeta llamada A0. Copia en esa carpeta el fichero Rmarkdown que hemos usado para hacer los ejercicios de la práctica de hoy. Para entregar tareas debes guardar en esa carpeta cualquier fichero de datos, figura, etc. que sea necesario en la tarea.
-    
-+ Asegúrate de ejecutar en ese fichero *Knit to ...* para cada formato de entrega requerido (HTML, PDF) y comprueba que el resultado es correcto.
-    
-+ El resto es muy parecido a la que hicimos al activar este repositorio. Usa el botón `Commit` situado sobre el panel `Git` de Rstudio. En la parte superior izquierda de la ventana que aparece debes ver los ficheros que vas a entregar. En particular, debes ver el fichero Rmarkdown y el HTML o PDF. Marca la casilla `staged` para todos los ficheros (selecciona uno de ellos, pulsa CTRL+A y la barra de espacio). *Nota:* si sólo ves la carpeta `A0` haz clic en ella para desvelar los ficheros que contiene.
-    
----
++ Aunque R básico y todas las librerías disponibles nos ofrecen miles de funciones para las más diversas tareas, pronto llegará el día en que necesitarás escribir una función para resolver un problema específico.
+
++ Para escribir una función de R podemos usar este esquema básico\small
+  ```{}
+  nombreFuncion = function(argumento1, argumento2, ...){
+    ...
+    ...
       
-+ **Escribe un mensaje en la ventana** `commit message`. El texto del mensaje debe ser algo como *Entrega de la tarea A0*. Después usa el botón `Commit`.
+    líneas de código del cuerpo de la función
+    ...
+    ...
+  }
+  ```
+  \normalsize Como se ve la función tiene un *nombre*, una lista de *argumentos* y un *cuerpo* que contiene las líneas de código R que se ejecutarán al llamar a la función.
+  
+
+## Ejemplo
+
++ Crearemos una función `genPasswd` que genere contraseñas aleatorias. Los argumentos serán la longitud de la contraseña `size` y 3 booleanos `upp`, `low` y `nmb` que sirven para incluir o no respectivamente mayúsculas, minúsculas y números. Todos ellos menos `size` tienen valores por defecto.\scriptsize
+  ```{r echo=-1}
+  # Funciones de R
+  genPasswd = function(size, upp = TRUE, low = TRUE, nmb = TRUE){
+
+    # El vector pool guarda el juego de caracteres del password
+    pool = character() 
     
-+ Aparecerá la ventana que ya conoces para confirmar que el `commit` se ha completado. Ciérrala y ahora haz clic en la flecha verde  `Push`. Si aparecen mensajes de error o el sistema te pide una contraseña o, en cualquier caso, si tienes dudas consulta a tus profesores. Al terminar correctamente cierra esa ventana y la ventana titulada `RStudio Review Changes`.
+    # Generamos pool según las opciones
+    if(upp) pool = c(pool, LETTERS) 
+    if(low) pool = c(pool, letters)
+    if(nmb) pool = c(pool, 0:9)
     
-+ Ve a la web de GitHub y comprueba que esos cambios se han propagado hasta tu repositorio personal. Es decir, que existe una carpeta A0 que contiene los ficheros Rmarkdown y HTML o PDF y que el mensaje de commmit que has escrito aparece junto a ellos.
+    # Sorteamos los símbolos que aparecen en el password
+    passwd = sample(pool, size, replace = TRUE) 
+    # Y lo reducimos a un string con paste
+    paste(passwd, sep = "", collapse = "") 
+  }
+  ```
+  \normalsize
+  La función se ejecuta como cualquier otra función de R (*pero cuidado:* si tratas de ejecutarla sin darle un valor a `size` habrá un error.):\small
+  ```{r}
+  genPasswd(size = 15)
+  ```
+  \normalsize 
 
++ **Ejercicio:** lee la ayuda de la función `paste` (y después la de `paste0`). Es una función extremadamente útil para trabajar con texto.
+ 
+---
 
+## Acceso a las componentes de una función.
 
++ La función `formals` permite acceder la lista de argumentos de cualquier función. Prueba a ejecutar:\scriptsize
+  ```{r eval=FALSE, comment = NULL, echo=-1}
+  # Acceso a las componentes de una función
+  formals(genPasswd)
+  ```
+\normalsize El resultado es una *lista*. Este es un tipo de estructuras de datos muy importante que aún no hemos tratado, pero que veremos en breve. 
+
++ La función `body` permite acceder (¡y modificar!) el cuerpo de la función:\scriptsize
+  ```{r}
+  body(genPasswd)
+  ```
+  \normalsize Observa el resultado si ahora haces \small
+  ```{r eval=FALSE, comment=NULL}
+  body(genPasswd) = "No me apetece trabajar...invéntate tú el password"
+  genPasswd(12)
+  ```
+  \normalsize Puedes leer más sobre funciones en el Capítulo 18 de [@Boehmke2016].
+  
+
+## Manejo de datos ausentes. La función `is.na`
+
++ Hasta ahora hemos tocado sólo tangencialmente el tema de los datos ausentes, pero es sin duda uno de los quebraderos de cabeza más habituales que te encontrarás al trabajar con un nuevo conjunto de datos.
+
++ En R los datos ausentes se representan con el símbolo `NA`. Y disponemos de varias funciones para detectarlos. La más básica es `is.na`. Por ejemplo:
+  ```{r echo=-1}
+  # Manejo de datos ausentes. Función is.na
+  x = c(2, 3, -5, NA, 4, 6, NA)
+  is.na(x)
+  ```
+  Esta función es muy útil cuando se combina con otras como `which` que ya conoces o como `all` y `any`. Estas dos últimas actúan sobre un vector de booleanos y valen `TRUE` si todos o alguno, respectivamente, de los valores del vector son `TRUE`.
+  
++ Por ejemplo, podemos saber si `fhs$glucose` tiene algún valor ausente con
+    ```{r}
+    any(is.na(fhs$glucose))
+    ```
+  
+
+## Más sobre datos ausentes: `complete.cases` y `na.rm`
+
++ Una función relacionada es `complete.cases`, Aplicada a una tabla (`data.frame`) nos dirá para cada fila si esa fila tiene o no datos ausentes.\small
+  ```{r echo=-1}
+  # complete.cases y na.rm
+  head(complete.cases(fhs), 17)
+  ```
+  \normalsize El primer `FALSE` corresponde a la fila 15 de `fhs` que tiene un valor ausente en la columna `glucose`, como ya sabemos. 
+
++ La presencia de datos ausentes puede hacer que muchas funciones produzcan `NA` como resultado (o peor, que no funcionen correctamente). Por ejemplo, una media aritmética:\small
+  ```{r}
+  mean(fhs$glucose)
+  ```
+  \normalsize Muchas funciones de R disponen de un argumento `na.rm` para excluir los valores `NA` de la operación que se realice:\small
+  ```{r}
+  mean(fhs$glucose, na.rm = TRUE)
+  ```
+  \normalsize Puedes encontrar más información en la Sección 7.4 de \link{https://r4ds.had.co.nz/exploratory-data-analysis.html\#missing-values-2}{R for Data Science}, la Sección 5.12 de [@Peng2015] y el Capítulo 14 de [@Boehmke2016].
