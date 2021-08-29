@@ -142,7 +142,7 @@ figpath <- function(figname){
 
 ## `mutate` para crear nuevas variables.
 
-+ Usemos `mutate` para añadir una columna que calcule el `gdp` (en millones de dolares) multiplicando `pop` por `gdpPercap. Aprovechamos para usar `sample_n`, emparentada con `filter`:
++ Usemos `mutate` para añadir una columna que calcule el `gdp` (en millones de dolares) multiplicando `pop` por `gdpPercap`. Aprovechamos para usar `sample_n`, una función emparentada con `filter`:
 \small
     ```{r echo=-1}
     # dplyr: mutate
@@ -175,7 +175,7 @@ figpath <- function(figname){
           summarise(mediana = median(Petal.Length), desvMediana = mad(Petal.Length))
 
     ```
-    \normalsize Por cierto ¿como harías esto con R básico? Busca información sobre la familia de funciones `apply` de R (por ejemplo en el Capítulo 21 de [@Wickham2016], o las Secciones 3.3 y 4.4 de [@Matloff2011].)
+    \normalsize Por cierto ¿como harías esto con R básico? Busca información sobre la función `aggregate` y sobre la familia de funciones `apply` de R (por ejemplo en el Capítulo 21 de [@Wickham2016], o las Secciones 3.3 y 4.4 de [@Matloff2011].) 
 
 
 + Eso está bien, pero sabemos que `iris` contiene datos de tres especies y lo natural es preguntar si hay diferencias *significativas* (volveremos pronto sobre esa palabra) entre las longitudes de los pétalos de cada una de esas especies. Así que queremos calcular las medias por especie, que son *medias agrupadas*. Ahí es donde interviene `group_by`:
@@ -199,7 +199,7 @@ figpath <- function(figname){
         mpg %>% 
           group_by(manufacturer, cyl) %>% 
           summarise(urbano = mean(cty), n = n()) %>% 
-      head(8)
+      head(6)
     ```
     \normalsize 
     
@@ -222,7 +222,7 @@ figpath <- function(figname){
           head(8)
     ```
     \normalsize 
-    Observa en particular que no hemos necesitado agrupar por `cyl`.
+    Observa en particular que no hemos necesitado agrupar por `cyl` explícitamente.
     
 + La Sección 5.7.1. de [@Wickham2016] describe otras operaciones interesantes que podemos hacer usando `group_by`.
 
@@ -349,27 +349,28 @@ unlist(lista)
 
 + A menudo se usa un bucle for para *"rellenar"* un objeto como un vector o matriz. Es importante recordar que R es poco eficiente haciendo *"crecer"* estos objetos. En esos casos es mucho mejor comenzar creando el objeto completo, con todas sus posiciones, e ir asignado valores a posiciones en cada iteración (R lo inicializa a 0 ). 
 
-+ En general **es preferible usar operaciones vectorializadas en lugar de bucles for**. Pronto aprenderemos las funciones de la familia `apply` para hacer esto.
-
 ## Ejemplo de bucle for con `next` y `break`.
 
 + El siguiente código ilustra un bucle for con el uso de next y break. Ejecútalo varias veces para ver como se comporta según los valores de sus parámetros.
-  ```{r eval=FALSE, echo=-1, comment=NULL}
-  # Ejemplo de bucle for con next y break
-  valores = numeric(10) # Creamos un vector del tamaño previsto
-  for (k in 1:10){
-    sorteo = sample(1:20, 1)
-    print(paste0("k = ", k, ", sorteo = ", sorteo))
-    if (k %in% 5:6){
-      next # saltamos dos valores
-    } else if (sorteo  == 1){
-      print("Resultado del sorteo es 1, fin del bucle")
-      break # paramos si un valor aleatorio es 1
-    }
-    valores[k] = sorteo # se ejecuta cuando no se cumplan las condiciones
-  } 
-  valores
-  ```
+\small
+    ```{r eval=FALSE, echo=-1, comment=NULL}
+    # Ejemplo de bucle for con next y break
+    valores = numeric(10) # Creamos un vector del tamaño previsto
+    for (k in 1:10){
+      sorteo = sample(1:20, 1)
+      print(paste0("k = ", k, ", sorteo = ", sorteo))
+      if (k %in% 5:6){
+        next # saltamos dos valores
+      } else if (sorteo  == 1){
+        print("Resultado del sorteo es 1, fin del bucle")
+        break # paramos si un valor aleatorio es 1
+      }
+      valores[k] = sorteo # se ejecuta cuando no se cumplan las condiciones
+    } 
+    valores
+    ```
+    \normalsize
+
   
 + **Ejercicio:** ¿Qué valores asigna R a los elementos de los vectores creados respectivamente con `x = logical(10)` y con `v = character(10)`?  
 
@@ -377,11 +378,12 @@ unlist(lista)
 
 + En R también existen estos dos tipos de bucles, comunes a muchos lenguajes. Conviene insistir en que suele ser más eficiente evitar el uso de bucles.
 
-+ El bucle `while` tiene esta estructura:\small
++ El bucle `while` tiene esta estructura:
+\small
   ```{}
   while (condición){
       ...
-      cuerpo del bucle, que eventualmente debe hacer condición TRUE o usar break
+      cuerpo del bucle: eventualmente debe hacer condición TRUE o usar break
       ...
   }
   ```
@@ -398,7 +400,7 @@ unlist(lista)
   \normalsize Insistimos: a diferencia de otros lenguajes, en R un bucle `repeat` debe usar explícitamente `break` para detenerse.
 
   
-+ El código de este tema contiene ejemplos de bucle `while` y `repeat` con `break`, que puedes ejecutar varias veces. Observa las diferencias en el comportamiento de ambos bucles.
++ El código de este tema contiene ejemplos de bucle `while` y `repeat` con `break`, que puedes ejecutar varias veces. Observa las diferencias en el comportamiento de ambos bucles. Busca también información sobre el uso de `next` en los bucles de R.
 ```{r eval=FALSE, echo=FALSE, comment=NULL}
 # Ejemplo de bucle while
 k = 0
@@ -479,23 +481,23 @@ repeat {
 
 ## Acceso a las componentes de una función.
 
-+ La función `formals` permite acceder la lista de argumentos de cualquier función. Prueba a ejecutar:\scriptsize
-  ```{r eval=FALSE, comment = NULL, echo=-1}
-  # Acceso a las componentes de una función
-  formals(genPasswd)
-  ```
-\normalsize El resultado es una *lista*. Este es un tipo de estructuras de datos muy importante que aún no hemos tratado, pero que veremos en breve. 
++ La función `formals` produce como resultado una lista con los argumentos de cualquier función. Prueba a ejecutar:\scriptsize
+    ```{r eval=FALSE, comment = NULL, echo=-1}
+    # Acceso a las componentes de una función
+    formals(genPasswd)
+    ```
+    \normalsize
 
 + La función `body` permite acceder (¡y modificar!) el cuerpo de la función:\scriptsize
-  ```{r}
-  body(genPasswd)
-  ```
-  \normalsize Observa el resultado si ahora haces \small
-  ```{r eval=FALSE, comment=NULL}
-  body(genPasswd) = "No me apetece trabajar...invéntate tú el password"
-  genPasswd(12)
-  ```
-  \normalsize Puedes leer más sobre funciones en el Capítulo 18 de [@Boehmke2016].
+    ```{r}
+    body(genPasswd)
+    ```
+    \normalsize Observa el resultado si ahora haces \small
+    ```{r eval=FALSE, comment=NULL}
+    body(genPasswd) = "No me apetece trabajar...invéntate tú el password"
+    genPasswd(12)
+    ```
+    \normalsize Puedes leer más sobre funciones en el Capítulo 18 de [@Boehmke2016].
   
 
 ## Manejo de datos ausentes. La función `is.na`
