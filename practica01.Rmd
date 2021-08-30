@@ -536,3 +536,14 @@ repeat {
   mean(fhs$glucose, na.rm = TRUE)
   ```
   \normalsize Puedes encontrar más información en la Sección 7.4 de \link{https://r4ds.had.co.nz/exploratory-data-analysis.html\#missing-values-2}{R for Data Science}, la Sección 5.12 de [@Peng2015] y el Capítulo 14 de [@Boehmke2016].
+
+
+```{r eval=FALSE, echo=FALSE, error=FALSE, message=FALSE, purl=FALSE}
+sessionName = "practica01"
+RmdName = paste0(sessionName,".Rmd")
+ScriptName = paste0(sessionName, "-comandos.R")
+lnkScriptGitHub = paste0("https://raw.githubusercontent.com/mbdfmad/fmad2122/main/scripts/", ScriptName)
+knitr::purl(RmdName, output = paste0("./scripts/", ScriptName), documentation = 0)
+```
+
+## Referencias
