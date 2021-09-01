@@ -53,9 +53,9 @@ figpath <- function(figname){
 
 + **Profesores:** 
     - Fernando San Segundo, Contacto: \link{mailto://fsansegundo@icai.comillas.edu}{fsansegundo@comillas.edu}
-    - Santiago Cano, Contacto: PENDIENTE
+    - Santiago Cano, Contacto: \link{mailto://scano@comillas.edu}{scano@comillas.edu}
 
-+ La Guía Docente de la asignatura, así como el resto del material está accesible desde \link{https://sifo.comillas.edu/course/view.php?id=28578}{Moodle}. PENDIENTE
++ La Guía Docente de la asignatura, así como el resto del material está accesible desde \link{https://sifo.comillas.edu/course/view.php?id=34420}{Moodle}. 
 
 + La asignatura se plantea con un enfoque práctico y conceptual. Se trata de presentar las ideas fundamentales de la Estadística y el Análisis de Datos y hacerlo mediante la práctica computacional, usando el ecosistema de R como herramienta.
 
