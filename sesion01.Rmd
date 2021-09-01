@@ -258,7 +258,7 @@ include_graphics(figpath("01-fig18-RStudio-Paneles.png"))
 
 + Los creadores de RStudio ponen a nuestra disposición una versión web gratuita de la aplicación, llamada \link{https://rstudio.cloud}{RStudio Cloud}, que puede ser muy útil. Aunque se accede a través del navegador la interfaz es muy similar e incluso los atajos de teclado coinciden mayoritariamente. Esta opción puede resultar especialmente útil cuando se combina con el uso de repositorios en GitHub; por ejemplo para trabajar desde una tablet como se está haciendo en la figura:
 
-```{r echo=FALSE, comment=NULL, fig.align='center', out.width = "50%",  purl=FALSE}
+```{r echo=FALSE, comment=NULL, fig.align='center', out.width = "40%",  purl=FALSE}
 include_graphics(figpath("01-RStudioCloud.jpeg"))
 ```
 
