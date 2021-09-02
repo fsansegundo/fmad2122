@@ -874,8 +874,8 @@ lnkScriptGitHub = paste0("https://raw.githubusercontent.com/fernandosansegundo/M
 sessionName = "sesion02"
 RmdName = paste0(sessionName,".Rmd")
 ScriptName = paste0(sessionName, "-comandos.R")
-lnkScriptGitHub = paste0("https://raw.githubusercontent.com/fernandosansegundo/MBDFME/master/scripts/", ScriptName)
-knitr::purl(RmdName, output = paste0("../scripts/", ScriptName), documentation = 0)
+lnkScriptGitHub = paste0("https://raw.githubusercontent.com/mbdfmad/fmad2122/master/scripts/", ScriptName)
+knitr::purl(RmdName, output = paste0("./scripts/", ScriptName), documentation = 0)
 ```
 
 
