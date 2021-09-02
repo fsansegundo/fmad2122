@@ -259,8 +259,3 @@ ggplot(accidentes) +
 # Factores dicotómicos
 fhs = read_csv("./data/framingham.csv")
 mean(fhs$male)
-
-
-
-
-download.file(lnkScriptGitHub, destfile = paste0(getwd(),"/", ScriptName))
