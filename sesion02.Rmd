@@ -135,8 +135,7 @@ ${ }$
   <!--   .[1:20, ]     # ¿Qué hace esta última operación? -->
   <!-- ``` -->
 
-+ **Ejercicio:**  Repite estas operaciones con `dplyr`. Además úsalo para localizar cuál es la película más taquillera. ¿Cuál es el género de esa película?  
-
++ **Ejercicio:**  Repite estas operaciones con `dplyr`. Además úsalo para localizar cuál es la película más valorada por la audiencia (`Audience.score`). ¿Cuál es el género de esa película?  
 
 ## Usando readr para leer y escribir ficheros csv.
 
@@ -204,7 +203,7 @@ xls, que contiene datos sobre accidentes ferroviarios ocurridos en 2010 en los E
 
 + Las tablas de datos que hemos leído en los ficheros de la sección previa pueden contener variables de distintos tipos: números enteros, con decimales, fechas, variables binarias de tipo sí/no, hombre/mujer, ubicaciones, etc. Existen muchos tipos de datos distintos, que permiten distintas operaciones con ellos. 
 
-+ En las próximas secciones vamos a conocer las categorías básicas de datos y las formas más adecuadas de describirlos. Como ejemplos iniciales vamos a usar la tabla `mpg` contenida en la librería `tidyverse` y también una tabla con datos relativos a un estudio sobre enfermedades coronarias llevado a cabo en Framingham (UK). Puedes descargar el fichero csv desde [\textcolor{blue}{{este enlace}}](https://raw.githubusercontent.com/fernandosansegundo/MBDFME/master/data/framingham.csv) y leer más detalles sobre el estudio [\textcolor{blue}{{aquí}}.](https://biolincc.nhlbi.nih.gov/media/teachingstudies/FHS_Teaching_Longitudinal_Data_Documentation.pdf?link_time=2019-08-26_14:42:24.487245).
++ En las próximas secciones vamos a conocer las categorías básicas de datos y las formas más adecuadas de describirlos. Como ejemplos iniciales vamos a usar la tabla `mpg` contenida en la librería `tidyverse` y también una tabla con datos relativos a un estudio sobre enfermedades coronarias llevado a cabo en Framingham (UK). Puedes descargar el fichero csv desde [\textcolor{blue}{{este enlace}}](https://raw.githubusercontent.com/mbdfmad/fmad2122/main/data/framingham.csv) y leer más detalles sobre el estudio [\textcolor{blue}{{aquí}}.](https://biolincc.nhlbi.nih.gov/media/teachingstudies/FHS_Teaching_Longitudinal_Data_Documentation.pdf?link_time=2019-08-26_14:42:24.487245).
 
 ---
 
@@ -249,11 +248,10 @@ fhs = read_csv("./data/framingham.csv")
 + La variable `cty` de `mpg` el número de millas por galón que el coche recorre en ciclo urbano (atención: valores más altos indican menor consumo de combustible). Fíjate en que los valores son un número entero de millas. En principio no hay nada que impida dar esos valores con decimales. Pero no es eso lo que se *ha decidido* hacer aquí, sino que se trata como una variable discreta. 
 
 + El primer paso con una variable discreta como esta es obtener una tabla de frecuencias (absolutas), que nos dirá qué valores toma la variable y cuántas veces toma cada valor. Usando `table` 
-  ```{r comment=NULL, echo=-(1:2)}
-  # variable discreta, tabla de frecuencia absoluta
-  options(width = 100)
-  table(mpg$cty)
-  ```
+```{r comment=NULL, echo=-1, out.width=100}
+# variable discreta, tabla de frecuencia absoluta
+table(mpg$cty)
+```
  
  + También se puede usar la función `count` de `dplyr` así (se omite el resultado):
     ```{r eval = FALSE, comment=NULL}
@@ -314,7 +312,7 @@ fhs = read_csv("./data/framingham.csv")
 
 ## Discreto vs continuo.
 
-+ Las tablas de frecuencias por valores no son útiles cuando hay muchos valores distintos. La tabla de frecuencias de `cty` ya era un poco excesiva. Pero  si tratamos de calcular una tabla de frecuencia para la variable `age` de la tabla `fhs` 
++ Las tablas de frecuencias por valores no son útiles cuando hay muchos valores distintos. La tabla de frecuencias de `cty` ya era un poco excesiva. Pero  si tratamos de calcular una tabla de frecuencia para la variable `totChol` de la tabla `fhs` 
   ```{r eval = FALSE, comment=NULL, echo = -1}
   # Error:  tabla de frecuencia de una v. continua 
   table(fhs$totChol)
@@ -466,7 +464,7 @@ ${}$
 ## Distribuciones asimétricas.
 
 + Otra característica de las distribuciones en la que nos vamos a fijar a menudo es su simetría. Fíjate en que es la *cola* más larga de la distribución la que da nombre a la asimetría. En inglés esta característica se denomina [\textcolor{blue}{{skewness}}](https://en.wikipedia.org/wiki/Skewness)
-```{r echo = FALSE, message=FALSE, fig.align='center', out.width = "80%"}
+```{r echo = FALSE, message=FALSE, fig.align='center', out.width = "50%"}
 # Ilustrando el concepto de skewness p.5
 par(mfrow = c(3, 1))
 curve(dchisq(x, df=6), from = 0, to = 16, 
@@ -615,9 +613,9 @@ $$
 + En esta otra figura puedes ver juntas las curvas de densidad de esos dos conjuntos de datos. 
   ```{r echo = FALSE, message=FALSE, warning=FALSE, fig.align='center', out.width = "50%"}
   # y la versión en curvas de densidad de la siguiente página
-  plot(density(muestra1, adjust = 2), col="blue", 
+  plot(density(muestra1, adjust = 2), col="red", 
        xlim = c(-12, 12), lwd = 3, main = "", xlab= "")
-  lines(density(muestra2, adjust = 2), col="red", lwd = 3, sub="")
+  lines(density(muestra2, adjust = 2), col="blue", lwd = 3, sub="")
   ```
   Este diagrama ilustra lo que la mostraban las nubes de puntos de la figura previa: los puntos de un conjunto están más agrupados en torno al centro que los del otro conjunto. La diferencia entre ambos conjuntos está en la **dispersión**.  
 
@@ -868,7 +866,7 @@ puedes comprobar que esto es lo mismo que:
 sessionName = "sesion02"
 RmdName = paste0(sessionName,".Rmd")
 ScriptName = paste0(sessionName, "-comandos.R")
-lnkScriptGitHub = paste0("https://raw.githubusercontent.com/fernandosansegundo/MBDFME/master/scripts/", ScriptName)
+lnkScriptGitHub = paste0("https://github.com/mbdfmad/fmad2122/tree/main/scripts/", ScriptName)
 ```
 ```{r eval=FALSE, echo=FALSE, error=FALSE, message=FALSE, purl=FALSE}
 sessionName = "sesion02"
