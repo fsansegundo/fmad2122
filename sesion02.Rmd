@@ -615,7 +615,7 @@ $$
        xlim = c(-12, 12), lwd = 3, main = "", xlab= "")
   lines(density(muestra2, adjust = 2), col="blue", lwd = 3, sub="")
   ``` 
-  Este diagrama ilustra lo que la mostraban las nubes de puntos de la figura previa: los puntos de un conjunto están más agrupados en torno al centro que los del otro conjunto. La diferencia entre ambos conjuntos está en la **dispersión**.  
+  Este diagrama ilustra lo que mostraban las nubes de puntos de la figura previa: los puntos de un conjunto están más agrupados en torno al centro que los del otro conjunto. La diferencia entre ambos conjuntos está en la **dispersión**.  
 
 + La idea intuitiva de la dispersión está clara: se trata de medir como de agrupados en torno al centro están los valores. ¿Como se define rigurosamente? Al igual que sucedía con los valores centrales (media vs mediana) hay varias posibilidades.
 
