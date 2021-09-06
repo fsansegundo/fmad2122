@@ -126,7 +126,7 @@ Para que te sirva de referencia, la versión de R que estamos usando al escribir
 include_graphics(figpath("01-fig02.png"))
 ```
 
-- Trabajar con R directamente no es muy cómodo, así que usaremos un entorno de trabajo llamado \link{https://www.rstudio.com/}{RStudio Desktop}. Descarga la versión gratuita (free) para tu sistema de RStudio Desktop usando \link{https://www.rstudio.com/products/rstudio/download/}{este enlace}. Denuevo, para ver el proceso por adelantado, aquí tienes un vídeo de una \link{https://youtu.be/tzShg0l7Iac}{instalación reciente de RStudio en Windows}.
+- Trabajar con R directamente no es muy cómodo, así que usaremos un entorno de trabajo llamado \link{https://www.rstudio.com/}{RStudio Desktop}. Descarga la versión gratuita (free) para tu sistema de RStudio Desktop usando \link{https://www.rstudio.com/products/rstudio/download/}{este enlace}. De nuevo, para ver el proceso por adelantado, aquí tienes un vídeo de una \link{https://youtu.be/tzShg0l7Iac}{instalación reciente de RStudio en Windows}.
 
 - **¡Instala RStudio antes de continuar!**
 
@@ -145,7 +145,7 @@ include_graphics(figpath("01-fig02.png"))
 
 ## Python
 
-+ Vamos a usar R de forma casi exclusiva en esta asignatura, pero es obligado señalar que Python es también extremadamente popular en este momento y es el lenguaje predominante en campos como el Aprendizaje Profundo (*Deep Learning*). En particular veremos en clase ejemplos que ilustran la forma de combinar ambos lemguajes en nuestro trabajo para aprovechar lo mejor de ambos. 
++ Vamos a usar R de forma casi exclusiva en esta asignatura, pero es obligado señalar que Python es también extremadamente popular en este momento y es el lenguaje predominante en campos como el Aprendizaje Profundo (*Deep Learning*). En particular veremos en clase ejemplos que ilustran la forma de combinar ambos lenguajes en nuestro trabajo para aprovechar lo mejor de ambos. 
 
 + Si usas Mac o Linux ya tienes una instalación de Python en tu sistema. En Windows tienes que instalar una distribución de Python antes de usarla. **ATENCIÓN:** la instalación de Python es una fuente habitual de quebraderos de cabeza. Si dudas es *mucho mejor* que preguntes a tus profesores. En el Curso 0 tendrás una introducción a Python.  Pero en cualquier caso es importante que te informes bien antes de hacer cambios que pueden *dañar tu instalación de Python gravemente*. 
 
@@ -333,7 +333,7 @@ include_graphics(figpath("01-RStudioCloud.jpeg"))
     ```{r eval = FALSE, comment = NULL,}
     a <- 2
     ```
-    De hecho el uso de `=` para asignaciones \link{https://style.tidyverse.org/syntax.html\#assignment-1}{se desaconseja} en la comunidad de usarios de R. En RStudio con Windows puedes usar el atajo de teclado $\text{\keys{Alt + \_}}$, mientras que en Mac  usaremos $\text{\keys{\Alt + \_}}$.  Si quieres leer algo más sobre esta discusión (bizantina), \link{https://stackoverflow.com/questions/1741820/what-are-the-differences-between-and-assignment-operators-in-r}{puedes hacerlo aquí}. En realidad este párrafo es una excusa para introducir enlaces a Stackoverflow, y a una guía de estilo del código de R.
+    De hecho el uso de `=` para asignaciones \link{https://style.tidyverse.org/syntax.html\#assignment-1}{se desaconseja} en la comunidad de usuarios de R. En RStudio con Windows puedes usar el atajo de teclado $\text{\keys{Alt + \_}}$, mientras que en Mac  usaremos $\text{\keys{\Alt + \_}}$.  Si quieres leer algo más sobre esta discusión (bizantina), \link{https://stackoverflow.com/questions/1741820/what-are-the-differences-between-and-assignment-operators-in-r}{puedes hacerlo aquí}. En realidad este párrafo es una excusa para introducir enlaces a Stackoverflow, y a una guía de estilo del código de R.
 
 ## Haciendo limpieza antes de seguir adelante.
 
@@ -704,9 +704,9 @@ Por ejemplo en Windows una ubicación típica podría ser algo como:
     ```
     \normalsize En ambos casos los puntos se refieren a subcarpetas intermedias que puedas querer usar (como OneDrive, Dropbox o cualquier otra).
 
-## Manteniedo la copia local actualizada
+## Manteniendo la copia local actualizada
 
-+ Aunque Git permite mantener sincronizada tu copia con los cambios que se vayan produciendo en el repositorio de la asignatura, si te has acostumbrado al funcionamiento de solcuiones como Dropbox, OneDrive, iCloud y otras similares, al principio te costará un poco de trabajo comprender que **en Git la sincroniazción no es automática.** Es razonable que sea así puesto que se trata de un sistema pensado para el control de versiones en el desarrollo de software: nadie quiere que los cambios en ese tipo de trabajo sean *demasiado automáticos*, eso causaría muchos más problemas de los que solucionaría.
++ Aunque Git permite mantener sincronizada tu copia con los cambios que se vayan produciendo en el repositorio de la asignatura, si te has acostumbrado al funcionamiento de soluciones como Dropbox, OneDrive, iCloud y otras similares, al principio te costará un poco de trabajo comprender que **en Git la sincronización no es automática.** Es razonable que sea así puesto que se trata de un sistema pensado para el control de versiones en el desarrollo de software: nadie quiere que los cambios en ese tipo de trabajo sean *demasiado automáticos*, eso causaría muchos más problemas de los que solucionaría.
 
 + Por eso, cuando los profesores del curso hagan cambios en el repositorio *fmad2122* deberás pedir explícitamente a Git que sincronice esos cambios con tu copia local. La forma más sencilla de hacer esto desde RStudio es abrir el proyecto asociado a ese repositorio y en el panel Git usar el botón `pull`. A lo largo del curso te recordaremos varias veces la necesidad de hacer esto con regularidad hasta que lo conviertas en una acto reflejo cada vez que empieces el trabajo. 
 
