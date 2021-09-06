@@ -248,10 +248,10 @@ fhs = read_csv("./data/framingham.csv")
 + La variable `cty` de `mpg` el número de millas por galón que el coche recorre en ciclo urbano (atención: valores más altos indican menor consumo de combustible). Fíjate en que los valores son un número entero de millas. En principio no hay nada que impida dar esos valores con decimales. Pero no es eso lo que se *ha decidido* hacer aquí, sino que se trata como una variable discreta. 
 
 + El primer paso con una variable discreta como esta es obtener una tabla de frecuencias (absolutas), que nos dirá qué valores toma la variable y cuántas veces toma cada valor. Usando `table` 
-```{r comment=NULL, echo=-1, out.width=100}
-# variable discreta, tabla de frecuencia absoluta
-table(mpg$cty)
-```
+    ```{r comment=NULL, echo=-1, out.width=100}
+    # variable discreta, tabla de frecuencia absoluta
+    table(mpg$cty)
+    ```
  
  + También se puede usar la función `count` de `dplyr` así (se omite el resultado):
     ```{r eval = FALSE, comment=NULL}
@@ -264,12 +264,11 @@ table(mpg$cty)
 + A menudo, y especialmente cuando se usan para comparaciones, nos interesa más saber la fracción del total que corresponde a cada uno de los valores de una variable discreta. Cuando esas fracciones se expresan como *tanto por uno* obtenemos las frecuencias relativas, que es fácil convertir en porcentajes.
 
 + Vamos a obtener una tabla de frecuencias relativas con R básico (para mejorar la presentación elegimos el número de cifras significativas con `signif`):\small
-  ```{r echo = -(1:2)}
-  # y tabla de frecuencia relativa
-  options(width = 70)
-  signif(prop.table(table(mpg$cty)), 2)
-  ```
-  \normalsize
+    ```{r echo = -1, out.width=70}
+    # y tabla de frecuencia relativa
+    signif(prop.table(table(mpg$cty)), 2)
+    ```
+    \normalsize
 
 + Se puede usar `dplyr` pero en este caso es más complicado que con el R básico.
   ```{r eval = FALSE, comment=NULL}
@@ -302,11 +301,10 @@ table(mpg$cty)
   cumsum(table(mpg$cty))
   ```
   \scriptsize
-  ```{r echo=FALSE, purl = FALSE}
-  options(width = 80)
-  cumsum(table(mpg$cty))
-  ```
-  \normalsize Por ejemplo, en la tabla hay `r cumsum(table(mpg$cty))[7]` valores menores o iguales que `r (sort(unique(mpg$cty)))[7]`.  **Ejercicio:** (1) con `mutate` y una función adecuada haz esto en `dplyr`. (2) ¿para qué sirven las frecuencias *acumuladas relativas*? ¿son distintas de las *relativas acumuladas*?
+    ```{r echo=FALSE, purl = FALSE, out.width=80}
+    cumsum(table(mpg$cty))
+    ```
+    \normalsize Por ejemplo, en la tabla hay `r cumsum(table(mpg$cty))[7]` valores menores o iguales que `r (sort(unique(mpg$cty)))[7]`.  **Ejercicio:** (1) con `mutate` y una función adecuada haz esto en `dplyr`. (2) ¿para qué sirven las frecuencias *acumuladas relativas*? ¿son distintas de las *relativas acumuladas*?
 
 # Variables cuantitativas continuas,
 
@@ -616,7 +614,7 @@ $$
   plot(density(muestra1, adjust = 2), col="red", 
        xlim = c(-12, 12), lwd = 3, main = "", xlab= "")
   lines(density(muestra2, adjust = 2), col="blue", lwd = 3, sub="")
-  ```
+  ``` 
   Este diagrama ilustra lo que la mostraban las nubes de puntos de la figura previa: los puntos de un conjunto están más agrupados en torno al centro que los del otro conjunto. La diferencia entre ambos conjuntos está en la **dispersión**.  
 
 + La idea intuitiva de la dispersión está clara: se trata de medir como de agrupados en torno al centro están los valores. ¿Como se define rigurosamente? Al igual que sucedía con los valores centrales (media vs mediana) hay varias posibilidades.
@@ -789,20 +787,19 @@ puedes comprobar que esto es lo mismo que:
 
 + Podemos crear un factor a partir de un vector de strings con la función `factor`:
   \small
-    ```{r echo=-1}
-    options(width = 70)
+    ```{r echo=-1, out.width=70}
+    # Función factor
     (ardeida = factor(c("martinete", "garzaReal", "avetorillo", "garzaReal",
                         "cangrejera", "martinete", "martinete"), ))
     ```
- \normalsize Dos detalles sobre la salida: fíjate en la ausencia de comillas y en que el orden de los niveles es alfabético. Si quieres otro orden (por ejemplo para las tablas de frecuencia) puedes hacerlo explícito:
+    \normalsize Dos detalles sobre la salida: fíjate en la ausencia de comillas y en que el orden de los niveles es alfabético. Si quieres otro orden (por ejemplo para las tablas de frecuencia) puedes hacerlo explícito:
   \small
-    ```{r echo=-1}
-    options(width = 70)
+    ```{r out.width=70}
     (ardeida = factor(c("martinete", "garzaReal", "avetorillo", "garzaReal",
                       "cangrejera", "martinete", "martinete"), 
     levels = c("garzaReal", "martinete",  "cangrejera", "avetorillo")))  
     ```
-\normalsize
+    \normalsize
 
 + El factor puede ser *ordenado* si además incorporamos la opción `ordered = TRUE`. *No se debe confundir con el uso de levels* para fijar un orden "estético"  de los niveles. En un factor ordenado el orden aporta información *relevante* sobre los niveles.
 

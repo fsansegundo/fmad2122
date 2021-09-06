@@ -41,14 +41,12 @@ file.remove("./data/iris.xlsx")
 fhs = read_csv("./data/framingham.csv")
 
 # variable discreta, tabla de frecuencia absoluta
-options(width = 100)
 table(mpg$cty)
 
 mpg %>%
   count(cty)
 
 # y tabla de frecuencia relativa
-options(width = 70)
 signif(prop.table(table(mpg$cty)), 2)
 
       mpg %>% 
@@ -187,9 +185,9 @@ ggplot(data = muestras) +
   coord_flip()
 
 # y la versión en curvas de densidad de la siguiente página
-plot(density(muestra1, adjust = 2), col="blue", 
+plot(density(muestra1, adjust = 2), col="red", 
      xlim = c(-12, 12), lwd = 3, main = "", xlab= "")
-lines(density(muestra2, adjust = 2), col="red", lwd = 3, sub="")
+lines(density(muestra2, adjust = 2), col="blue", lwd = 3, sub="")
 
 # Recorrido intercuartílico, p. 16
 IQR(mpg$cty)
@@ -236,11 +234,10 @@ sqrt(var(mpg$displ))
 table(accidentes$TrkType)
 prop.table(table(accidentes$TrkType))
 
-options(width = 70)
+# Función factor
 (ardeida = factor(c("martinete", "garzaReal", "avetorillo", "garzaReal",
                     "cangrejera", "martinete", "martinete"), ))
 
-options(width = 70)
 (ardeida = factor(c("martinete", "garzaReal", "avetorillo", "garzaReal",
                   "cangrejera", "martinete", "martinete"), 
 levels = c("garzaReal", "martinete",  "cangrejera", "avetorillo")))  
