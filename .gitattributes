@@ -2,3 +2,5 @@
 *.js linguist-documentation
 *.tex linguist-documentation
 *.css linguist-documentation
+*.csv filter=cr
+
