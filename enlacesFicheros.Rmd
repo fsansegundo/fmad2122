@@ -1,0 +1,13 @@
+---
+title: 'Master en Big Data. Fundamentos  matemáticos  del  análisis  de  datos.'
+subtitle: "Enlaces a ficheros de datos"
+author: "Fernando San Segundo"
+date: 'Curso 2021-22. Última actualización: `r format(Sys.time(), "%Y-%m-%d")`'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
++ [auto2.dta](http://www.stata-press.com/data/r8/auto2.dta)
