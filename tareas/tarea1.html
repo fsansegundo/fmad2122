@@ -167,7 +167,7 @@ pre code {
 <h1 class="title toc-ignore">Master en Big Data. Fundamentos Matemáticos del Análisis de Datos (FMAD).</h1>
 <h3 class="subtitle">Tarea 1</h3>
 <h4 class="author">Departamento de Matemática Aplicada</h4>
-<h4 class="date">Curso 2021-22. Última actualización: 2021-07-20</h4>
+<h4 class="date">Curso 2021-22. Última actualización: 2021-09-09</h4>
 
 </div>
 
@@ -175,7 +175,58 @@ pre code {
 <div id="instrucciones-preliminares" class="section level1">
 <h1>Instrucciones preliminares</h1>
 <ul>
-<li>Empieza abriendo el proyecto de RStudio correspondiente a tu repositorio personal de la asignatura.</li>
+<li><p>Empieza abriendo el proyecto de RStudio correspondiente a tu repositorio personal de la asignatura.</p></li>
+<li><p>En todas las tareas tendrás que repetir un proceso como el descrito en la sección <em>Repite los pasos Creando un fichero Rmarkdown para esta práctica</em> de la <em>Práctica00</em>. Puedes releer la sección <em>Practicando la entrega de las Tareas</em> de esa misma práctica para recordar el procedimiento de entrega.</p></li>
+</ul>
+</div>
+<div id="ejercicio-0" class="section level1">
+<h1>Ejercicio 0</h1>
+<ul>
+<li>Si no has hecho los <em>Ejercicios</em> de la <em>Práctica00</em> (págs. 12 y 13) hazlos ahora y añádelos a esta tarea. Si ya los has hecho y entregado a través de GitHub no hace falta que hagas nada.</li>
+</ul>
+</div>
+<div id="ejercicio-1.-análisis-exploratorio-de-un-conjunto-de-datos-y-operaciones-con-dplyr." class="section level1">
+<h1>Ejercicio 1. Análisis exploratorio de un conjunto de datos y operaciones con dplyr.</h1>
+<ul>
+<li><p>Vamos a utilizar el conjunto de datos contenido en el fichero (es un enlace):<br />
+<a href="https://gist.githubusercontent.com/fsansegundo/ee991e53e1a571dd34034c42b5516eae/raw/2206455b5772e90c5a2a24a3f42a84408fd1d1c5/cholesterol.csv">cholesterol.csv</a><br />
+Los datos proceden de un estudio realizado en la <em>University of Virginia School of Medicine</em> que investiga la prevalencia de la obesidad, la diabetes y otros factores de riesgo cardiovascular. Se puede encontrar más información sobre el fichero en este </p></li>
+<li><p>Carga el conjunto de datos en un data.frame de R llamado <code>chlstrl</code>.</p></li>
+<li><p>Empezaremos por información básica sobre el conjunto de datos. Cuántas observaciones contiene, cuáles son las variables y de qué tipos,…</p></li>
+<li><p>Asegúrate de comprobar si hay datos ausentes y localízalos en la tabla.</p></li>
+<li><p>El análisis exploratorio (numérico y gráfico) debe cubrir todos los tipos de variable de la tabla. Es decir, que al menos debes estudiar una variable por cada tipo de variable presente en la tabla. El análisis debe contener, al menos:</p>
+<ul>
+<li>Para las variables cuantittativas (continuas o discretas).<br />
+Resumen numérico básico.<br />
+Gráficas (las adecuadas, a ser posible más de un tipo de gráfico).<br />
+</li>
+<li>Variables categóricas (factores).<br />
+Tablas de frecuencia (absolutas y relativas).<br />
+Gráficas (diagrama de barras).</li>
+</ul></li>
+<li><p>Los valores de <code>height</code> y <code>weight</code> están en pulgadas (inches) y libras (pounds) respectivamente. Una libra son <span class="math inline">\(\approx\)</span> 0.454kg y una pulgada son <span class="math inline">\(\approx\)</span> 0.0254m. Usa dplyr para convertir esas columnas a metros y kilogramos respectivamente. Las nuevas columnas deben llamarse igual que las originales.</p></li>
+<li><p>Ahora usa esos valores de <code>height</code> y <code>weight</code> para añadir una nueva columna llamada BMI, definida mediante: <span class="math display">\[BMI = \dfrac{weight}{height^2}\]</span> (se divide por el cuadrado de la altura).</p></li>
+<li><p>Crea una nueva columna llamada <code>ageGroup</code> dividiendo la edad en los siguientes tres niveles:</p>
+<pre><code>(10,40], (40,70], (70,100]</code></pre></li>
+<li><p>Usando <code>dplyr</code> calcula cuántas observaciones hay en cada nivel de <code>ageGroup</code> (indicación: usa <code>group_by</code>). Ahora, usando aquellas observaciones que corresponden a mujeres, ¿cuál es la media del nivel de colesterol y de BMI en cada uno de esos grupos de edad?</p></li>
+</ul>
+</div>
+<div id="ejercicio-2-funciones-de-r." class="section level1">
+<h1>Ejercicio 2: Funciones de R.</h1>
+<ul>
+<li><p>Crea una función de R llamada <code>cambiosSigno</code> que dado un vector <code>x</code> de números enteros no nulos, como</p>
+<pre><code>-12,  -19,  9,  -13,  -14,  -17,  8,  -19,  -14, </code></pre>
+<p>calcule cuántos cambios de signo ha habido. Es decir, cuántas veces el signo de un elemento es distinto del signo del elemento previo. Por ejemplo, en el vector anterior hay 4 cambios de signo (en las posiciones 3, 4, 7 y 8).</p></li>
+<li><p>Modifica la función para que devuelva como resultado las posiciones donde hay cambios de signo. Llama <code>cambiosSignoPos(x)</code> a esa otra función. Por ejemplo, para el vector anterior el resultado de esta función sería [1] 3 4 7 8</p>
+<p>También se valorará que incluyas en el código como usar <code>sample</code> para generar vectores aleatorios de 20 enteros <em>no nulos</em> (el vector debe poder tomar valores positivos y negativos).</p></li>
+</ul>
+</div>
+<div id="ejercicio-3.-r4ds." class="section level1">
+<h1>Ejercicio 3. R4DS.</h1>
+<p>Es recomendable que esta semana del curso hagas al menos una lectura somera de los Capítulos 1 a 5 de <a href="https://r4ds.had.co.nz/index.html">R for Data Science (R4DS), de H. Wickham</a>, con énfasis especial en los Capítulos 3 y 5 (los capítulos 1, 2 y 4 son muy breves). Los siguientes apartados pretenden motivar esa lectura y por eso mismo pueden resultar un poco más laboriosos.</p>
+<ul>
+<li><p>Haz el <a href="https://r4ds.had.co.nz/data-visualisation.html#exercises-3">ejercicio 6 de la Sección 3.6.1 de R4DS</a>.</p></li>
+<li><p>Haz el <a href="https://r4ds.had.co.nz/transform.html#exercises-8">ejercicio 1 de la Sección 5.2.4 de R4DS</a>.</p></li>
 </ul>
 </div>
 
