@@ -1,7 +1,6 @@
 ########################################################
-# www.postdata-statistics.com
-# POSTDATA. Introducción a la Estadística
-# Capitulo 3.  
+# Fundamentos Matemáticos de la Estadística. Curso 2021-2022.
+# sesion03-03-TablasContingencia
 # Ejemplos clase. 
 ########################################################
 
