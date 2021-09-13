@@ -15,7 +15,7 @@ tablaContingencia
 
 sum(tablaContingencia)
 
-# A?adimos m?rgenes
+# Añadimos márgenes
 (tablaContingenciaAmpliada = addmargins(tablaContingencia))
 
 # Intersecciones
