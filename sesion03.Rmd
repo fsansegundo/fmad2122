@@ -550,7 +550,7 @@ knitr::purl(RmdName, output = paste0("./scripts/", ScriptName), documentation = 
 ```
 
 
-```{r echo=FALSE, eval=FALSE, comment=NULL}
+```{r echo=FALSE, eval=FALSE, comment=NULL, purl=FALSE}
 download.file(lnkScriptGitHub, destfile = paste0(getwd(),"/", ScriptName))
 ```
 

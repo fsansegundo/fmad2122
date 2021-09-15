@@ -155,8 +155,3 @@ spam = spam %>%
          -order) # y elminamos el factor order original
 
 table(spam$hasOrder, spam$type)
-
-
-
-
-download.file(lnkScriptGitHub, destfile = paste0(getwd(),"/", ScriptName))
