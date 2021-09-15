@@ -152,6 +152,6 @@ spam = spam %>%
                             levels = c(TRUE, FALSE), 
                             labels = c("order", "no order")),
          type = relevel(type, ref = "spam"), # Reordenamos los niveles
-         -order) # y elminamos el factor order original
+         order = NULL) # y elminamos el factor order original
 
 table(spam$hasOrder, spam$type)
