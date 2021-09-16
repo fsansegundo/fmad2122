@@ -113,7 +113,7 @@ P(\,\text{ spam })}$. Antes de mirar una posible solución en la siguiente pági
           .[1, 1]
     ```
 
-+ Y ahora la probabilidad condicionada $P(\,\text{spam}\,|\,\text{ contiene order})$ es:
++ Y ahora la probabilidad condicionada $P(\,\text{ contiene order}\,|\,\text{spam})$ es:
     ```{r}
     (P_order_si_spam = P_spam_y_order / pSpam)
     ```
