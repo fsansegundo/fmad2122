@@ -1,0 +1,773 @@
+---
+title: 'Master en Big Data. Fundamentos  matemáticos  del  análisis  de  datos.' 
+author: "Fernando San Segundo"
+date: 'Curso 2021-22. Última actualización: `r format(Sys.time(), "%Y-%m-%d")`'
+subtitle: "Sesión 5. Introducción a la Inferencia Estadística."
+fontsize: 9pt
+output:
+  beamer_presentation:
+    toc: true
+    keep_tex: false
+    includes:
+      #after_body: afterbody.txt
+      in_header: beamer-header-simple.txt
+    colortheme: seahorse
+    incremental: no
+    slide_level: 2
+    theme: Boadilla
+#classoption: "handout"    
+bibliography: MBDFME.bib
+csl: ams-review.csl
+---
+
+
+```{r set-options, echo = FALSE, purl=FALSE}
+options(width = 60)
+library(knitr)
+def.chunk.hook  = knitr::knit_hooks$get("chunk")
+knitr::knit_hooks$set(chunk = function(x, options) {
+  x = def.chunk.hook(x, options)
+  ifelse(options$size != "normalsize", paste0("\\", options$size,"\n\n", x, "\n\n \\normalsize"), x)
+})
+
+
+if (grepl(pattern = "cloud", getwd())){
+  homeDir = "/cloud/project/"
+  } else {
+  homeDir = "../"
+  }
+figpath = function(figname){
+  paste0(homeDir,"fig/", figname)
+}
+
+```
+
+```{r echo = FALSE}
+## title: 'Master en Big Data. Fundamentos  matemáticos  del  análisis  de  datos.'
+## author: "Fernando San Segundo"
+## subtitle: "Sesión 5. Introducción a la Inferencia Estadística."
+
+```
+
+
+# El Teorema Central del Límite.
+
+## Medias muestrales.
+
++ En temas anteriores hemos visto de manera informal y mediante simulaciones que la distribución muestral de la media producía una curva normal. Ahora que sabemos más sobre la normal vamos a expresar ese resultado de forma más precisa y lo usaremos para empezar a hacer Inferencia.
+
++ Queremos estudiar la distribución de una variable aleatoria cuantitativa $X$ definida en los individuos de cierta población. En particular, la variable $X$ tendrá una media $\mu$ y una varianza $\sigma^2$. 
+<!-- Aunque nos ocuparemos de las dos, vamos a empezar pensando en la media poblacional $\mu$.  -->
+
++ Vamos a **estimar** el valor de $\mu$ usando **muestras** de la población. Si tenemos una **muestra aleatoria simple** formada por $n$ valores como $x_1,\, x_2,\,\ldots,\, x_n$ (elegidos al azar y con remplazamiento) podemos usar la media muestral
+$$
+\bar x = \dfrac{x_1 + x_2 + \cdots + x_n}{n}
+$$
+para estimar la media poblacional $\mu$. 
+
+## El espacio muestral.
+
++ Es el conjunto de todas las muestras aleatorias simples posibles de tamaño $n$ que llamaremos $\Omega^n$. Como ya vimos, al pasar de la población original al espacio muestral en general estamos pasando a un espacio muchísimo más grande. 
+
++ **Ejemplo:** si tenemos una población de tamaño $1000$, ¿cuántas muestras aleatorias simples de tamaño 7 podemos construir? Es fácil ver que son 
+$$1000^7 = 1000000000000000000000$$
+muestras distintas. 
+
++ Entre todas esas muestras hay *muestras buenas* (en las que $\bar x\approx\mu$) y *muestras malas*, con un valor de $\bar x$ poco representativo. Si elegimos la muestra al azar,  *¿cómo de probable es que nos toque una muestra buena?* 
+
++ Para responder necesitamos información sobre la  distribución de los valores de $\bar X$ entre todas las muestras posibles (en $\Omega^n$).
+
+---
+
+## Distribución muestral de la media: teorema central del límite (TCL).
+
++ Sea $X$ una v.a. con media $\mu_X$ y varianza $\sigma^2$. Sea $\bar X$ la media muestral construida a partir de una muestra aleatoria simple $X_1, X_2,\cdots, X_n$ de tamaño $n$. Es decir:
+$$\bar X = \dfrac{X_1+X_2+\cdots +X_n}{n}$$
+donde las $X_i$ son *copias independientes entre sí de $X$*.  
+
+
+\begin{center}
+  \fcolorbox{black}{Gris025}{\begin{minipage}{10cm}
+  Teorema Central del Límite.\\
+  Cuando consideramos valores {\bf suficientemente grandes} del tamaño muestral $n$, la distribución de la media muestral en el espacio muestral $\Omega^n$ se aproxima a una variable normal, cuya media y varianza son:
+$$
+\bar X \sim N\left(\mu_X,\frac{\sigma}{\sqrt{n}}\right) \qquad
+$$
+\end{minipage}}
+\end{center}
+
++ ¿Cuánto es *suficientemente grande*? Depende de la población inicial. Por ejemplo, si la población es normal, $n$ puede ser arbitrariamente pequeño (incluso $n = 1$). Pero si la población es, por ejemplo, muy asimétrica, entonces puede que necesitemos $n$ bastante grande. 
+
+# Intervalos de confianza para la media.
+
+## Estimación en forma de intervalo. 
+
++ Empezamos pensando en el caso más sencillo: suponemos que la variable $X$ es (aproximadamente) normal, pero desconocemos su media $\mu$ y queremos estimarla usando muestras. 
+
++ Este caso es bastante frecuente porque hay muchas magnitudes en la naturaleza cuya distribución es (aproximadamente) normal.
+
++ Si $X$ es normal el TCL es válido para cualquier tamaño muestral $n$. Podemos tomar una muestra aleatoria simple y usar la estimación $\mu\approx\bar X$. Naturalmente esto significa;
+$$
+\mu = \bar X + \text{error}
+$$
+  Es muy importante entender que **el error es aleatorio**.
+
++ Para que esto tenga alguna utilidad científica es imprescindible cuantificar ese error. Si descubrimos que el tamaño del error es menor que $\delta$ (piensa en un número pequeño) entonces podremos decir que:
+$$
+\bar X - \delta < \mu < \bar X + \delta
+$$
+y nuestra estimación de $\mu$ será **en forma de intervalo** $(a, b) = (\bar X - \delta, \bar X + \delta)$. Como veremos el TCL nos ayuda a (obtener $\delta$ y) construir esos intervalos. 
+
+## El error es aleatorio porque la muestra es aleatoria.
+
++ En esta figura (mira el código que la ha generado) hemos obtenido 20 muestras de tamaño $n = 30$. La marca roja indica la media de la población, que es $\mu =0$. Los puntos de cada muestra (puntos azules) están todos a la misma altura y se señala la media de esa muestra con un rombo naranja. Como ves, el error es aleatorio. Recuerda que en un caso real no sabemos donde está la línea roja.
+    ```{r echo=FALSE, message=FALSE, warning=FALSE, fig.align='center', out.width = "75%"}
+    ## El error es aleatorio porque la muestra es aleatoria.
+  
+    par(mar = c(5.1,4.1,1,2.1)) 
+    set.seed(2019)
+    library(tidyverse)
+    # generamos los datos, 20 muestras (se distinguen por su "tipo")
+    datos = data.frame(x = rnorm(600), tipo = rep(1:20, each = 30))
+    # calculamos las medias por muestra con dplyr
+    medias = datos %>%
+      group_by(tipo) %>%
+      summarise(medias = mean(x)) %>%
+      .$medias 
+    # Usamos stripchart para dibujar las medias por tipo  
+    stripchart(x ~ tipo, data = datos, pch = 16, col="blue",
+               xlab="Valores de la variable X", ylab = "Número de muestra")
+    # Añadimos líneas horizontales para ayudar a visualizar
+    segments(x0 = min(datos$x), y0 = 1:20, x1 = max(datos$x), y1 = 1:20,  col="blue")
+    # La línea vertical central marca la media
+    abline(v = 0, lty=2, col= "red", lwd=5)
+    # Y los puntos naranjas son las medias muestrales
+    points(x = medias, y = 1:20, col="orange", pch=18, cex=3)
+    ```
+
+## Intervalos de confianza para la media.
+
++ Si nos toca una muestra *"buena"* el error será pequeño, pero si damos con una muestra *"mala"* puede ser bastante grande. El TCL garantiza que cuando $n$ aumenta las muestras buenas son mucho más abundantes que las malas.  
+
++ Recuerda que el muestreo es aleatorio: podemos *hacerlo todo bien* y obtener una estimación errónea por azar. Buscamos garantizar que es *poco probable* que nos pase eso. Por eso los intervalos de estimación que construimos tienen forma probabilística:  
+\begin{center}
+  \fcolorbox{black}{Gris025}{\begin{minipage}{9cm}
+      {\bf Intervalos de confianza.}\\
+      Dado un {\bf nivel de confianza} $nc$, un intervalo $(a, b)$ tal que 
+$$
+P(a < \mu < b) = nc 
+$$
+es un {\bf intervalo de confianza al nivel $nc$} para la media $\mu$.
+\end{minipage}}
+\end{center}
+  La probabilidad aquí se mide **sobre el conjunto (normalmente enorme) de todas las muestras aleatorias simples** de tamaño $n$ y $nc$, el **nivel de confianza**, es la probabilidad de que nos toque una muestra *"buena"*. Siempre tomará valores cercanos a uno, como $0.90$, $0.95$ o $0.99$.
+
+
+## Comentarios sobre la definición de intervalo de confianza.
+
++ *La probabilidad $nc$ no se refiere a un intervalo concreto sino al método de construcción de intervalos a partir de muestras*. Se puede entender así:
+
+  \textbf{(Si estimas $\mu$ usando este método) hay una probabilidad del 95\% de que (te toque una muestra buena y) $\mu$ esté dentro del intervalo $(a, b)$.}  
+
+    Las partes entre paréntesis suelen omitirse pero están implícitas.
+
++ En particular los valores de $a$ y $b$ son aleatorios y **dependen de la muestra que nos toque**.
+
++ Es importante además entender que en la construcción del intervalo entran en juego dos fuentes distintas de incertidumbre:  
+
+    $(1)$ La **anchura** del intervalo $(a, b)$ mide la **precisión** (o el error) con la que estimamos el valor de $\mu$. Cuanto más estrecho sea el intervalo, mejor.  
+    
+    $(2)$ pero el nivel de confianza $nc$ mide la **probabilidad muestral** de esa estimación, que depende de que hayamos tenido suerte con la muestra. Cuanto más cerca de 1 esté $nc$, mejor.  
+    
+    Pero la precisión y la incertidumbre no son independientes, y en la práctica es necesario establecer un equilibrio entre las dos.
+
+## Interpretación probabilística de los intervalos de confianza.
+
++ La construcción del intervalo parte de una muestra aleatoria y ya que hay muestras buenas y malas, **a veces el intervalo puede errar por completo** y $\mu$ no pertenece a ese intervalo. Eso no significa que hayamos hecho nada mal, hemos tenido mala suerte. La figura (¡ver código!) ilustra esto con 100 intervalos a partir de sendas muestras.
+
+    ```{r echo=FALSE, message=FALSE, fig.align='center', out.width = "70%"}
+    # Código para generar la figura de los intervalos de confianza
+    par(mar = c(5.1,4.1,1,2.1)) 
+    set.seed(2018)
+    library(tidyverse)
+    # Esta función calcula un intervalo de confianza para cada muestra
+    # Pronto veremos como funciona
+    getCI = function(x){
+      CI = t.test(x, alternative = "two.sided", mu = 0)$conf.int
+      return(CI)
+    }
+    # Generamos las muestras
+    datos = matrix(rt(3000, df = 29), nrow = 100)
+    # y los correspondientes intervalos
+    intervalos = t(apply(datos, MARGIN = 1, FUN = getCI))
+    # los colores dependen de que el intervalo capture la media poblacional
+    # que en nuestro caso es 0
+    colores = ifelse(intervalos[,1] * intervalos[,2] < 0, "blue", "red")
+    # Ahora pintamos los extremos de los intervalos
+    plot(c(intervalos), rep(1:100,times = 2), col=rep(colores, 2), 
+         xlab = "La línea de puntos indica la media poblacional real", ylab="")
+    # Los segmentos que los conectan
+    segments(x0 = intervalos[,1], 
+             y0 = 1:100, 
+             x1 = intervalos[ ,2], 
+             y1 = 1:100,
+             col=colores)
+    # Y una línea vertical en la media poblacional
+    abline(v = 0, lty=2, col= "black", lwd=5)
+    ```
+    
+
+## El papel del TCL en la construcción de intervalos de confianza. 
+
++ Para una población normal el TCL garantiza que 
+$$
+\bar X \sim N\left(\mu_X,\frac{\sigma}{\sqrt{n}}\right) \qquad
+$$
+Eso significa que  $Z = \dfrac{\bar X - \mu}{\frac{\sigma}{\sqrt{n}}}$ 
+es una normal estándar $N(0, 1)$. 
+
++ Además, dado un nivel de confianza $nc$ como $0.9$ sabemos construir un intervalo simétrico $(-K,\, K)$ tal que $P(-K < \, Z \,<  K) = nc$ como en la figura:
+    ```{r echo=FALSE, fig.align='center', out.width="7cm", purl=FALSE}
+    include_graphics("./fig/06-02-ProblemaInversoZ-02.png")
+    ```
+  Sustituyendo la anterior expresión de $Z$ aquí y despejando $\mu$ obtenemos la fórmula del intervalo de confianza. 
+
+## Fórmula preliminar del intervalo del confianza.
+
++ Pero antes vamos a darle un nombre a $K$. La zona sombreada de la anterior figura tiene probabilidad $nc$. Queda una probabilidad 
+$$\alpha = 1 - nc$$
+para repartir *entre las dos colas*. Así, *cada una de las dos colas* que son iguales por simetría tiene una probabilidad igual a $\dfrac{\alpha}{2}$.  
+
++ Dada una probabilidad $p$, el **valor crítico** $z_p$ es el valor de la normal estándar que deja **a su derecha** esa probabilidad $p$. Es decir, $P(Z > z_p) = p$. Y por tanto, $K = z_{\alpha/2}$. 
+
++ Una *versión preliminar* de la fórmula del intervalo de confianza es: 
+  \begin{center}
+  \fcolorbox{black}{Gris025}{\begin{minipage}{10cm}
+  Un intervalo de confianza $(a, b)$ al nivel $nc$ es:
+  $$a = \bar X - z_{\alpha/2} \dfrac{\sigma}{\sqrt{n}}, \qquad\qquad 
+  b = \bar X + z_{\alpha/2}\dfrac{\sigma}{\sqrt{n}}$$
+  Que se resume así:
+  $$\mu = \bar X \pm z_{\alpha/2}\dfrac{\sigma}{\sqrt{n}}$$
+  \end{minipage}}
+  \end{center}
+    **¿Por qué preliminar?** Fíjate en que aquí aparece $\sigma$, que es desconocido.
+
+## La aproximación de las muestras grandes.
+
++ ¿Y si no conocemos $\sigma$ entonces qué hacemos? Hay un remedio sencillo **siempre que la variable $X$ sea normal en la población y además la muestra sea suficientemente grande**. 
+
++ En esos casos podemos cambiar $\sigma$ por *desviación típica muestral* $s$ en la primera fórmula utilizable del intervalo. 
+  \begin{center}
+  \fcolorbox{black}{Gris025}{\begin{minipage}{10cm}
+  {\bf Intervalo de confianza al nivel $nc$, población normal y muestra grande.}
+  $$\mu = \bar X \,\pm\, z_{\alpha/2}\,\,\dfrac{s}{\sqrt{n}}$$
+  \end{minipage}}
+  \end{center}
+
+ + ¿Qué es una muestra grande? $n = 30$ puede servir, pero recomendamos $n > 100$.
+
+
++ **Ejemplo:** una muestra de una población normal tiene estos *valores muestrales*:
+$$n = 100,\qquad \bar X = 7.34, \qquad s = 0.31$$
+  Sea $nc = 0.95$ (luego $\alpha = 0.05$). Sabiendo que $z_{\alpha/2}\approx 1.96$ el intervalo de confianza al 95% que se obtiene es:
+$$
+\mu = \bar X \pm z_{\alpha/2}\dfrac{s}{\sqrt{n}} \approx 7.34 + `r signif(qnorm(0.975), 4)` \dfrac{0.31}{\sqrt{100}} =  
+(`r signif(7.34 +c(-1, 1) * qnorm(0.975) * 0.31/sqrt(100), 4)`).
+$$
+  ¿Cómo hemos llegado a ese valor de $z_{\alpha/2}\approx 1.96$?
+
+
+## Valores críticos e intervalos de confianza con R.
+
++ El cálculo de $z_{\alpha/2}$ para cualquier $\alpha$ (y cualquier $nc$) se realiza en R con `qnorm`. ¡Pero cuidado!, por defecto R trabaja con la cola izquierda. 
+
++ Usando por ejemplo el nivel de confianza $nc = 0.95$ calculemos el correspondiente valor crítico $z_{0.025}$, que guardaremos en la variable `zc`:\small
+    ```{r echo = -1}
+    ## Valores críticos con R.
+    nc = 0.95
+    alfa = 1 - nc
+    (zc = qnorm(alfa / 2, lower.tail = FALSE)) # Atención, cola derecha
+    ```
+    \normalsize
+
++ A partir de aquí obtener el intervalo partiendo de los valores muestrales es muy fácil:\small
+    ```{r}
+    ## Intervalos de confianza con R.
+    n = 100
+    barX = 7.34
+    s = 0.31
+    (intervalo = barX + c(-1, 1) * zc * s / sqrt(n))
+    ```
+    \normalsize
+
+    ```{r echo=FALSE, message=FALSE, warning=FALSE, purl=FALSE, eval=FALSE, comment = NULL}
+    # Fabricando los datos de 05-IntervConfNormalGrande.csv
+    set.seed(2017)
+    n = 120
+    barX = 4.43
+    s = 0.31
+    library(MASS)
+    x = data.frame(x = mvrnorm(n, mu = barX, Sigma = s^2,empirical = TRUE)[,1])
+    write.table(x, "./data/06-IntervConfNormalGrande.csv", row.names = FALSE, col.names = TRUE)
+    ```
+
++ Partiendo de un fichero csv con la muestra, como \link{https://raw.githubusercontent.com/mbdfmad/fmad2122/main/data/05-IntervConfNormalGrande.csv}{05-IntervConfNormalGrande.csv}:  
+$(a)$ Leemos los datos con `read.table`. $(b)$ Calculamos $n$, $\bar X$ y $s$ con `length, mean, sd`, respectivamente. $(c)$ Procedemos como antes. 
+
++ **Ejercicio:** con los datos de ese fichero calcula un intervalo de confianza para la media.
+
+## Cálculo del tamaño muestral necesario.
+
++ En la primera fórmula vimos que la **semianchura del intervalo** es $\delta =  z_{\alpha/2}\cdot\dfrac{\sigma_X}{\sqrt{n}}$.  Esta cantidad es la que define la **precisión** del intervalo. Para conseguir una precisión $\delta$ dada, por ejemplo $0.0001$, podemos tratar de despejar en esta fórmula  $n$,el tamaño muestral necesario:
+$$ 
+z_{\alpha/2}\cdot\dfrac{\sigma}{\sqrt{n}} < \delta \qquad \Rightarrow \qquad 
+n=\left(z_{\alpha/2}\cdot\dfrac{\sigma}{\delta}\right)^2
+$$
+  Pero de nuevo, desconocemos $\sigma$. La solución es hacer un *estudio piloto* con una muestra pequeña para estimar con $s$ la desviación típica $\sigma$. 
+
++ **Ejemplo.** *Una empresa produce unas piezas y desea estimar su diámetro medio (que sigue una distribución normal). Una muestra piloto tuvo una desviación típica $s = 1.3$mm. La empresa quiere una medida del diámetro con un error no mayor de $0.1$mm y un nivel de confianza del $99\%.$ ¿Qué tamaño de muestra debe utilizarse para conseguir ese objetivo?*  
+Se desea una precisión $\delta=0.1$mm. Al ser $nc=0.99$, tenemos $\frac{\alpha}{2}=0.005$, y $z_{\alpha/2}=z_{0.1}\approx 2.58$. Sustituyendo
+$$
+n=\left(z_{\alpha/2}\cdot\dfrac{\sigma_X}{\delta}\right)^2     \approx \left(2.58\cdot\dfrac{1.3}{0.1}\right)^2\approx 1121.3
+$$
+  Usaríamos una muestra de tamaño $1122$ *al menos* (conviene ser precavidos y redondear al alza).
+
+## Muestras pequeñas en poblaciones normales.
+
++ Los resultados anteriores sirven *para poblaciones normales y muestras grandes*. ¿Qué sucede si sabemos que **la variable $X$ tiene una distribución normal** en la población, pero sólo   disponemos de una **muestra pequeña** (con $n < 30$)?
+
++ Si la muestra es pequeña disponemos de menos información sobre la variable $X$. Eso debe traducirse, necesariamente, en un intervalo de confianza más ancho. Student (que en realidad se llamaba [\textcolor{blue}{William S. Gosset}](https://es.wikipedia.org/wiki/William_Sealy_Gosset)) se dio cuenta de que en este tipo de problemas no se podía usar $Z$ directamente y descubrió un sustituto, la distribución $t$ de Student. 
+
++ Esa distribución tiene las *colas más pesadas* (con más probabilidad) que $Z$. En realidad hay una $t$ distinta para cada tamaño muestral. La siguiente figura compara $Z$ con la distribución $t$ con $df = 2$ (muestras de tamaño 3).
+    ```{r echo=FALSE, fig.align='center', out.width="5cm", purl=FALSE}
+    include_graphics("./fig/06-04-TvsZ.png")
+    ```
+    ```{r echo=FALSE, eval=FALSE, comment=NULL}
+    # La distribución t vs Z
+    
+    k = 1000
+    xvals = seq(-5, 5, length = k) 
+    d = data.frame(y = c(dnorm(xvals), dt(xvals, df = 2)), 
+                    x = xvals,
+                    dist = factor(rep(c("Normal", "T"), c(k,k)))) 
+    g = ggplot(d, aes(x = x, y = y))
+    g = g + geom_line(size = 2, aes(color = dist))
+    g 
+    ```
+  
+## Intervalos de confianza usando la $t$ de Student.
+
++ **Grados de libertad:** Sea $X$ una variable normal en la población y supongamos que el tamaño $n$ de la muestra es pequeño. Diremos que $k = n - 1$ son los grados de libertad (en inglés, *degrees of freedom*) de esa muestra. 
+
++ **Valores críticos de $t$:**si $T$ es una variable $t$ de Student con $k$ grados de libertad, el valor $t_{k; p}$ verifica $P(T_k > t_{k; p}) = p$ (su cola derecha tiene probabilidad $p$).
+
+    ```{r echo=FALSE, fig.align='center', out.width="4cm", purl=FALSE}
+    include_graphics("./fig/06-05-ValorCriticoT.png")
+    ```
+
++ Con esta terminología podemos dar la fórmula para el intervalo de confianza para $\mu$ usando $t$:
+  \begin{center}
+  \fcolorbox{black}{Gris025}{\begin{minipage}{10cm}
+  {\bf Intervalo de confianza al nivel $nc$, población normal, muestra pequeña.}
+  $$\mu = \bar X \pm t_{k; \alpha/2} \dfrac{s}{\sqrt{n}}$$
+  \end{minipage}}
+  \end{center}
+
+## La distribución $t$ en R.
+
++ La función `pt` es análoga a `pnorm` y sirve para el *cálculo directo de probabilidad*.  Por ejemplo, para calcular $P(T_{17} > 2.5)$ (que es una cola derecha) usaríamos: \small
+    ```{r echo = -(1:3)}
+    ## La distribución $t$ en R.
+    
+    ## Función pt
+    
+    1 - pt(2.5, df = 17)
+    ```
+\normalsize Fíjate en que se indican los grados de libertad con `df` (degrees of freedom).
+
++ `qt`, como `qnorm`, hace cálculos inversos de probabilidad; dada una probabilidad buscamos *el valor* que deja esa probabilidad en su cola izquierda o derecha. Por ejemplo, para calcular el valor crítico `tc` para un nivel de confianza `nc` cualquiera haríamos:\scriptsize
+    ```{r echo = -1}
+    # Valores críticos con qt
+    n = 20
+    nc = 0.95
+    alfa = 1 - nc
+    df = n - 1
+    (tc = qt(alfa / 2, df, lower.tail = FALSE)) # Atención, cola derecha
+    ```
+  \normalsize
+
++ La función `rt` sirve para simular valores aleatorios de una variable $t$ de Student. \scriptsize
+    ```{r echo=-1}
+    # Valores aleatorios con rt
+    rt(8, df = 19)
+    ```
+    \normalsize
+
+## Ejemplo de cálculo de intervalo de confianza con la $t$ de Student.
+
++ **Ejemplo:** *Se sospecha que en las aguas de un embalse las concentraciones de nitritos superan el umbral tolerable por los peces, que es de 0.03 mg NO2/l o menos. Para verificar esta sospecha se midieron los niveles de nitritos en diez puntos aleatorios del embalse, obteniendo estos valores:*  
+  $\quad$  
+  `0.04, 0.05, 0.03, 0.06, 0.04, 0.06, 0.07, 0.03, 0.06, 0.02`  
+  $\quad$  
+  *Calculemos un intervalo de confianza al 95% para el nivel medio de nitritos en las aguas del embalse. *\scriptsize  
+  $\quad$  
+    ```{r echo=-1}
+    # Intervalo de confianza con t
+    datos = c(0.04, 0.05, 0.03, 0.06, 0.04, 0.06, 0.07, 0.03, 0.06, 0.02)
+    n = length(datos)
+    barX = mean(datos)
+    s = sd(datos)
+    nc = 0.95
+    alfa = 1 - nc
+    tc = qt(1 - alfa/2, df = n - 1)
+    (intervalo = barX + c(-1, 1) * tc * s / sqrt(n))
+    ```
+    \normalsize
+    ¿Cuál es la conclusión?
+
+## Resumen de intervalos de confianza para la media $\mu$.
+
++ **Variable $X$ normal y muestra grande ($n > 100$)**:  
+$$\mu = \bar X \pm z_{\alpha/2} \dfrac{s}{\sqrt{n}}$$
+En raras ocasiones usaremos aquí $\sigma$ en lugar de $s$. 
+
++ **Variable $X$ normal pero muestra pequeña**:  
+$$\mu = \bar X \pm t_{\alpha/2;k} \dfrac{s}{\sqrt{n}}$$
+con $k = n - 1$, los grados de libertad.
+
++ **Variable $X$ *aproximadamente normal* y muestra grande:**  
+
+  El TCL permite usar la fórmula previa con $t$ para el intervalo de confianza.  
+  Enseguida discutiremos que significa ser aproximadamente normal.
+
++ **Variable posiblemente no normal:**  
+
+  En este caso los métodos que hemos visto no sirven para obtener un intervalo de confianza para la media. 
+
+
+## Intervalos de confianza por bootstrap.
+
++ Muchos métodos de la Estadística clásica (intervalos de confianza, contrastes de hipótesis) asumen que las variables son al menos aproximadamente normales. Entre otras cosas, eso implica que los intervalos de confianza para la media son simétricos respecto a la media muestral. Pero a menudo encontramos muestras muy asimétricas, que no justifican la  simetría del intervalo. 
+
++ El aumento de la capacidad de cómputo ha propiciado el desarrollo de **métodos no paramétricos** para los intervalos de confianza basados en el **remuestreo**, como el **bootstrap**. Vamos a usar ese método para obtener un intervalo de confianza de los datos contenidos en el fichero \link{https://raw.githubusercontent.com/mbdfmad/fmad2122/main/data/skewdata.csv}{skewdata.csv}
+(basado en un ejemplo de  [@crawley2005statistics, pág. 47]). La figura ilustra la asimetría de esos datos:
+    ```{r echo=FALSE, fig.height=3, message=FALSE}
+    ## Intervalos de confianza por bootstrap.
+    # set.seed(2017)
+    # skewdata = rchisq(100, df = 3) + 5
+    # write.table(skewdata,file = "./data/skewdata.csv", row.names = FALSE)
+    url = "https://raw.githubusercontent.com/mbdfmad/fmad2122/main/data/skewdata.csv"
+    x = pull(read_csv(file = url), 1) 
+    x = tibble(x)
+    ggplot(x) + 
+      geom_histogram(aes(x = x, y=stat(density)),
+                     bins = 12, fill = "orange", color="black")  + 
+      geom_density(aes(x = x), color="red", size=1.5) 
+    ```
+
+## Esquema del método.
+
++ Empezamos leyendo esos datos (fíjate en que usamos la url directamente):\small
+    ```{r, message=FALSE}
+    url = 
+      "https://raw.githubusercontent.com/mbdfmad/fmad2122/main/data/skewdata.csv"
+    x = pull(read_csv(file = url), 1) 
+    ```
+  \normalsize 
+  **Ejercicio:** ¿Qué hace la función `pull` en este código? ¿Es necesaria, hay otras formas de hacerlo?
+  
++ Ahora vamos a explorar los tamaños muestrales entre $n = 5$ y $n = 40$:  
+  
+  $(a)$ Para cada tamaño construiremos $10000$ remuestreos aleatorios con remplazamiento de esa muestra.  
+  
+  $(b)$ En cada remuestreo calculamos la media obteniendo así 10000 medias muestrales.  
+  
+  $(c)$ Dibujamos el intervalo que va del primer al tercer cuartil de esas 10000 medias (todas de muestras de tamaño $n$).  
+  
++ El código R correspondiente a este esquema es un ejemplo muy sencillo de uso de los bucles `for` que ya conocemos. 
+  
+## Representación gráfica de los intervalos bootstrap.   
+
++ En la gráfica el eje horizontal es el tamaño de la muestra y el vertical los valores de $X$. La media de $X$ se indica con una línea horizontal azul.
+
++ Los intervalos bootstrap se muestran como segmentos verticales en naranja, la media en azul las líneas de trazos negras representan los intervalos *clásicos* usando la $t$ de Student. Fíjate en que para muestras grandes no hay apenas diferencia. Pero en muestras pequeñas el intervalo bootstrap refleja mucho mejor la asimetría de los datos y, en particular, los intervalos no son simétricos respecto a la media. 
+    ```{r bootstrap, echo=FALSE, message=FALSE, fig.align='center', out.width = "60%"}
+    # Creamos la "caja" del gráfico.
+    plot(c(0, 40), c(5,10.5), type="n", xlab="Tamaño muestral", ylab="") 
+    
+    for (k in seq(5, 40, 1)){ # Este bucle recorre los tamaños muestrales
+      a =  numeric(10000) # el vector a almacenará las medias muestrales
+      for (i in 1:10000){ # este es el bucle de remuestreo (bootstrap)
+      # generamos un remuestreo con reemp. y calculamos su media
+        a[i] = mean(sample(x, k, replace=T)) 
+        }
+      # dibujo del intervalo bootstrap de este tamaño muestral  
+      points(c(k,k), quantile(a, c(.025,.975)), type="o", 
+             col = "orange", lwd= 3) 
+    }
+    
+    # el siguiente bloque de código genera una banda con 
+    # los intervalos clásicos correspondientes a esas muestras.
+    xv = seq(5, 40, 0.1) 
+    yv = mean(x) - qt(0.975, xv) * sqrt(var(x) / xv)
+    lines(xv, yv, lty = 2, col = "black", lwd = 4)
+    yv = mean(x) + qt(.975, xv) * sqrt(var(x) / xv)
+    lines(xv, yv, lty = 2, col = "black", lwd = 4)
+    
+    # añadimos una línea horizontal en la media
+    abline(h = mean(x), col="blue", lwd=2) 
+    ```
+
+## Código R del bootstrap.
+
+  + También puedes verlo (y copiarlo) en el fichero Rmarkdown de la sesión.  \scriptsize
+    ```{r eval=FALSE, purl=FALSE, ref.label="bootstrap"}
+    ```
+    \normalsize
+
+# Intervalos de confianza para la varianza. 
+
+## Distribución muestral de $s^2$ y la distribución $\chi^2$ (chi cuadrado).
+
++ Después de $\mu$, lo natural es calcular intervalos de confianza para $\sigma^2$.  
+
++ Sea $X$ de tipo $N(\mu, \sigma)$. Lo idea natural es aproximar $\sigma^2$  mediante $s^2$. Para que la idea necesitamos algo como el TCL: información que relacione $\sigma^2$ con la distribución de $s^2$ en el conjunto de todas las $n$-muestras posibles (espacio muestral).
+
++ Importante: la media es una medida central y por eso era interesante analizar la **diferencia** $\mu - bar X$. Pero la varianza es una medida de dispersión y por eso los **cocientes** son más útiles que las diferencias. 
+
++ El resultado que necesitamos es este:  
+
+  \begin{center}
+  \fcolorbox{black}{Gris025}{\begin{minipage}{10cm}
+  {\bf Distribución muestral de $\sigma^2$ en poblaciones normales.}\\
+  Si $X$ es una variable aleatoria de tipo $N(\mu; \sigma)$, y se utilizan muestras aleatorias
+  de tamaño n, entonces:
+  $$(n - 1)\dfrac{s^2}{\sigma^2} \sim \chi^2_{n - 1}$$
+  siendo $\chi^2_{n - 1}$ la {\bf distribución chi cuadrado con $n-1$ grados de libertad,}
+  \end{minipage}}
+  \end{center}
+  Veamos como es esa distribución $\chi^2_{n - 1}$.
+
+
+## La distribución $\chi^2_k$ y funciones de R.
+
++ Esta distribución *sólo toma valores positivos* y además es *asimétrica*, a diferencia de la $Z$ o la $t$ de Student. Por ejemplo, la distribución $\chi^2_4$ tiene este aspecto:
+    ```{r echo=FALSE, message=FALSE, fig.align='center', out.width = "50%", purl=FALSE}
+    include_graphics("./fig/06-06-DensidadChiCuadrado.png")
+    ```
+  La asimetría, como veremos, afecta al proceso de construcción de intervalos de confianza basados en esta distribución.
+
++ En R disponemos de las funciones `pchisq`, `qchisq` y `rchisq` con los significados previsibles. 
+
+## Intervalos de confianza para la varianza.
+
++ La novedad en este caso es que por la asimetría de $\chi^2_k$ hay que usar valores críticos distintos a derecha e izquierda. Cada uno de ellos deja una probabilidad $\alpha/2$ en la cola correspondiente.
+    ```{r echo=FALSE, message=FALSE, fig.align='center', out.width = "45%", purl=FALSE}
+    include_graphics("./fig/06-07-ChiCuadradoValoresCriticosIntervalo.png")
+    ```
+    donde si $Y = \chi^2_k$ se cumple $P(Y > \chi^2_{k, p}) = p$.  
+
+  \begin{center}
+  \fcolorbox{black}{Gris025}{\begin{minipage}{10cm}
+  {\bf Intervalo de confianza para  $\sigma^2$ en poblaciones normales.}\\
+  $$
+  \dfrac{(n-1)s^2}{\chi^2_{k,\alpha/2}}\leq\sigma^2\leq\dfrac{(n-1)s^2}{\chi^2_{k,1-\alpha/2}} ,\qquad\mbox{ con }k=n-1
+  $$
+  \end{minipage}}
+  \end{center}
+
+## Construcción con R de intervalos de confianza para la varianza.
+
++ **Ejemplo:** *La variable aleatoria $X$ tiene una distribución normal. Una muestra aleatoria de 7 valores de $X$ dio como resultado $s^2 = 62$. Vamos a construir con R un intervalo de confianza (nc = 95%) para $\sigma^2$*.\scriptsize
+    ```{r echo =-1}
+    ## Chi cuadrado: intervalos de confianza para la varianza.
+    
+    # Estos son los valores muestrales y el nc deseado
+    varianza = 62 # cuidado si el dato muestral es s y no s^2
+    n = 7
+    nc = 0.95
+    (alfa = 1 - nc)
+    
+    # Calculamos dos valores críticos de chi cuadrado.
+    (chi1 = qchisq(alfa / 2, df = n - 1, lower.tail = FALSE)) # cola derecha
+    (chi2 = qchisq(alfa/2, df = n - 1)) # cola izquierda
+    
+    # Construimos el intervalo
+    (intervalo = (n - 1) * varianza / c(chi1, chi2))
+    ```
+    \normalsize Fíjate en que el valor crítico de cola derecha se usa en el extremo izquierdo del intervalo y viceversa. Y si queremos un intervalo para $\sigma$ simplemente calculamos la raíz cuadrada. `sqrt(intervalo)` produce el intervalo (`r signif(sqrt(intervalo), 4)`) para $\sigma$.
+
+# Evaluación de la normalidad.
+
+## ¿Cómo podemos analizar la normalidad de una población?
+
++ Los métodos de los apartados anteriores requieren evaluar si la variable de interés es (al menos aproximadamente) normal. En muestras grandes examinaremos *histogramas* y *curvas de densidad*.  La figura muestra a la izquierda una muestra de datos normales y a la derecha datos no normales, con $n = 500$ en ambos casos. Con muestras más pequeñas las cosas pueden estar menos claras.
+    ```{r echo=FALSE, message=FALSE, fig.align='center', out.width = "65%"}
+    # Analizando gráficamente la normalidad de una población a partir de muestras
+    
+    library(gridExtra)
+    
+    # Primero con datos normales
+    
+    set.seed(2017)
+    tamMuestra = 500
+    normales = scale(rnorm(tamMuestra))
+    p1 = ggplot(tibble(x = normales)) + 
+    geom_histogram(aes(x = x, y=stat(density)),
+                   bins = 12, fill = "orange", color="black")  + 
+    geom_density(aes(x = x), color="red", size=1.5) + 
+      ggtitle("Datos normales") +
+      xlab("") + 
+      ylab("Densidad")
+    
+    # Y ahora con datos no normales
+    
+    set.seed(2017)
+    tamMuestra = 500
+    noNormales = scale(rchisq(tamMuestra, df = 4))
+    p2 = ggplot(tibble(x = noNormales)) + 
+    geom_histogram(aes(x = x, y=stat(density)),
+                   bins = 12, fill = "orange", color="black")  + 
+    geom_density(aes(x = x), color="red", size=1.5)  + 
+    ggtitle("Datos no normales") +
+    xlab("") + 
+    ylab("Densidad")
+    
+    grid.arrange(p1, p2, nrow = 1)
+    
+    ```
+  En esta y en las siguientes páginas, mira el código de este tema.
+
+## Boxplots para analizar la simetría.
+
++ A menudo la simetría es el requisito más importante para que los métodos de la Estadística (basados en el TCL) funcionen. Los boxplots son especialmente útiles para detectar la falta de simetría.  Para las mismas dos muestras de antes:
+
+    ```{r echo=FALSE, message=FALSE, fig.align='center', out.width = "60%"}
+    # Boxplots para analizar la simetría.
+    muestras = tibble(x = c(scale(normales), scale(noNormales)),
+                      tipo = gl(n = 2, k = 500, labels = c("normal", "nonnormal")) )
+    ggplot(muestras) + 
+      geom_boxplot(aes(x = tipo, y = x, col = tipo)) + 
+      geom_jitter(aes(x = tipo, y = x, color = tipo), width = 0.05,  alpha = 0.2) + 
+      theme(legend.position = "none")
+    
+    ```
+    Mira el código para ver cómo usamos `jitter` y `alpha` para evitar superposición de puntos y añadir transparencia.
+
+## Violinplot.
+
++ Este tipo de gráfico son interesantes para combinar la curva de densidad con el boxplot. Y de nuevo, es posible, añadir los puntos de la muestra:
+    ```{r echo=FALSE, fig.align='center', message = FALSE, results='hide', warning=FALSE, out.width = "70%"}
+    # Violinplot
+    
+      ggplot(muestras) + 
+      geom_violin(aes(x = tipo, y = x, col = tipo), width = 0.5) + 
+      geom_boxplot(aes(x = tipo, y = x, col = tipo), width=0.15) + 
+      geom_jitter(aes(x = tipo, y = x, color = tipo), width = 0.05,  alpha = 0.2) + 
+      theme(legend.position = "none") + 
+      coord_flip()
+    
+    ```
+    Mira el código para ver cómo hemos situado los gráficos en horizontal, para resaltar la forma de las curvas de densidad.
+
+
+
+---
+
+## QQplots.
+    
++ El nombre proviene de *"quantile vs quantile"*, porque se representa en el eje horizontal los percentiles de una variable normal exacta y en el vertical los de la muestra a examen.  Son el tipo de gráficos más utilizado para analizar la normalidad. Si la muestra procede de una variable normal, los puntos deben coincidir con la recta. 
+    
+    ```{r echo=FALSE, fig.align='center', message = FALSE, results='hide', warning=FALSE, out.width = "70%"}
+    ## QQplots.
+    
+    p1 = ggplot(tibble(x = normales), aes(sample = x)) + 
+      geom_qq(alpha = 0.2, color = "red") + 
+      geom_qq_line() + 
+      ggtitle("Datos normales") + 
+      xlab("") +  ylab("") + 
+      theme(plot.title = 
+              element_text(color="red", size=14, face="bold.italic"))
+    
+    p2 = ggplot(tibble(x = noNormales), aes(sample = x)) + 
+      geom_qq(alpha = 0.2, color = "blue") + 
+      geom_qq_line() + 
+      ggtitle("Datos no normales") +
+      xlab("") +  ylab("") + 
+      theme(plot.title = 
+              element_text(color="blue", size=14, face="bold.italic"))
+    
+    grid.arrange(p1, p2, nrow = 1)
+  
+    ```    
+    
+## ¡¡Precaución con las muestras pequeñas!!
+
++ Los métodos que hemos descrito funcionan bien con muestras grandes. Para muestras pequeñas, las cosas se complican. Todas las figuras son curvas de densidad de muestras de tamaño 15 que **provienen de la misma población normal**.
+
+    ```{r echo=FALSE, fig.align='center', message = FALSE, results='hide', warning=FALSE, out.width = "85%"}
+    # Precaución al analizar la normalidad con muestras pequeñas
+    
+    # Densidades...
+    
+    numMuestras = 12
+    sizeMuestras = 15
+    muestras = tibble(x = rnorm(numMuestras * sizeMuestras),
+                     tipo = gl(numMuestras, k = sizeMuestras))
+    ggplot(muestras, aes(x = x)) +
+      geom_density(color="red", size=1.5) + 
+      facet_wrap(. ~ tipo, nrow = 3)
+    
+    ```
+
+---
+
+##  Con los boxplots sucede algo parecido.
+
++ Todos estos boxplots son también de muestras  con $n = 15$ que **provienen de la misma población normal**.
+    ```{r echo=FALSE, fig.align='center', out.width="7cm", message=FALSE, warning=FALSE}
+    # ... y boxplots
+    
+    numMuestras = 12
+    sizeMuestras = 15
+    muestras = tibble(x = rnorm(numMuestras * sizeMuestras),
+                     tipo = gl(numMuestras, k = sizeMuestras))
+    ggplot(muestras, aes(y = x)) +
+      geom_boxplot(color="red") + 
+      facet_wrap(. ~ tipo, nrow = 3)
+
+    
+
+    ```
+    La disparidad de formas y la variabilidad en la simetría en estas dos últimas páginas deben servir de advertencia: evaluar la normalidad en muestras pequeñas es complicado. Existen criterios formales para hacer esa evaluación, pero para muestras pequeñas esos criterios pueden proporcionar una falsa sensación de rigor con poca base real. 
+
+
+
+
+## Referencias para la sesión
+
+**Enlaces**
+
+```{r eval = FALSE, comment = NULL,  echo=FALSE, purl=FALSE, message=FALSE, error=FALSE}
+getwd()
+sessionName = "sesion05"
+RmdName = paste0(sessionName,".Rmd")
+ScriptName = paste0(sessionName,"-comandos.R")
+lnkScriptGitHub = paste0("https://raw.githubusercontent.com/mbdfmad/fmad2122/main/scripts/", ScriptName)
+knitr::purl(RmdName, output = paste0("./scripts/", ScriptName), documentation = 0)
+codigo = readLines(paste0("./scripts/", ScriptName))
+codigo = gsub(pattern = './data', replacement= "./data", codigo, fixed=TRUE)
+empty_lines = grepl('^\\s*$', codigo)
+dobleBlanco = empty_lines[-1] * empty_lines[-length(empty_lines)]
+codigo = codigo[!dobleBlanco]
+writeLines(codigo, paste0("./scripts/", ScriptName))
+```
+
+
+
+- \link{https://raw.githubusercontent.com/mbdfmad/fmad2122/main/scripts/sesion05-comandos.R}{Código de esta sesión}
+
+
+
+**Bibliografía**
+
