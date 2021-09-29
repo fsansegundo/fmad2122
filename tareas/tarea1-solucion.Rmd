@@ -1,0 +1,356 @@
+---
+title: "Master en Big Data. Fundamentos Matemáticos del Análisis de Datos (FMAD)."
+author: "Departamento de Matemática Aplicada"
+date: 'Curso 2021-22. Última actualización: `r format(Sys.time(), "%Y-%m-%d")`'
+output:
+  pdf_document: 
+    toc: true
+  html_document: default
+subtitle: Tarea 1. Solución.
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Instrucciones preliminares
+
++ Empieza abriendo el proyecto de RStudio correspondiente a tu repositorio personal de la asignatura. 
+
++ En todas las tareas tendrás que repetir un proceso como el descrito en la sección *Repite los pasos Creando un fichero Rmarkdown para esta práctica* de la *Práctica00*. Puedes releer la sección *Practicando la entrega de las Tareas* de esa misma práctica para recordar el procedimiento de entrega.
+
+# Ejercicio 0
+
++ Si no has hecho los *Ejercicios* de la *Práctica00* (págs. 12 y 13) hazlos ahora y añádelos a esta tarea. Si ya los has hecho y entregado a través de GitHub no hace falta que hagas nada.
+
+# Ejercicio 1. Análisis exploratorio de un conjunto de datos y operaciones con dplyr. 
+
++ Vamos a utilizar el conjunto de datos contenido en el fichero (es un enlace):  
+[cholesterol.csv](https://gist.githubusercontent.com/fsansegundo/ee991e53e1a571dd34034c42b5516eae/raw/2206455b5772e90c5a2a24a3f42a84408fd1d1c5/cholesterol.csv)  
+Los datos proceden de un estudio realizado en la *University of Virginia School of Medicine* que investiga la prevalencia de la obesidad, la diabetes y otros factores de riesgo cardiovascular. Se puede encontrar más información sobre el fichero en este enlace:  
+[https://biostat.app.vumc.org/wiki/pub/Main/DataSets/diabetes.html](https://biostat.app.vumc.org/wiki/pub/Main/DataSets/diabetes.html)  
+
++ Carga el conjunto de datos en un data.frame de R llamado `chlstrl`.  
+**Solución:** Lo cargaremos con `read_csv` del tidyverse directamente desde la URL. El resultado es un `tibble` (que por tanto también es un `data.frame`). 
+    ```{r message=FALSE}
+    library(tidyverse)
+    
+    URL_chlstrl <-  "https://bit.ly/3EQsIMp"
+    
+    chlstrl <-  read_csv(URL_chlstrl)
+    ```
+    
+
+
++ Empezaremos por información básica sobre el conjunto de datos. Cuántas observaciones contiene, cuáles son las variables y de qué tipos,...  
+  **Solución:** Puedes empezar usando `str` y `summary` de R base  
+    ```{r}
+    str(chlstrl)
+    ```
+    ```{r}
+    summary(chlstrl)
+    ```
+    En particular presta atención a los avisos sobre valores ausentes de `summary`. Además, todas las variables salvo gender` parecen claramente variables cuantitativas continuas (toman suficientes valores distintos como para considerarlas así). Puedes ver el núemro de valores distintos de cada variable fácilmente así, con la función `map` de la librería `purr` del *tidyverse* (ver [capítulo 20 de R4DS](https://r4ds.had.co.nz/iteration.html#iteration)):
+    ```{r}
+    chlstrl %>% map_dfr(.f = ~ length(unique(.x)))
+    ```
+    En cuanto a `gender` es claramente un factor con dos niveles y lo mejor es tratarlo como tal:
+    ```{r}
+    chlstrl <- chlstrl %>% 
+      mutate(gender = factor(gender))
+    ```
+
++ Asegúrate de comprobar si hay datos ausentes y localízalos en la tabla.   
+  **Solución:** 
+    ```{r}
+    (whereNA = which(is.na(chlstrl), arr.ind = TRUE))
+    ```
+    Vamos a aprovechar este momento para usar la función `map` de dplyr. Podéis leer más sobre la familia de funciones `map` en el [Capítulo 21 de R4DS](https://r4ds.had.co.nz/iteration.html#iteration) y os recomendamos que lo hagáis para introduciros en la librería [*purr*](https://purrr.tidyverse.org) del *tidyverse* y el mundo de la programación funcional con R.
+    ```{r}
+    chlstrl %>% 
+      map(~ which(is.na(.))) %>% 
+      keep(~ length(.) > 0)
+    
+    
+    ```
+    
+
+    
+    
+    Una forma rápida de comprobar si hay datos ausentes en una tabla es ejecutar:
+    ```{r}
+    any(is.na(chlstrl))
+    ```
+
++ El análisis exploratorio (numérico y gráfico) debe cubrir todos los tipos de variable de la tabla. Es decir, que al menos debes estudiar una variable por cada tipo de variable presente en la tabla. El análisis debe contener, al menos:
+  - Para las variables cuantittativas (continuas o discretas).  
+    Resumen numérico básico.  
+    Gráficas (las adecuadas, a ser posible más de un tipo de gráfico).  
+  - Variables categóricas (factores).  
+    Tablas de frecuencia (absolutas y relativas).  
+    Gráficas (diagrama de barras).  
+  **Solución:** 
+  Vamos a usar `chol` como ejemplo de variable cuantitativa. Empezamos calculando el resumen de esta función:
+    ```{r}
+    summary(chlstrl$chol)
+    ```
+    A continuación la representaremos gráficamente mediante un histograma, con 10 intervalos y su curva de densidad. Vamos a eliminar el único valor ausente de esa variable antes de la gráfica:
+    ```{r fig.height=3, fig.align="center"}
+    chlstrl %>% 
+      drop_na(chol) %>% 
+      ggplot(aes(x = chol)) + 
+      geom_histogram(aes(y = stat(density)), bins = 10, fill="tan3", color = "black") + 
+      geom_density(color = "red", size=2, adjust = 1.5)
+    ```
+    Un bxplot de esta variable muestra la presencia de varios valores atípicos:
+    ```{r fig.height=3, fig.width=2, fig.align="center"}
+    chlstrl %>% 
+      drop_na(chol) %>% 
+      ggplot(aes(y = chol)) + 
+      geom_boxplot()
+    ```    
+    Una forma sencilla de identificarlos es usando la función `boxplot` de R básico:
+    ```{r}
+    bxp_chol  <-  boxplot(chlstrl$chol, plot = FALSE)
+    (chol_outvalues <-  bxp_chol$out)
+    (where_choloutliers <-  which(chlstrl$chol %in% chol_outvalues))
+    ```
+        
+
++ Los valores de `height` y `weight` están en pulgadas (inches) y libras (pounds) respectivamente. Una libra son $\approx$ 0.454kg y una pulgada son $\approx$ 0.0254m.  Usa dplyr para convertir esas columnas a metros y kilogramos respectivamente.  Las nuevas columnas deben llamarse igual que las originales.   
+  **Solución:** 
+    ```{r}
+    chlstrl <- chlstrl %>% 
+      mutate(height = 0.0254 * height, weight = 0.454 * weight)
+    ```
+    Veamos el principio de la tabla:
+    ```{r}
+    chlstrl %>% 
+      slice_head(n = 10)
+    ```
+  
+
++ Ahora usa esos valores de `height` y `weight` para añadir una nueva columna llamada BMI, definida mediante:
+$$BMI = \dfrac{weight}{height^2}$$
+(se divide por el cuadrado de la altura).  
+  **Solución:** 
+    ```{r}
+    chlstrl <- chlstrl %>% 
+      mutate(BMI = weight / height^2)
+    ```  
+    Aunque las columnas creadas con `mutate` se añaden a la derecha de la tabla, vamos a usar `select` para mostrar el resultado colocando BMI en primera posición. Esta visualización no afecta a la tabla `chlstrl`.
+    ```{r}
+    chlstrl %>% 
+      select(BMI, everything())
+    ```
+    
+
++ Crea una nueva columna llamada `ageGroup` dividiendo la edad en los siguientes tres niveles:
+  ```{r echo=FALSE, comment=NULL}
+  cat("(10,40], (40,70], (70,100]")
+  ```
+  **Solución:** 
+    ```{r}
+    chlstrl <- chlstrl %>% 
+      mutate(ageGroup = cut(age, breaks = seq(10, 100, by=30)))
+    ```
+    Veamos ahora los valores de `age` y `ageGroup` en una muestra aleatoria de filas de la tabla para comprobar que el resultado es el esperado.
+    ```{r echo=-1}
+    set.seed(2021)
+    chlstrl %>% 
+      select(age, ageGroup) %>% 
+      slice_sample(n = 15)
+    ```
+
+  
+
++ Usando `dplyr` calcula cuántas observaciones hay en cada nivel de `ageGroup` (indicación: usa `group_by`). Ahora, usando aquellas observaciones que corresponden a mujeres, ¿cuál es la media del nivel de colesterol y de BMI en cada uno de esos grupos de edad?  
+  **Solución:** 
+    ```{r}
+    chlstrl %>% 
+      count(ageGroup)
+    ```
+    Y si sólo usamos las observaciones correspondientes a mujeres:
+    ```{r}
+    chlstrl %>% 
+      filter(gender == "female") %>% 
+      count(ageGroup)
+    ```    
+    Para la segunda parte:
+    ```{r}
+    chlstrl %>% 
+      filter(gender == "female") %>% 
+      group_by(ageGroup) %>% 
+      drop_na(chol, BMI) %>% 
+      summarise(n = n(), media_chol = mean(chol), media_BMI = mean(BMI))
+    ```
+    Fíjate en el uso de `drop_na`. Si no lo empleamos las medias valdrían ambas `NA`. En particular ahora la tabla de frecuencia es distinta porque se han excluido las observaciones con datos ausentes de alguna de esas dos variables.
+  
+
+# Ejercicio 2: Funciones de R.
+
++ Crea una función de R llamada `cambiosSigno` que dado un vector `x` de números enteros no nulos, como 
+    ```{r echo=FALSE, comment=NULL}
+    set.seed(2019)
+    x = sample(c(-1, 1), 9, replace = TRUE) * sample(1:20, 9, replace = TRUE)
+    cat(paste0(x, sep=", "))
+    ```
+  calcule cuántos cambios de signo ha habido. Es decir, cuántas veces el signo de un elemento es distinto del signo del elemento previo. Por ejemplo, en el vector anterior hay 4 cambios de signo (en las posiciones 3, 4, 7 y 8).   
+  **Solución:** hay muchas posibles soluciones, desde el uso de bucles for para recorrer el vector buscando cambios de signo a otras que explotan el comportamiento vectorializado de muchas funciones de R. Aquí mostramos una posible solución que simplemente comprueba si el signo del producto de cada elemento (desde el segundo hasta el último) con el que lo precede es negativo.
+    ```{r echo=FALSE, results='hide'}
+    cambiosSigno = function(x){
+      n = length(x)
+      x2 = x[2:n]
+      sum(x2 * x[1:(n - 1)] < 0)
+    }
+    ```
+    Para ponerla a prueba fabricaremos vectores de enteros no nulos:
+    ```{r echo=FALSE, results='hide'}
+    set.seed(2021)
+    (x = sample(c(-1, 1), 9, replace = TRUE) * sample(1:20, 9, replace = TRUE))
+    
+    cambiosSigno(x)
+    ```
+
++ Modifica la función para que devuelva como resultado las posiciones donde hay cambios de signo. Llama `cambiosSignoPos(x)` a esa otra función. Por ejemplo, para el vector anterior el resultado de esta función sería
+    ```{r echo=FALSE, results='asis'}
+    cat("[1] 3 4 7 8")
+    ```
+    También se valorará que incluyas en el código como usar `sample` para generar vectores aleatorios de 20 enteros *no nulos* (el vector debe poder tomar valores positivos y negativos).  
+  **Solución:** una posible solución basada en la anterior.
+    ```{r}
+    cambiosSignoPos = function(x){
+      n = length(x)
+      x2 = x[2:n]
+      which(x2 * x[1:(n - 1)] < 0) + 1
+    }
+    
+    ```
+  
+
+# Ejercicio 3. R4DS.
+
+Es recomendable que esta semana del curso  hagas al menos una lectura somera de los Capítulos 1 a 5 de [R for Data Science (R4DS), de H. Wickham](https://r4ds.had.co.nz/index.html), con énfasis especial en los Capítulos 3 y 5 (los capítulos 1, 2 y 4 son muy breves). Los siguientes apartados pretenden motivar esa lectura y por eso mismo pueden resultar un poco más laboriosos.  
+  **Solución:** 
+  Existe una página web con soluciones a los ejercicios de R4DS recopiladas por Jeffrey B. Arnold en este enlace:  
+  [https://jrnold.github.io/r4ds-exercise-solutions](https://jrnold.github.io/r4ds-exercise-solutions).  
+  Recomendamos usarla como complemento a vuestro trabajo con las advertencias habituales sobre cualquier colección de ejercicios resueltos. 
+
++ Haz el [ejercicio 6 de la Sección 3.6.1 de R4DS](https://r4ds.had.co.nz/data-visualisation.html#exercises-3).  
+  **Solución:** Debajo del enlace al gráfico original incluimos una posible solución para generarlo. En todos los casos hay otras opciones igualmente válidas.  
+  [Graph 1:](https://d33wubrfki0l68.cloudfront.net/ed28a7c2ac21035afc0320f082324435c5bc7d32/b47f6/visualize_files/figure-html/unnamed-chunk-28-1.png)
+    ```{r fig.height=3, fig.align="center"}
+    ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+      geom_point() + 
+      geom_smooth(se = FALSE)
+    ```
+    [Graph 2:](https://d33wubrfki0l68.cloudfront.net/e4e1d3f9256c683b5219f9dd0eee81d0320e9664/cc55f/visualize_files/figure-html/unnamed-chunk-28-2.png)  
+    ```{r fig.height=3, fig.align="center"}
+    ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+      geom_point() + 
+      geom_smooth(aes(group = drv), show.legend = FALSE ,se = FALSE)
+    ```
+    [Graph 3:](https://d33wubrfki0l68.cloudfront.net/9ad169a7a48c6f1493bfb9eb1d89118975304cc2/df994/visualize_files/figure-html/unnamed-chunk-28-3.png)  
+    ```{r fig.height=3, fig.align="center"}
+    ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) + 
+      geom_point() + 
+      geom_smooth(aes(group = drv), se = FALSE)
+    ```
+    [Graph 4:](https://d33wubrfki0l68.cloudfront.net/90245d08b9e1077269e3a5e03288890bbb9b7f77/fb121/visualize_files/figure-html/unnamed-chunk-28-4.png)  
+    ```{r fig.height=3, fig.align="center"}
+    ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+      geom_point(aes(color = drv)) + 
+      geom_smooth(se = FALSE)
+    ```
+    [Graph 5:](https://d33wubrfki0l68.cloudfront.net/9a3c63edfc170c576ec5d34faa90df2dc2a43443/7f9e5/visualize_files/figure-html/unnamed-chunk-28-5.png)  
+    ```{r fig.height=3, fig.align="center"}
+    ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+      geom_point(aes(color = drv)) + 
+      geom_smooth(aes(linetype = drv), se = FALSE)
+    ```  
+    [Graph 6:](https://d33wubrfki0l68.cloudfront.net/17638fddbddc7c85a667e1e0f30245a174ac4dd0/931c4/visualize_files/figure-html/unnamed-chunk-28-6.png)  
+    ```{r fig.height=3, fig.align="center"}
+    ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) + 
+      geom_point(colour = "white", size = 4) + 
+      geom_point()
+    ```
+  
+
++ Haz el [ejercicio 1 de la Sección 5.2.4 de R4DS](https://r4ds.had.co.nz/transform.html#exercises-8).  
+  **Solución:** De nuevo, las soluciones que se incluyen aquí son en la mayoría de los casos nada más que una de las muchas posibilidades. Recomendamos consultar el libro / web de Jeffrey B. Arnold al que nos hemos referido antes.
+
+```{r}
+require(nycflights13)
+```
+
+
+```{r}
+# 1. Had an arrival delay of two or more hours
+
+summary(flights$arr_delay)
+
+flights %>% 
+  filter(arr_delay >= 120)
+```
+
+
+```{r}
+# 2. Flew to Houston (IAH or HOU)
+
+flights %>% 
+  filter(dest %in% c("IAH", "HOU"))
+```
+
+```{r}
+# 3. Were operated by United, American, or Delta
+flights %>% 
+  filter(carrier %in% c("UA", "AA", "DL"))
+```
+
+```{r}
+# 4. Departed in summer (July, August, and September)
+
+flights %>% 
+  filter(month %in% 7:9)
+```
+
+```{r}
+# 5. Arrived more than two hours late, but didn’t leave late
+
+flights %>% 
+  filter(arr_delay > 120, dep_delay <= 0)
+```
+
+
+```{r}
+# 6. Were delayed by at least an hour, but made up over 30 minutes in flight
+
+flights %>% 
+  filter(dep_delay >= 60, dep_delay - 30 > arr_delay)
+```
+
+
+```{r}
+# 7. Departed between midnight and 6am (inclusive)
+
+flights %>% 
+  filter(dep_time < 600 |   dep_time == 2400)
+
+flights %>% 
+  mutate(condi = between(hour, 0, 6)) %>% 
+  select(hour, condi) %>% 
+  group_by(hour) %>% 
+  count(condi)
+```
+
+
+
+
+```{r eval=FALSE, echo=FALSE}
+(chlstrl_modified <- chlstrl %>% 
+  mutate(height = height*0.0254,
+         weight = weight*0.454)) 
+
+```
+ 
+ 

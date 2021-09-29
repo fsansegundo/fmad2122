@@ -1,0 +1,32 @@
+% Adaptado de http://rmarkdown.rstudio.com/articles_beamer.html
+
+\usepackage[spanish, es-tabla, es-nodecimaldot]{babel}
+
+%\usepackage{multirow}
+%\usepackage{graphicx}
+%\usepackage{rotating}
+%\setbeamertemplate{caption}[numbered]
+%\usepackage{hyperref}
+%\usepackage{caption}
+%\usepackage[normalem]{ulem}
+%	\mode<presentation>
+%\usepackage{wasysym}
+\usepackage{amsmath}
+%\usepackage{array}
+%\usetheme{Warsaw}
+%\usecolortheme{spruce}
+%\usepackage{attachfile}
+%\usepackage[dvipsnames]{xcolor}
+%\definecolor{DarkGreen}{HTML}{009900}
+
+%\usepackage{keystroke}
+\usepackage{menukeys}
+
+
+
+\newcommand{\bcenter}{\begin{center}}
+\newcommand{\ecenter}{\end{center}}
+
+\definecolor{Gris050}{gray}{0.50}
+\definecolor{Gris025}{gray}{0.75}
+\definecolor{Gris010}{gray}{0.90}

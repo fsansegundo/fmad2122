@@ -1,0 +1,213 @@
+---
+title: "Master en Big Data. Fundamentos Matemáticos del Análisis de Datos (FMAD)."
+author: "Fernando San Segundo"
+date: 'Curso 2021-22. Última actualización: `r format(Sys.time(), "%Y-%m-%d")`'
+output:
+  pdf_document: 
+    includes:
+      in_header: latex-header-simple.txt
+  beamer_presentation: 
+    toc: yes
+    # keep_tex: yes
+    # keep_md: yes
+    includes:
+      in_header: beamer-header-simple.txt
+    colortheme: seahorse
+    slide_level: 2
+    theme: Boadilla
+fontsize: 9pt
+subtitle: 'Solución de la Práctica 0'
+always_allow_html: yes
+bibliography: MBDFME.bib
+csl: ams-review.csl
+---
+
+
+```{r set-options, echo=FALSE, purl=FALSE}
+options(width = 60)
+library(knitr)
+knitr::opts_chunk$set(comment = '', fig.width = 6, fig.height = 6)
+def.chunk.hook  <- knitr::knit_hooks$get("chunk")
+knitr::knit_hooks$set(chunk = function(x, options) {
+  x <- def.chunk.hook(x, options)
+  ifelse(options$size != "normalsize", paste0("\\", options$size,"\n\n", x, "\n\n \\normalsize"), x)
+})
+if (grepl(pattern = "cloud", getwd())){
+  homeDir  <-  "/cloud/project/"
+  } else {
+  homeDir <- "./"
+  }
+figpath <- function(figname){
+  paste0(homeDir,"fig/", figname)
+} 
+```
+
+```{r echo = FALSE}
+## title: 'Master en Big Data. Fundamentos  matemáticos  del  análisis  de  datos.'
+## author: "Fernando San Segundo"
+## subtitle: "Práctica 0. Comprobación del software y proceso de entrega."
+```
+
+
+# Ejercicios
+
+1. Usando la función `sample` crea un vector `dado_honesto` con 100 números del 1 al 6. Haz una tabla de frecuencias absolutas (de dos maneras, con `table` y `dplyr`) y una tabla de frecuencias relativas.  
+
++ **Solución:**
+    ```{r}
+    set.seed(2021) # Para obtener reproducibilidad, pero es opcional
+    (dado  <-  sample(1:6, 100, replace = TRUE))
+    ```
+    La tabla de frecuencias absolutas:
+    ```{r}
+    table(dado)
+    ```
+    y la de frecuencias realtivas:
+    ```{r}
+    prop.table(table(dado))
+    ```
+    Ahora recreamos ambas tablas usando `dplyr` (hay muchas otras maneras de hacer esto):
+    ```{r message=FALSE}
+    library(tidyverse) # Empezamos cargando el tidyverse (incluye dplyr y ggplot)
+    
+    tibble(dado) %>% 
+      count(dado) %>% 
+      mutate(frecAbsoluta = n, frecRelativa = frecAbsoluta / sum(n), n = NULL)
+    ```
+
+2. A continuación crea un nuevo vector `dado_cargado` de manera que la probabilidad de que el número elegido valga 6 sea el doble que la probabilidad de elegir cualquiera de los cinco números restantes. Lee la ayuda de `sample` si lo necesitas. De nuevo, haz tablas de frecuencias absolutas y relativas de este segundo vector.
+
++ **Solución:**
+    ```{r}
+    (dadoCargado  <-  sample(1:6, 100, replace = TRUE, prob = c(rep(1, 5), 2)))
+    ```
+    La tabla de frecuencias absolutas:
+    ```{r}
+    table(dadoCargado)
+    ```
+    y la de frecuencias realtivas:
+    ```{r}
+    prop.table(table(dadoCargado))
+    ```
+    Puede verse claramente el efecto de la modificación en la tabla de probabilidades.  
+    Ahora usando `dplyr`:
+    ```{r}
+    tibble(dadoCargado) %>% 
+      count(dadoCargado) %>% 
+      mutate(frecAbsoluta = n, frecRelativa = frecAbsoluta / sum(n), n = NULL)
+    ```
+
+3. Utiliza las funciones `rep` y `seq` para crear tres vectores `v1`, `v2` y `v3` con estos elementos respectivamente:
+
+    ```{}
+    4, 4, 4, 4, 3, 3, 3, 3, 2, 2, 2, 2, 1, 1, 1, 1 
+    
+    1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5
+    
+    1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4
+    
+    ```
+
++ **Solución:** Para el primer vector:
+    ```{r}
+    rep(4:1, each = 4)
+    ```
+    Para el segundo
+    ```{r}
+    rep(1:5, times = 1:5)
+    ```
+    Y para el tercero:
+    ```{r}
+    rep(1:4, times = 4)
+    ```
+    pero también:
+    ```{r}
+    rep(1:4, length.out = 16)
+    ```
+    
+
+4. Utilizando la tabla `mpg` de la librería `tidyverse` crea una tabla `mpg2` que: 
+    + contenga las filas en las que la variable `class` toma el valor `pickup`.
+    + y las columnas de la tabla original cuyos nombres empiezan por `c`. No se trata de que las selecciones *a mano*, por sus nombres. Busca información sobre funciones auxiliares para `select` en la \href{https://r4ds.had.co.nz/transform.html\#select}{Sección 5.4 de R4DS}.
+
++ **Solución:**    Se muestran sólo las 10 primeras filas de la tabla `mpg2` usando `slice_head`.
+    
+    ```{r message=FALSE}
+    mpg2 <- mpg %>% 
+      filter(class == "pickup") %>% 
+      select(starts_with("c"))
+    
+    slice_head(mpg2, n = 10)
+    ```
+
+5. Descarga el fichero \href{http://www.stata-press.com/data/r8/census.dta}{census.dta}. Averigua de qué tipo de fichero se trata y usa la herramienta `Import DataSet` del panel `Environment` de RStudio para leer con R los datos de ese fichero. Asegúrate de copiar en esta práctica los dos primeros comandos que llevan a cabo la importación (excluye el comando `View`) y que descubrirás al usar esa herramienta. Después completa los siguientes apartados con esos datos y usando `dplyr` y `ggplot`:
+
++ **Solución:** Empezamos descargando y leyendo el fichero mediante `read_dta` de la librería *haven*. Es un fichero de Stata.
+    ```{r}
+    library(haven)
+    census <- read_dta("http://www.stata-press.com/data/r8/census.dta")
+    ```
+    + ¿Cuáles son las poblaciones totales de las regiones censales?  
+    **Solución:** Las obtenemos con `group_by` y `summarise`
+    ```{r}
+    (pobTotales <- census %>% 
+      mutate(region = factor(region)) %>% 
+      group_by(region) %>% 
+    summarise(regionPop = sum(pop)))
+    ```
+    
++ Representa esas poblaciones totales en un diagrama de barras (una barra por región censal).  
+**Solución:** Usamos `geom_col` (y no `geom_bar`) porque las alturas de las barras del diagrama corresponden a la variable `regionPop` de nuestra tabla. Usaríamos `geom_bar` si quisiéramos que R calculara una tabla de frecuencias de una variable y la usara para asignar las alturas.
+    ```{r warning=FALSE, fig.height=4}
+    ggplot(pobTotales) +
+      geom_col(aes(x = region, y = regionPop), 
+               color = "black", fill = "tan2") + 
+      theme(legend.position='none')
+    ```
+    
++ Ordena los estados por población, de mayor a menor.  
+  **Solución:** es un uso directo de `arrange`. Usamo `slice_head` y `slice_tail` para ver el principio y fin de esa tabla:
+    ```{r}
+    census %>%
+      arrange(desc(pop)) %>%
+      select(state, pop) %>%
+      slice_head(n = 6)
+    
+    census %>%
+      arrange(desc(pop)) %>%
+      select(state, pop) %>%
+      slice_tail(n = 6)
+
+    ```
+
+
++ Crea una nueva variable que contenga la tasa de divorcios /matrimonios para cada estado.  
+  **Solución:** Es fácil usando `mutate`.
+    ```{r}
+    census %>% 
+      mutate(divorceRate = divorce / marriage) %>% 
+      select(state, divorceRate)
+    ```
+    Es conveniente darse cuenta de que ni las parejas que se divorcian un año no son un subconjunto de las parejas que se casan ese año ni viceversa.  
+    
++ Si nos preguntamos cuáles son los estados más envejecidos podemos responder de dos maneras. Mirando la edad mediana o mirando en qué estados la franja de mayor edad representa una proporción más alta de la población total. Haz una tabla en la que aparezcan los valores de estos dos criterios, ordenada según la edad mediana decreciente y muestra los 10 primeros estados de esa tabla.  
+  **Solución:** Es importante no usar `select` demasiado pronto, antes de hacer el `mutate` que crea la nueva variable que representa la proporción de la franja de mayor edad.
+    ```{r}
+    census %>% 
+      mutate(propOlder = pop65p / pop) %>% 
+      arrange(desc(medage)) %>% 
+      select(state, medage, propOlder) %>% 
+      slice_head(n = 10)
+    ```
+    
++ Haz un histograma (con 10 intervalos) de los valores de la variable `medage` (edad mediana) y con la curva de densidad de la variable superpuesta.  
+ **Solución:** hemos usado el parámetro `adjust` de la curva de densidad para *suavizarla* ligeramente.
+    ```{r fig.height=4}
+    census %>% 
+      ggplot(aes(x = medage)) +
+      geom_histogram(aes(y = stat(density)), 
+                     bins = 10, fill= "tan2", color = "black") + 
+      geom_density(color = "red", size = 1.5, adjust = 1.7)
+    ```
+    
+    
