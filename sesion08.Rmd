@@ -1,0 +1,360 @@
+---
+title: 'Master en Big Data. Fundamentos  matemáticos  del  análisis  de  datos.' 
+author: "Fernando San Segundo"
+date: 'Curso 2020-21. Última actualización: `r format(Sys.time(), "%Y-%m-%d")`'
+subtitle: "Sesión 8. Modelos lineales generalizados. Regresión Logística. "
+fontsize: 9pt
+output:
+  beamer_presentation:
+    toc: true
+    keep_tex: false
+    includes:
+      #after_body: afterbody.txt
+      in_header: beamer-header-simple.txt
+    colortheme: seahorse
+    incremental: no
+    slide_level: 2
+    theme: Boadilla
+#classoption: "handout"    
+bibliography: MBDFME.bib
+csl: ams-review.csl
+---
+
+
+```{r set-options, echo = FALSE, purl=FALSE}
+options(width = 60)
+library(knitr)
+def.chunk.hook  <- knitr::knit_hooks$get("chunk")
+knitr::knit_hooks$set(chunk = function(x, options) {
+  x <- def.chunk.hook(x, options)
+  ifelse(options$size != "normalsize", paste0("\\", options$size,"\n\n", x, "\n\n \\normalsize"), x)
+})
+
+
+if (grepl(pattern = "cloud", getwd())){
+  homeDir = "/cloud/project/"
+  } else {
+  homeDir = "../"
+  }
+figpath = function(figname){
+  paste0(homeDir,"fig/", figname)
+}
+
+```
+
+```{r echo = FALSE}
+## title: 'Master en Big Data. Fundamentos  matemáticos  del  análisis  de  datos.'
+## author: "Fernando San Segundo"
+## subtitle: "Sesión 8. Modelos lineales generalizados (glm). Regresión Logística. .
+
+```
+
+```{r echo=FALSE}
+########################################################################
+########################################################################
+########################################################################
+########################################################################
+```
+
+
+
+# Modelos lineales generalizados (glm). Regresión Logística. 
+
+## Relaciones del tipo $F\sim C$ para factores binarios.
+
++ Vamos a estudiar ahora un modelo adecuado para relaciones $F ~ C$, en las que una variable continua $X$ es el predictor de una respuesta $Y$ de tipo factor, que inicialmente suponemos *binario* (con dos niveles).
+
++ Usaremos de ejemplo un conjunto de datos disponible en el   
+\link{http://wiley.mpstechnologies.com/wiley/BOBContent/searchLPBobContent.do}{sitio web de la editorial Wiley} y procedente del libro *Applied Logistic Regression* de S. Lemeshow [@hosmer2013applied]. Introduce en el campo de búsqueda adecuado el ISBN del libro que es: 9780470582473 haz clic en *Search* y después haz clic en el enlace con ese número que aparecerá . A continuación marca la casilla para seleccionar todos los ficheros y después haz clic en *Download* como indica la figura. Descargarás entonces un fichero zip con todos los ficheros de datos necesarios. Nosotros vamos a usar uno de los ficheros que contiene, llamado `CHDAGE.txt` con datos sobre la existencia de enfermedad coronaria en un grupo de pacientes. Asegúrate de colocar ese fichero en la subcarpeta `datos` de tu directorio de trabajo.  
+```{r echo=FALSE, fig.align='center', message=FALSE, out.width="25%", purl=FALSE}
+    include_graphics("./fig/Wiley_Landing_Page-02.png")
+    ```
+  
+## Descripción del problema.
+
++ Leemos los datos a un tibble. \textbf{Ejercicio:} ¿Por qué hemos usado `read_delim`? \scriptsize    
+    ```{r echo= -(1:3), message = FALSE}
+    # Modelos lineales generalizados (glm). Regresión Logística. 
+    
+    # Descripción del problema.
+    library(tidyverse)
+    CHDdata <-  read_delim("./data/CHDAGE.txt", delim = "\t")
+    CHDdata %>% slice_head(n = 6)
+    ```
+  \normalsize 
+  Hay tres variables: `ID` es simplemente un identificador y no la usaremos; `AGE` es la edad con valores enteros y `CHD` (de *coronary heart disease*) es un factor codificado como una variable binario que toma los valores 0 o 1 para indicar, respectivamente, la ausencia o presencia de enfermedad coronaria. 
+
++ Empezamos explorando los datos con `summary` (comprobamos que no hay datos ausentes):\scriptsize
+    ```{r}
+    summary(CHDdata)
+    ```
+  \normalsize 
+
+## Representando los datos. 
+
++ Para entender lo que queremos hacer vamos a usar una representación gráfica similar al diagrama de dispersión de la regresión lineal.\scriptsize
+    ```{r message=FALSE, fig.align='center', out.width = "40%", echo=-1}
+    # Diagrama de dispersión para regresión logística
+    ggplot(CHDdata) + 
+      geom_point(aes(x = AGE, y = CHD, size=2), 
+                 show.legend=FALSE, position = position_jitter(w = 0, h = 0.02)) +
+      geom_hline(yintercept = 0:1, linetype = "dashed", color = "blue", size = 2)
+    ```
+  \normalsize Aunque $Y$ es binario hemos *"agitado"*  con jitter los puntos verticalmente para mejorar la visualización. Fíjate en que a medida que $X = AGE$ aumenta hay más valores de $Y = CHD$ iguales a 1. Como cabría esperar, la presencia de enfermedades coronarias aumenta con la edad. Esa es la *tendencia o señal* que estamos tratando de detectar o cuantificar expresándola a través de algún tipo de modelo.   
+
+## Construcción del modelo.
+
++ En una situación como esta no podemos usar un modelo lineal de regresión del tipo 
+$$Y_i = \beta_0 + \beta_1 X_i + \epsilon_i$$ 
+porque la respuesta $Y$ no es continua, *solo toma dos valores*. 
+
++ La idea astuta que nos va a permitir avanzar en este caso es una que ya nos hemos encontrado antes. Cuando tratamos con una variable continua podemos agruparla en clases (en R con `cut`) para tratarla como un factor ordenado. Definimos unas franjas de edad con intervalos de 5 en 5 años, salvo el primero y el último porque tenemos pocos datos en los extremos. Usamos estos valores para cortar las edades y añadimos esa información a los datos:\small
+    ```{r echo = -1}
+    # Construcción del modelo.. Franjas de edad
+    AGEbreaks = c(20, seq(from = 30, to = 60, by = 5), 70)
+    CHDdata <- CHDdata %>% 
+      mutate(AgeGroup = cut(AGE, breaks = AGEbreaks, right = FALSE))
+    ```
+    \normalsize
+  
+## Analizando los datos agrupados...
+
++ Hagamos una tabla de contingencia de CHD frente al grupo de edad:\scriptsize
+    ```{r echo=-(1:2)}
+    # tabla de contingencia de CHD frente al grupo de edad
+    options(width = 80)
+    (tabla1 = as.matrix(table(CHDdata$CHD, CHDdata$AgeGroup)))
+    ```
+  \normalsize Ahí está de nuevo, visible, la señal. En la segunda fila de la tabla los valores aumentan claramente de izquierda a derecha (y en la primera ocurre al revés).
+
++ Vamos a calcular la suma por columnas de esta tabla (es una tabla de frecuencias):\small
+    ```{r}
+    (sumaColumnas = colSums(tabla1))
+    ```
+    \normalsize Y dividimos la segunda fila de la `tabla1` anterior por estas sumas (redondeada a dos cifras). :\small
+    ```{r }
+    (probs = signif(tabla1[2, ] / sumaColumnas, 2))
+    ```
+    \normalsize
+
+## ...para pensar en términos de probabilidades.  
+  
++ Esta tabla \small
+    ```{r echo=FALSE}
+    # ...para pensar en términos de probabilidades. 
+    (probs = signif(tabla1[2, ] / sumaColumnas, 2))
+    ```
+    \normalsize permite pensar en los datos en términos de probabilidades. Por ejemplo, el porcentaje de pacientes de 45 a 50 años con enfermedad coronaria es el 46% y asciende al 76% de 55 a 60 años. ¡Esa es la idea clave! Vamos a añadir esto al gráfico (ver código de la sesión):\small
+    ```{r echo=FALSE, message=FALSE, fig.align='center', out.width = "50%"}
+    # Representación gráfica de las probabilidades por franja de edad
+    
+    midpoints = AGEbreaks[-length(AGEbreaks)] + c(5, rep(2.5, 6), 5)
+    probsdf = data.frame(midpoints, probs)
+    ggplot(CHDdata) + 
+      geom_point(aes(x = AGE, y = CHD, size=4), 
+                 show.legend=FALSE, 
+                 position = position_jitter(w = 0, h = 0.02)) +
+      geom_hline(yintercept = 0:1, 
+                 linetype = "dashed", 
+                 color="blue", 
+                 size=2) + 
+      geom_point(data = probsdf, 
+                 mapping = aes(x = midpoints, 
+                               y = probs, 
+                               size=4, col="red"),
+                 show.legend=FALSE)
+    ```
+  \normalsize Los puntos rojos indican la probabilidad de $Y = 1$ para cada intervalo de edades. 
+
+## El modelo es una curva con forma de s.
+
+\label{figuraCurvaLogistica}
+
++ Los puntos rojos de la gráfica previa insinuan una curva con forma de s (*curva sigmoidal*) de izquierda a derecha, como esta (puedes ver el código para ver como la hemos dibujado, pero solo se entenderá después de aprender un poco más):
+    ```{r echo=FALSE, message=FALSE, fig.align='center', out.width = "60%"}
+    # El modelo es una curva con forma de s.
+    
+    glmCHD = glm(CHD ~ AGE, family = binomial(link = "logit"), CHDdata)
+    summGlmCHD = summary(glmCHD)
+    curvaX = data.frame(AGE = seq(20, 70, length.out = 101))
+    curvaY = predict(glmCHD, newdata = curvaX, type = "response")
+    curvaDf = data.frame(AGE = curvaX$AGE, CHD = curvaY)
+    ggplot(CHDdata) + 
+    geom_point(aes(x = AGE, y = CHD, size=4), 
+               show.legend=FALSE, position = position_jitter(w = 0, h = 0.02)) +
+      geom_hline(yintercept = 0:1, linetype = "dashed", color="blue", size=2) + 
+      geom_line(data = curvaDf, aes(x = AGE, y = CHD, col= "red", size=3), 
+                show.legend=FALSE)
+    ```
+    \normalsize Esa curva representa el modelo que buscábamos para este tipo de situaciones. Es muy importante recordar que la coordenada vertical de los puntos de esa curva son **probabilidades condicionadas**. Es decir, un punto $(x_0, p_{x_0})$ de esa curva representa:
+$$p_0 = P(Y = 1 | X = x_0)$$
+
+## Curvas logísticas. Ajuste mediante la verosimilitud.
+ 
++ Una vez entendido esto, el siguiente paso es más técnico. La familia de curvas sigmoidales que vamos a usar (puedes pensar en ellas como un sustituto de las rectas de regresión) es esta:
+\begin{center}
+\fcolorbox{black}{Gris025}{
+\begin{minipage}{10cm}
+\begin{center}
+{\bf  Curvas logísticas.}
+\end{center}
+Dados dos números cualesquiera $\beta_0, \beta_1$ la curva logística correspondiente es:
+$$
+f(x) = \dfrac{e^{\beta_0+\beta_1 x}}{1+e^{\beta_0+\beta_1 x}}.
+$$
+\end{minipage}}
+\end{center}
+Puedes familiarizarte con las propiedades de esta familia de curvas en \link{https://www.geogebra.org/m/t82ap6eb}{este enlace}.
+
++ Se trata de elegir los valores de $\beta_0$ y $\beta_1$ que producen *la mejor curva logística posible* para ajustarla a nuestros datos. Esto recuerda a lo que hicimos en la regresión lineal. Allí usamos el método de mínimos cuadrados, pero ahora no podemos hacer esto, por razones técnicas (la estructura de error del problema no sigue una distribución normal, sino una binomial). El método general se basa en la función **verosimilitud (likelihood)**. En sentido amplio la verosimilitud de un modelo con parámetros (como $\beta_0, \beta_1$) se define como:
+  $$
+  \mathcal{L}(\mbox{modelo con parámetros}) = 
+  P(\mbox{datos}\,|\,\mbox{dados los valores de los parámetros})
+  $$
+y para hallar $\beta_0$ y $\beta_1$ elegimos los que minimizan  $-log(\cal L)$, denominado *loglikelihood*.
+
+## Ajustando un modelo logístico con R. Función `glm`.
+
++ La función verosimilitud es mucho más complicada que el error cuadrático medio que usamos en la regresión y no vamos a ver fórmulas para estimar $\beta_0$ y $\beta_1$. Dejaremos que R se encargue de estimarlos por nosotros. Usamos la  función `glm` de *generalized linear models* (volveremos después sobre este nombre) En nuestro ejemplo:\scriptsize
+    ```{r echo=-1}
+    # Ajustando un modelo logístico con R. Función glm.
+    (glmCHD = glm(CHD ~ AGE, family = binomial, data = CHDdata))
+    ```
+    \normalsize La llamada a `glm` y su respuesta son similares a las de `lm`, salvo por el argumento `family = binomial` que indica a `glm` que queremos un modelo logístico. En particular obtenemos *estimaciones* $\hat\beta_0$ y $\hat\beta_1$ de los parámetros del modelo logístico:\scriptsize
+    ```{r}
+    coefficients(glmCHD)
+    ```
+  \normalsize Ahora es un buen momento para volver a examinar el código que genera \hyperlink{figuraCurvaLogistica}{\textcolor{blue}{esta figura}} y tratar de entenderlo.  
+ 
+## Usando el modelo logístico para predecir.
+
++ Con un modelo logístico y `predict` podemos hacer predicciones como hacíamos con un modelo lineal. Por ejemplo, ¿cuál es la probabilidad de padecer una enfermedad coronaria (probabilidad de $Y =1$) que predice el modelo para un paciente de $X = 32$ años?\scriptsize
+    ```{r echo=-1}
+    # Usando el modelo logístico para predecir.
+    edadPredecir = data.frame(AGE = 32)
+    (probCHD = predict(glmCHD, newdata = edadPredecir, type = 'response'))
+    ```
+    \normalsize Es decir, un `r signif(100 * probCHD,2)`%. 
+  
+  El argumento `type = 'response'` que hemos incluido en la llamada a `predict` es el que permite obtener una probabilidad. Si hubiéramos usado `type = 'link'` habríamos obtenido como respuesta el valor
+$$\hat\beta_0 + \hat\beta_1 x_0$$
+donde, en este ejemplo, $x_0 = 32$. Compruébalo comparando estos valores:\scriptsize
+    ```{r eval = FALSE, comment = NULL, echo=-1}
+    # Predicción en escala de log-odds
+    predict(glmCHD, newdata = edadPredecir, type = 'link')
+    coefficients(glmCHD)[1] + coefficients(glmCHD)[2] * 32
+    ```
+    \normalsize El valor $w = \hat\beta_0 + \hat\beta_1 x_0$ se denomina *log-odds* de $x_0$. Veamos qué son los *odds*
+
+
+## Odds y log-odds en el contexto de la regresión logística.
+
++ Es una forma de entender la probabilidad común en el mundo anglosajón (especialmente en el contexto de las apuestas). La Regla de Laplace dice:
+$$
+P(A) = 
+\dfrac{\text{núm. de sucesos elementales favorables a }A}{\text{núm. total de sucesos elementales}}.
+$$
+En la misma situación los *odds a favor* de $A$ (no hay una traducción establecida,  a mi me gusta *posibilidades*) se calculan como:\small
+$$
+O_A=
+\dfrac{\text{núm. de sucesos elementales favorables a }A}
+{\text{núm. de sucesos elementales {\bf contrarios} a }A}.
+$$
+\normalsize Por ejemplo una probabilidad de $\frac{3}{11}$ se convierte fácilmente en unos odds de $\frac{3}{11 - 3} = \frac{3}{8}$ (apuestas 3 a 8). Los odds correspondientes a una probabilidad $p$ son:\small
+$$O_p = \dfrac{p}{1 - p}$$\normalsize
+
++ ¿Como usamos esto en la regresión logística? El modelo se puede escribir\small
+$$P(Y = 1 | X = x) = p = \dfrac{e^{\beta_0+\beta_1 x}}{1+e^{\beta_0+\beta_1 x}}.$$
+\normalsize y si llamamos $w = \beta_0+\beta_1 x$ y despejamos se obtienen los **log-odds** de $x$:\small
+$$w = \ln\left(\dfrac{p}{1 - p}\right) = \ln\left(O_p\right)$$
+\normalsize
+
+## Interpretación del coeficiente $\beta_1$ del modelo de regresión logística. 
+
++ Ya podemos interpretar $\beta_1$: al aumentar $x$ en una unidad los log-odds $\beta_0+\beta_1 x$ aumentan en $\beta_1$. Después podemos traducir los odds en términos de probabilidades, como hemos visto. 
+
++ Por eso `predict` permite obtener el resultado como *log-odds*. A veces eso es preferible porque la relación de los log-odds con $X$ es más simple que con las probabilidades. Veamos lo que pasa al considerar valores consecutivos de la edad y obtener las predicciones de log-odds y  probabilidades:\scriptsize
+    ```{r echo = -(1:2)}
+    # Interpretación de coeficientes en regresión logística. 
+    
+    edades = data.frame(AGE = 50:55)
+    probabilidades = predict(glmCHD, newdata = edades, type = 'response')
+    diff(probabilidades)
+    logOdds = predict(glmCHD, newdata = edades, type = 'link')
+    diff(logOdds)
+    coefficients(glmCHD)[2]
+    ```
+    \normalsize Como se ve, al aumentar la edad en un año el incremento de las probabilidades (calculado con `diff`) no es constante, pero el de los log-odds sí y coincide con el coeficiente estimado $\hat\beta_1$.
+
+## La idea detrás del modelo lineal generalizado (glm).
+
++ La idea clave al construir el modelo de regresión logística es pasar de pensar en valores de $Y$ a pensar en probabilidades $p = P(Y = 1| X= x)$; *el modelo predice probabilidades*. Podemos dar otro paso con una perspectiva más general. 
+
++ Recordemos que la *variable respuesta condicionada* $(Y|X= x)$ es una variable binaria con valores 1 (probabilidad $p$) y 0 (con probabilidad $q$). Es una variable de Bernouilli y su media es precisamente $\mu_{Y|X= x} = p$. Por tanto podemos pensar que en realidad *el modelo predice medias de $Y$* (una para cada valor de $X$).
+
++ Recordando la expresión del modelo de regresión lineal: 
+$$Y = \beta_0 + \beta_1 X + \epsilon,\qquad\text{ con }\quad\epsilon\sim N(0, \sigma)$$
+la media de la variable respuesta condicionada $(Y| X= x)$ (usando que $\mu_{\epsilon} = 0$) es:
+$$\mu_{Y|X= x} = \beta_0 + \beta_1 x = \hat Y(x)$$
+Otra vez: *el valor que el modelo predice es $\mu_{Y|X= x}$, la media de $Y$ para ese valor de $X$*.
+
+## Formalizando el glm.
+
++ Podemos convertr esa idea en una definición. Un **modelo lineal generalizado** consta de tres componentes:   
+
+    1. Una **función de distribución** de probabilidad $f$ con una distribución conocida para modelizar la variable respuesta condicionada. Técnicamente, la distribución $f$ debe ser de la *familia exponencial*, una familia muy amplia de variables aleatorias que incluye la normal, la binomial, etc. 
+    
+  
+    2. Un **predictor lineal** $\beta_0 + \beta_1 X_1 + \beta_2 X_2 +\cdots + \beta_p X_p$ que depende de las variables predictoras $X_1,\ldots, X_p$ (pueden ser continuas o factores usando variables índice).   
+  
+    3. Una **función de enlace (link function)** $g$ que sirve para lo que esperamos del modelo: *predecir medias de $Y$* (una media para cada valor de $X$).  
+
+## Ejemplos de glm
+   
++ *Ejemplo 1:* en el modelo de regresión lineal simple la distribución $f$ que usamos es la de normal $N(0, \sigma)$, el predictor lineal es $\beta_0 + \beta_1 X$ mientras que la función de enlace es la identidad $g(\mu) = \mu$. Por eso este modelo es el más simple, por la sencillez del enlace.
+
++ *Ejemplo 2:* en el modelo de regresión logística con una variable la distribución $f$ es la Bernouilli con probabilidad $p = \mu_{Y| X= x}$ que hemos visto, el predictor lineal vuelve a ser $\beta_0 + \beta_1 X_1$ mientras que la función de enlace es $g(\mu) = \log\left(\frac{\mu}{1 - \mu}\right)$, la función log-odds que es la inversa de la transformación logística. 
+
++ Se pueden definir otros modelos lineales generalizados cambiando estas componentes para por ejemplo modelizar una relación $Y \sim X$ donde $Y$ es una variable de tipo Poisson (regression de Poisson) o para modelizar una variable respuesta de tipo factor politómico con  más de dos niveles (regresión multinomial). Ver \link{https://en.wikipedia.org/wiki/Generalized\_linear\_model\#Count\_data}{Wikipedia} y \link{https://leanpub.com/regmods}{Regression Models} de B.Caffo.
+
+
+```{r echo=FALSE}
+########################################################################
+########################################################################
+########################################################################
+########################################################################
+```
+
+
+## Referencias para la sesión
+
+**Enlaces**
+
+```{r eval = FALSE, comment = NULL,  echo=FALSE, purl=FALSE, message=FALSE, error=FALSE}
+getwd()
+sessionName = "sesion08"
+RmdName = paste0(sessionName,".Rmd")
+ScriptName = paste0(sessionName,"-comandos.R")
+lnkScriptGitHub = paste0("https://raw.githubusercontent.com/mbdfmad/fmad2122/main/scripts/", ScriptName)
+knitr::purl(RmdName, output = paste0("./scripts/", ScriptName), documentation = 0)
+codigo = readLines(paste0("./scripts/", ScriptName))
+codigo = gsub(pattern = '../datos', replacement= "./data", codigo, fixed=TRUE)
+empty_lines = grepl('^\\s*$', codigo)
+dobleBlanco = empty_lines[-1] * empty_lines[-length(empty_lines)]
+codigo = codigo[!dobleBlanco]
+writeLines(codigo, paste0("./scripts/", ScriptName))
+```
+
+
+- \link{https://raw.githubusercontent.com/mbdfmad/fmad2122/main/scripts/03-PoblacionesMuestrasProbabilidad.R}{Código de esta sesión}
+
+- \link{https://leanpub.com/regmods}{Regression Models for Data Science in R, de Brian Caffo.}
+
+```{r echo = FALSE, purl=FALSE}
+url = "https://raw.githubusercontent.com/hadley/r4ds/master/diagrams/join-inner.png"
+download.file(url, destfile ="./fig/r4ds-join-inner.png", mode = "wb")
+
+```
+
+**Bibliografía**
+
